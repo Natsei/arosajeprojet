@@ -59,7 +59,6 @@ model Annonce {
   photos Photo[]
 }
 
-
 model Plante {
   id    Int     @id @default(autoincrement())
   libelle String  @unique
