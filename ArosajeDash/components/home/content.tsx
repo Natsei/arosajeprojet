@@ -10,6 +10,7 @@ import {CardBalance2} from './card-balance2';
 import {CardBalance3} from './card-balance3';
 import {CardAgents} from './card-agents';
 import {CardTransactions} from './card-transactions';
+import { LoginButton } from '../../src/features/layout/auth/LoginButton';
 
 const Chart = dynamic(
    () => import('../charts/steam').then((mod) => mod.Steam),
@@ -19,6 +20,7 @@ const Chart = dynamic(
 );
 
 export const Content = () => (
+   
    <Box css={{overflow: 'hidden', height: '100%'}}>
       <Flex
          css={{
@@ -55,6 +57,7 @@ export const Content = () => (
                      },
                   }}
                >
+                  <LoginButton />
                   Available Balance
                </Text>
                <Flex
