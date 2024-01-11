@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Créez un navigateur stack
 const Stack = createStackNavigator();
 
-export function HomeScreen() {
+export function LoginScreen() {
   const navigation = useNavigation();
 
   const handleConnecter = () => {
