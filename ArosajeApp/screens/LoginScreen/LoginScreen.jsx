@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet, Dimensions } from 'react-native';
 
 // Créez un navigateur stack
 const Stack = createStackNavigator();
@@ -40,6 +41,9 @@ export function LoginScreen() {
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
@@ -50,32 +54,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end', // Alignement vertical en bas
     alignItems: 'center',
-    paddingBottom: 50, // Ajout de marge en bas
+    paddingBottom: windowHeight * 0.05, // Utilisation d'une valeur relative pour paddingBottom
   },
   title: {
-    fontSize: 50,
-    width: 315,
-    marginLeft: 160, // Ajoutez la marge à gauche ici
-    marginBottom: 40,
+    fontSize: windowWidth * 0.1, // Utilisation d'une valeur relative pour la taille de police
+    width: windowWidth * 0.8, // Utilisation d'une valeur relative pour la largeur
+    marginLeft: windowWidth * 0.2, // Utilisation d'une valeur relative pour marginLeft
+    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
     color: '#F2E8CF',
-  },  
+  },
   buttonContainer: {
     width: '100%', // Agrandir à la largeur maximale
-    paddingHorizontal: 20, // Ajout de padding horizontal pour espacement
+    paddingHorizontal: windowWidth * 0.05, // Utilisation d'une valeur relative pour paddingHorizontal
   },
   button: {
-    display: 'flex',
-    width: 350,
-    padding: 21,
+    width: windowWidth * 0.9, // Utilisation d'une valeur relative pour la largeur
+    padding: windowHeight * 0.03, // Utilisation d'une valeur relative pour le rembourrage
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20, // Ajout de marge entre les boutons
-    borderRadius: 16,
+    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
+    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
     backgroundColor: '#F2E8CF',
   },
   buttonText: {
     color: '#000000',
-    fontSize: 16,
+    fontSize: windowWidth * 0.04, // Utilisation d'une valeur relative pour la taille de police
     textAlign: 'center', // Centrer le texte dans le bouton
   },
 });
+
+export default styles;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
 
@@ -71,52 +71,55 @@ export function ProfileScreen() {
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 50,
+    paddingBottom: windowHeight * 0.05, // Utilisation d'une valeur relative pour paddingBottom
     backgroundColor: "#FFFFFF",
-  },  
+  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
   },
   image: {
-    marginBottom: 40,
-  },  
+    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
+  },
   text: {
-    fontSize: 40, 
-    marginLeft: 10, // Ajustez la marge pour l'espacement entre le chevron et le texte
+    fontSize: windowWidth * 0.08, // Utilisation d'une valeur relative pour la taille de police
+    marginLeft: windowWidth * 0.02, // Utilisation d'une valeur relative pour marginLeft
   },
   buttonContainer: {
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: windowWidth * 0.05, // Utilisation d'une valeur relative pour paddingHorizontal
   },
   input: {
-    height: 60,
-    fontSize: 25,
+    height: windowHeight * 0.1, // Utilisation d'une valeur relative pour la hauteur
+    fontSize: windowWidth * 0.04, // Utilisation d'une valeur relative pour la taille de police
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 16,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
+    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
+    paddingHorizontal: windowWidth * 0.02, // Utilisation d'une valeur relative pour paddingHorizontal
   },
   button: {
-    width: 350,
-    padding: 21,
+    width: windowWidth * 0.9, // Utilisation d'une valeur relative pour la largeur
+    padding: windowHeight * 0.03, // Utilisation d'une valeur relative pour le rembourrage
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 16,
+    marginTop: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginTop
+    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
+    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
     backgroundColor: '#F2E8CF',
   },
   buttonText: {
     color: '#000000',
-    fontSize: 25,
+    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
     textAlign: 'center',
   },
   signupContainer: {
@@ -124,15 +127,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signupTextPart1: {
-    fontSize: 25,
+    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: windowHeight * 0.01, // Utilisation d'une valeur relative pour marginTop
   },
   signupTextPart2: {
-    fontSize: 25,
+    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
     color: "#386641",
     textAlign: 'center',
     textDecorationLine: 'underline',
-    marginTop: 10,
+    marginTop: windowHeight * 0.01, // Utilisation d'une valeur relative pour marginTop
   },
 });
+
+export default styles;
