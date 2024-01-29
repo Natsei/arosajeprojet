@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions 
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
 
+//Page d'inscription à changer de place
 export function ProfileScreen() {
   const navigation = useNavigation();
 

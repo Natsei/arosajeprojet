@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions 
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
 
+//Page de connexion
 export function PlantScreen() {
   const navigation = useNavigation();
 
@@ -14,9 +15,10 @@ export function PlantScreen() {
     // Naviguer vers l'écran ConnexionScreen avec les données saisies
     //navigation.navigate('Connexion', { email, password });
   };
-
+  
   const handleInscription = () => {
     console.log("gg");
+    navigation.navigate('Profile'); // Rediriger vers la page Inscription
   };
 
   return (

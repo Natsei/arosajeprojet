@@ -29,18 +29,10 @@ export default function App() {
           component={ChatScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MessagesSquare color="black" size={30} />
+              <Home color="black" size={30} />
             ),
             headerShown: false, // Masquer l'en-tête pour cet écran
           }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              // Prevent the default action
-              e.preventDefault();
-              // Navigate to "OnBoardingScreen" when the tab is pressed
-              navigation.navigate('OnBoardingScreen');
-            },
-          })}
         />
         <Tab.Screen
           name="Plant"

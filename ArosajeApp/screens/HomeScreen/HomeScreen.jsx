@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Créez un navigateur stack
 const Stack = createStackNavigator();
 
+//Page de base quand on arrive sur l'applications
 export function HomeScreen() {
   const navigation = useNavigation();
 
