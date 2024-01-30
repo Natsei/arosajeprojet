@@ -58,7 +58,7 @@ export default async function handler(req, res) {
             },
         });
         if (annonce.auteurId !== userId && !isAdmin(userId)) {
-            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette annonce' });
+            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette photo' });
         }
 
         // Construire le chemin complet du fichier à supprimer
