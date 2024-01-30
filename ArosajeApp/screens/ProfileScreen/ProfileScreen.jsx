@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export function ProfileScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <Text>Profil</Text>
     </View>
   );
@@ -12,7 +12,7 @@ export function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#FFFFFF",
     alignItems: 'center',
     justifyContent: 'center',
   },

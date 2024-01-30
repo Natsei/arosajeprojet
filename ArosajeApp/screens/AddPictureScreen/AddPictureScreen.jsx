@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { TapGestureHandler, State } from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 
-export function AddPictureScreen() {
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImagePick = () => {
-    const options = {
-      title: 'Choisir une image',
-      mediaType: 'photo',
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
+const AddPictureScreen = () => {
+    const [selectedImage, setSelectedImage] = useState(null);
   
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log("L'utilisateur a annulé la sélection de l'image");
-      } else if (response.error) {
-        console.log("Erreur: ", response.error);
-      } else {
-        console.log("Image sélectionnée: ", response.uri);
-        setSelectedImage(response.uri);
-      }
-    });
-  };
+    const handleImagePick = () => {
+      const options = {
+        title: 'Choisir une image',
+        cancelButtonTitle: 'Annuler',
+        takePhotoButtonTitle: 'Prendre une photo',
+        chooseFromLibraryButtonTitle: 'Choisir depuis la galerie',
+        mediaType: 'photo',
+        storageOptions: {
+          skipBackup: true,
+        },
+      };
+  
+      ImagePicker.launchImageLibrary(options, (response) => {
+        if (response.didCancel) {
+          console.log("L'utilisateur a annulé la sélection de l'image");
+        } else if (response.error) {
+          console.log("Erreur: ", response.error);
+        } else {
+          console.log("Image sélectionnée: ", response.uri);
+          setSelectedImage(response.uri);
+        }
+      });
+    };
 
   return (
     <View style={styles.container}>
-      <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => nativeEvent.state === State.END && handleImagePick()}>
-        <View style={styles.imageContainer}>
-          {selectedImage ? (
-            <Image source={{ uri: selectedImage }} style={styles.image} />
-          ) : (
-            <Text style={styles.placeholderText}>Glissez et déposez une image ici</Text>
-          )}
-        </View>
-      </TapGestureHandler>
+      <View style={styles.imageContainer}>
+        {selectedImage ? (
+          <Image source={{ uri: selectedImage }} style={styles.image} />
+        ) : (
+          <Text style={styles.placeholderText}>Glissez et déposez une image ici</Text>
+        )}
+      </View>
       <Text style={styles.text}>Bienvenue sur l'application</Text>
       <TouchableOpacity style={styles.button} onPress={handleImagePick}>
-        <Text style={styles.buttonText}>Sélectionner une image</Text>
+        <Text style={styles.buttonText}>Choisir une image</Text>
       </TouchableOpacity>
     </View>
   );
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 200,
     height: 200,
-    backgroundColor: '#eee',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
@@ -87,3 +87,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export { AddPictureScreen };
