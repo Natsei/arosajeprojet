@@ -1,60 +1,28 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { Home, Leaf, CircleUser, MessagesSquare } from 'lucide-react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen } from './screens/HomeScreen/HomeScreen';
-import { PlantScreen } from './screens/PlantScreen/PlantScreen';
-import { ProfileScreen } from './screens/ProfileScreen/ProfileScreen';
-import { ChatScreen } from './screens/ChatScreen/ChatScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import AppTabs from './screens/AppTabs/AppTabs'; //Appel pour la navbar
+import { AccueilScreen } from './screens/AccueilScreen/AccueilScreen';
+import { AddPictureScreen } from './screens/AddPictureScreen/AddPictureScreen';
+import { ConnexionScreen } from './screens/ConnexionInscriptionScreen/ConnexionScreen';
+import { InscriptionScreen } from './screens/ConnexionInscriptionScreen/InscriptionScreen';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Home color="black" size={30} />
-            ),
-            headerShown: false, // Masquer l'en-tête pour cet écran
-          }}
-        />
-        <Tab.Screen
-          name="Chat"
-          component={ChatScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Home color="black" size={30} />
-            ),
-            headerShown: false, // Masquer l'en-tête pour cet écran
-          }}
-        />
-        <Tab.Screen
-          name="Plant"
-          component={PlantScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Leaf color="black" size={30} />
-            ),
-            headerShown: false, // Masquer l'en-tête pour cet écran
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <CircleUser color="black" size={30} />
-            ),
-            headerShown: false, // Masquer l'en-tête pour cet écran
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator headerMode="none">
+          <Stack.Screen name="AppTabs" component={AppTabs} />
+          <Stack.Screen name="AccueilScreen" component={AccueilScreen} />
+          <Stack.Screen name="AddPictureScreen" component={AddPictureScreen} />
+          <Stack.Screen name="ConnexionScreen" component={ConnexionScreen} />
+          <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
+        
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }

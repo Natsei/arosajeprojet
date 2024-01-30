@@ -13,12 +13,12 @@ export function HomeScreen() {
 
   const handleConnecter = () => {
     // Naviguer vers l'écran ConnexionScreen
-    navigation.navigate('Connexion');
+    navigation.navigate('ConnexionScreen');
   };
 
   const handleInscription = () => {
     // Action à effectuer lorsque le bouton "S'inscrire" est pressé
-    navigation.navigate('Inscription');
+    navigation.navigate('InscriptionScreen');
   };
 
   return (
