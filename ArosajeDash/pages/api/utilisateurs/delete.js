@@ -21,41 +21,40 @@ export default async function handler(req, res) {
     }
 
     const userId = decoded.userId;
-    const { annonceId } = req.query;
+    const { utilisateurId } = req.query;
 
-    if (!annonceId) {
-      return res.status(400).json({ error: 'Le paramètre annonceId est requis' });
+    if (!utilisateurId) {
+      return res.status(400).json({ error: 'Le paramètre utilisateurId est requis' });
     }
 
     try {
-      // Vérifier si l'utilisateur est l'auteur de l'annonce
-      const annonce = await prisma.annonce.findUnique({
+
+      // Vérifier si l'utilisateur à supprimer existe
+      const utilisateurASupprimer = await prisma.utilisateur.findUnique({
         where: {
-          id: parseInt(annonceId, 10),
-        },
-        select: {
-          auteurId: true,
+          id: utilisateurId,
         },
       });
 
-      if (!annonce) {
-        return res.status(404).json({ error: 'Annonce non trouvée' });
+      if (!utilisateurASupprimer) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé' });
       }
 
-      if (annonce.auteurId !== userId && !isAdmin(userId)) {
-        return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette annonce' });
+      // Vérifier si le token appartient à l'utilisateur lui-même ou à un administrateur
+      if (userId !== utilisateurId && !isAdmin(userId)) {
+        return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cet utilisateur' });
       }
 
-      // Supprimer l'annonce de la base de données
-      await prisma.annonce.delete({
+      // Supprimer l'utilisateur de la base de données
+      await prisma.utilisateur.delete({
         where: {
-          id: parseInt(annonceId, 10),
+          id: utilisateurId,
         },
       });
 
-      res.status(200).json({ message: 'Annonce supprimée avec succès' });
+      res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'annonce :', error);
+      console.error('Erreur lors de la suppression de l\'utilisateur :', error);
       res.status(500).json({ error: 'Erreur serveur' });
     } finally {
       await prisma.$disconnect();

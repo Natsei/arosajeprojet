@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import isAdmin from '../../../utils/isAdmin'
 
 const prisma = new PrismaClient();
 
@@ -18,21 +19,27 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Token non valide' });
     }
 
+    const userId = decoded.userId;
     const { libelle } = req.body;
 
     try {
-      // Créer une nouvelle catégorie
-      const categorie = await prisma.categorie.create({
-        data: {
-          libelle,
-        },
-        select: {
-          id: true,
-          libelle: true,
-        },
-      });
+        // Vérifier si le token appartient à un administrateur
+        if (!isAdmin(userId)) {
+            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
+        }
 
-      res.status(200).json(categorie);
+        // Créer une nouvelle catégorie
+        const categorie = await prisma.categorie.create({
+            data: {
+            libelle,
+            },
+            select: {
+            id: true,
+            libelle: true,
+            },
+        });
+
+        res.status(200).json(categorie);
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la catégorie :', error);
       res.status(500).json({ error: 'Erreur serveur' });

@@ -2,9 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import isAdmin from '../../../utils/isAdmin'
 
-
 const prisma = new PrismaClient();
-
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -22,7 +20,11 @@ export default async function handler(req, res) {
     }
 
     const userId = decoded.userId;
-    const { libelle, description, categorieId } = req.body;
+    const { nom } = req.body;
+
+    if (!nom) {
+      return res.status(400).json({ error: 'Le champ "nom" est requis' });
+    }
 
     try {
 
@@ -31,26 +33,16 @@ export default async function handler(req, res) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
         }
 
-
-
-        // Créer une nouvelle plante
-        const plante = await prisma.plante.create({
+        // Ajouter le rôle à la base de données
+        const role = await prisma.role.create({
             data: {
-            libelle,
-            description,
-            categorieId,
-            },
-            select: {
-            id: true,
-            libelle: true,
-            description: true,
-            categorieId: true,
+            nom,
             },
         });
 
-        res.status(200).json(plante);
+      res.status(201).json(role);
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de la plante :', error);
+      console.error('Erreur lors de l\'ajout du rôle :', error);
       res.status(500).json({ error: 'Erreur serveur' });
     } finally {
       await prisma.$disconnect();
