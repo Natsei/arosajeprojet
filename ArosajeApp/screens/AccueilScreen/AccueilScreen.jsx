@@ -1,9 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export function AccueilScreen() {
   const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState(['Petites Plantes', 'Arbuste', 'Fleurs', 'Plantes d\'intérieurs', 'Plantes Aquatiques']);
+  const [plants, setPlants] = useState([ //Faudra remplacer par les vrais données de la base
+    { id: 1, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+  ]);
 
   const handleAddPicturePress = () => {
     navigation.navigate('AddPictureScreen');
@@ -11,52 +17,55 @@ export function AccueilScreen() {
 
   const handleCategoryPress = (category) => {
     console.log(`Navigating to ${category} page`);
-    // Ajoutez la logique de redirection vers la page correspondante ici
+    setSelectedCategory(category === selectedCategory ? null : category);
   };
 
   const handlePlantPress = (plantName) => {
     console.log(`Navigating to ${plantName} details page`);
-    // Ajoutez la logique de redirection vers la page de détails de la plante ou toute autre action souhaitée
   };
 
-  const plantData = [
-    { id: 1, name: 'Nom de la Plante 1', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Description de la Plante 1' },
-    { id: 2, name: 'Nom de la Plante 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Description de la Plante 2' },
-    // Ajoutez d'autres données si nécessaire
-  ];
+  const handleProfile = () => {
+    navigation.navigate('ProfileScreen');
+  }
 
   return (
-    <View style={{ flex: 1 }}>
-      {/* En-tête avec le bouton d'ajout à gauche de l'image de profil */}
+    <View style={{ flex: 1, marginTop: 20 }}>
       <View style={styles.header}>
-        {/* Bouton d'ajout */}
         <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
-
-        {/* Image de profil (à remplacer par votre image de profil) */}
-        <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
+        <TouchableOpacity onPress={handleProfile}>
+        <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage}/>
+        </TouchableOpacity>   
       </View>
 
-      {/* Contenu principal avec les catégories et les plantes */}
       <View style={styles.container}>
-        {/* Boutons de catégories */}
-        <View style={styles.categoryButtons}>
-          <TouchableOpacity onPress={() => handleCategoryPress('petites plantes')} style={styles.categoryButton}>
-            <Text>Petites Plantes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleCategoryPress('arbuste')} style={styles.categoryButton}>
-            <Text>Arbuste</Text>
-          </TouchableOpacity>
-          {/* Ajoutez d'autres boutons de catégories si nécessaire */}
-        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
+          <View style={styles.categoryButtons}>
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category}
+                onPress={() => handleCategoryPress(category)}
+                style={[
+                  styles.categoryButton,
+                  { backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white' }, //#F2E8CF quand on clique sinon Blanc
+                ]}
+              >
+                <Text>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
-        {/* Section avec les plantes (générée dynamiquement à partir des données) */}
         <View style={styles.plantSection}>
-          {plantData.map((plant) => (
-            <TouchableOpacity key={plant.id} onPress={() => handlePlantPress(plant.name)} style={styles.plantItem}>
+          {plants.map((plant) => (
+            <TouchableOpacity
+              key={plant.id}
+              onPress={() => handlePlantPress(plant.name)}
+              style={styles.plantItem}
+            >
               <Image source={plant.image} style={styles.plantImage} />
-              <Text>{plant.name}</Text>
+              <Text style={styles.plantName}>{plant.name}</Text>
               <Text>{plant.description}</Text>
             </TouchableOpacity>
           ))}
@@ -78,24 +87,27 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginRight: 16,
-    // Ajoutez d'autres styles nécessaires pour votre image de profil
   },
   addButton: {
-    backgroundColor: 'blue',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    backgroundColor: '#F2E8CF',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
   },
   addButtonText: {
-    color: 'white',
-    fontSize: 20,
+    color: 'black',
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  categoryScrollView: {
+    maxHeight: 50,
   },
   categoryButtons: {
     flexDirection: 'row',
@@ -103,9 +115,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryButton: {
-    backgroundColor: 'lightblue',
     padding: 10,
     borderRadius: 8,
+    marginRight: 10,
   },
   plantSection: {
     flexDirection: 'row',
@@ -120,6 +132,9 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 8,
     marginBottom: 8,
-    // Ajoutez d'autres styles nécessaires pour vos images de plantes
+  },
+  plantName: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

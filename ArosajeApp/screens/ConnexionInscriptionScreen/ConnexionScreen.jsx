@@ -17,7 +17,7 @@ export function ConnexionScreen() {
   };
   
   const handleInscription = () => {
-    navigation.navigate('Profile'); // Rediriger vers la page Inscription
+    navigation.navigate('InscriptionScreen'); // Rediriger vers la page Inscription
   };
 
   return (
