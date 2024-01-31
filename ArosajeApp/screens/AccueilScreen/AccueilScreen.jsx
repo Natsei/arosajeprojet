@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+
+const windowWidth = Dimensions.get('window').width;
 
 export function AccueilScreen() {
   const navigation = useNavigation();
@@ -30,8 +32,13 @@ export function AccueilScreen() {
   }
 
   return (
-    <View style={{ flex: 1, marginTop: 20 }}>
-      <View style={styles.header}>
+    <View style={styles.container}>
+    <View style={styles.header}>
+      <View style={styles.leftHeader}>
+        <Text style={styles.villeText}>Ville : </Text>
+        <Text style={styles.villeText}>Montpellier</Text>
+      </View>
+      <View style={styles.rightHeader}>
         <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
@@ -39,102 +46,129 @@ export function AccueilScreen() {
           <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
         </TouchableOpacity>
       </View>
+    </View>
 
       <SearchBar
         placeholder="Search at the top"
         lightTheme
         round
         containerStyle={styles.searchBarTop}
+       />
+
+      <Image
+        source={require('../../assets/Plantes/picture_home.png')}
+        style={styles.imageAboveCategories}
       />
 
-      <View style={styles.container}>
-        <SearchBar
-          placeholder="Search above categories"
-          lightTheme
-          round
-          containerStyle={styles.searchBarAboveCategories}
-        />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
+      <View style={styles.categoryButtons}>
+  {categories.map((category) => (
+    <TouchableOpacity
+      key={category}
+      onPress={() => handleCategoryPress(category)}
+      style={[
+        styles.categoryButton,
+        {
+          backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white',
+          fontWeight: selectedCategory === category ? 'bold' : 'normal',
+        },
+      ]}
+    >
+      <Text>{category}</Text>
+    </TouchableOpacity>
+  ))}
+</View>
+      </ScrollView>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
-          <View style={styles.categoryButtons}>
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category}
-                onPress={() => handleCategoryPress(category)}
-                style={[
-                  styles.categoryButton,
-                  { backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white' },
-                ]}
-              >
-                <Text>{category}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ScrollView>
-
-        <View style={styles.plantSection}>
-          {plants.map((plant) => (
-            <TouchableOpacity
-              key={plant.id}
-              onPress={() => handlePlantPress(plant.name)}
-              style={styles.plantItem}
-            >
-              <Image source={plant.image} style={styles.plantImage} />
-              <Text style={styles.plantName}>{plant.name}</Text>
-              <Text>{plant.description}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <View style={styles.plantSection}>
+        {plants.map((plant) => (
+          <TouchableOpacity
+            key={plant.id}
+            onPress={() => handlePlantPress(plant.name)}
+            style={styles.plantItem}
+          >
+            <Image source={plant.image} style={styles.plantImage} />
+            <Text style={styles.plantName}>{plant.name}</Text>
+            <Text>{plant.description}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: 16,
+  container: {
+    flex: 1,
     backgroundColor: "#F5F5F5",
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 30,
+    backgroundColor: "#F5F5F5",
+  },
+  leftHeader: {
+    flex: 1.5,
+    marginLeft: windowWidth * -0.02,
+  },
+  rightHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: windowWidth * -0.08,
+  },
+  villeText: {
+    fontSize: windowWidth * 0.04,
+    marginLeft: windowWidth * 0.02,
+  },
   profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 16,
+    width: windowWidth * 0.12,
+    height: windowWidth * 0.12,
+    borderRadius: windowWidth * 0.04,
+    marginRight: windowWidth * 0.03,
+    marginTop: windowWidth * 0.01,
   },
   addButton: {
     backgroundColor: '#F2E8CF',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: windowWidth * 0.12,
+    height: windowWidth * 0.12,
+    borderRadius: windowWidth * 0.06,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: windowWidth * 0.03,
+    marginTop: windowWidth * 0.01,
   },
   addButtonText: {
     color: 'black',
-    fontSize: 30,
+    marginRight: windowWidth * -0.01,
+    fontSize: windowWidth * 0.09,
+    width: windowWidth * 0.05,
     fontWeight: 'bold',
   },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#F5F5F5",
+  searchBarTop: {
+    backgroundColor: '#F5F5F5',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    marginBottom: windowWidth * 0.02, // Ajoutez une marge responsive en bas
+  },
+  imageAboveCategories: {
+    width: windowWidth * 0.9,
+    height: windowWidth * 0.4,
+    marginBottom: windowWidth * 0.08,
+    borderRadius: windowWidth * 0.05,
   },
   categoryScrollView: {
-    maxHeight: 50,
+    maxHeight: windowWidth * 0.1,
   },
   categoryButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 16,
+    marginBottom: windowWidth * 0.02,
   },
   categoryButton: {
-    padding: 10,
-    borderRadius: 8,
-    marginRight: 10,
+    padding: windowWidth * 0.02,
+    borderRadius: windowWidth * 0.02,
+    marginRight: windowWidth * 0.02,
   },
   plantSection: {
     flexDirection: 'row',
@@ -142,26 +176,16 @@ const styles = StyleSheet.create({
   },
   plantItem: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: windowWidth * 0.03,
   },
   plantImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
-    marginBottom: 8,
+    width: windowWidth * 0.3,
+    height: windowWidth * 0.3,
+    borderRadius: windowWidth * 0.02,
+    marginBottom: windowWidth * 0.02,
   },
   plantName: {
-    fontSize: 18,
+    fontSize: windowWidth * 0.05,
     fontWeight: 'bold',
-  },
-  searchBarTop: {
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-  },
-  searchBarAboveCategories: {
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
   },
 });
