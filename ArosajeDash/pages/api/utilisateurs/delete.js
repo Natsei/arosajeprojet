@@ -1,9 +1,17 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import isAdmin from '../../../utils/isAdmin'
-
+import Security from '../../../utils/security';
+import path from 'path';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
+
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
+
 
 export default async function handler(req, res) {
   if (req.method !== 'DELETE') {
@@ -22,6 +30,7 @@ export default async function handler(req, res) {
 
     const userId = decoded.userId;
     const { utilisateurId } = req.query;
+    
 
     if (!utilisateurId) {
       return res.status(400).json({ error: 'Le paramètre utilisateurId est requis' });
@@ -41,7 +50,7 @@ export default async function handler(req, res) {
       }
 
       // Vérifier si le token appartient à l'utilisateur lui-même ou à un administrateur
-      if (userId !== utilisateurId && !isAdmin(userId)) {
+      if (userId !== utilisateurId && !Security.isAdmin(userId)) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cet utilisateur' });
       }
 
@@ -51,6 +60,20 @@ export default async function handler(req, res) {
           id: utilisateurId,
         },
       });
+
+
+      if(utilisateurASupprimer.cheminPhoto !== ""){
+
+        // Construire le chemin complet du fichier à supprimer
+        const filePath = utilisateurASupprimer.cheminPhoto;
+
+        // Vérifier si le fichier existe avant de le supprimer
+        if (fs.existsSync(filePath)) {
+            // Supprimer le fichier du système de fichiers
+            fs.unlinkSync(filePath);
+        } 
+        
+      }
 
       res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
     } catch (error) {

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import isAdmin from '../../../utils/isAdmin'
+import Security from '../../../utils/security';
 
 
 const prisma = new PrismaClient();
@@ -27,10 +27,9 @@ export default async function handler(req, res) {
     try {
 
         // Vérifier si le token appartient à un administrateur
-        if (!isAdmin(userId)) {
+        if (!Security.isAdmin(userId)) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
         }
-
 
 
         // Créer une nouvelle plante

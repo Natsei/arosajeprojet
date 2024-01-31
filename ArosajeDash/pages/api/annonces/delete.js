@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import isAdmin from '../../../utils/isAdmin'
+import Security from '../../../utils/security';
 
 
 const prisma = new PrismaClient();
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Annonce non trouvée' });
       }
 
-      if (annonce.auteurId !== userId && !isAdmin(userId)) {
+      if (annonce.auteurId !== userId && !Security.isAdmin(userId)) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette annonce' });
       }
 
