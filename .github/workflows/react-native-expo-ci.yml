@@ -1,12 +1,5 @@
 name: React Native Expo CI
 
-# Déclenchement du pipeline
-on:
-  push:
-    branches: [ app ]
-  pull_request:
-    branches: [ app ]
-
 # Jobs
 jobs:
   build-and-publish:
