@@ -16,7 +16,11 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator headerMode="none">
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false, // Masquer l'en-tête par défaut pour tous les écrans
+          }}
+        >
           <Stack.Screen name="AppTabs" component={AppTabs} />
           <Stack.Screen name="AccueilScreen" component={AccueilScreen} />
           <Stack.Screen name="AddPictureScreen" component={AddPictureScreen} />

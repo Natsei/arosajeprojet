@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 export function AccueilScreen() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState(['Petites Plantes', 'Arbuste', 'Fleurs', 'Plantes d\'intérieurs', 'Plantes Aquatiques']);
-  const [plants, setPlants] = useState([ //Faudra remplacer par les vrais données de la base
+  const [plants, setPlants] = useState([
     { id: 1, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
     { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
@@ -35,11 +36,25 @@ export function AccueilScreen() {
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleProfile}>
-        <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage}/>
-        </TouchableOpacity>   
+          <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
+        </TouchableOpacity>
       </View>
 
+      <SearchBar
+        placeholder="Search at the top"
+        lightTheme
+        round
+        containerStyle={styles.searchBarTop}
+      />
+
       <View style={styles.container}>
+        <SearchBar
+          placeholder="Search above categories"
+          lightTheme
+          round
+          containerStyle={styles.searchBarAboveCategories}
+        />
+
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
           <View style={styles.categoryButtons}>
             {categories.map((category) => (
@@ -48,7 +63,7 @@ export function AccueilScreen() {
                 onPress={() => handleCategoryPress(category)}
                 style={[
                   styles.categoryButton,
-                  { backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white' }, //#F2E8CF quand on clique sinon Blanc
+                  { backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white' },
                 ]}
               >
                 <Text>{category}</Text>
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#F5F5F5",
   },
   profileImage: {
     width: 40,
@@ -106,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#F5F5F5",
   },
   categoryScrollView: {
     maxHeight: 50,
@@ -138,5 +153,15 @@ const styles = StyleSheet.create({
   plantName: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  searchBarTop: {
+    backgroundColor: 'white',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+  },
+  searchBarAboveCategories: {
+    backgroundColor: 'white',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
   },
 });
