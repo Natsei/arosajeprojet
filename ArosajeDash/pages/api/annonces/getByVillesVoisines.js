@@ -13,11 +13,15 @@ export default async function handler(req, res) {
   const token = req.headers.authorization?.split(' ')[1];
 
   // Vérifier la validité du token
-  jwt.verify(token, 'secret_key', async (err, decoded) => {
-    if (err) {
-      console.error('Erreur lors de la vérification du token :', err);
-      return res.status(401).json({ error: 'Token non valide' });
-    }
+  const decoded = await new Promise((resolve, reject) => {
+    jwt.verify(token, 'secret_key', (err, decoded) => {
+      if (err) {
+        console.error('Erreur lors de la vérification du token :', err);
+        return reject('Token non valide');
+      }
+      resolve(decoded);
+    });
+  });
 
     const { rayon } = req.query;
     const id = decoded.userId;
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
 
     // Récupérer la liste des villes dans le rayon donné pour l'utilisateur connecté depuis une autre API
     const villesProches = await Map.getVillesVoisines(utilisateur.cp,rayon); 
-    
+
     if (!villesProches) {
       return res.status(500).json({ error: 'Erreur lors de la récupération de la liste des villes proches' });
     }
@@ -64,5 +68,5 @@ export default async function handler(req, res) {
     } finally {
       await prisma.$disconnect();
     }
-  });
+  
 }
