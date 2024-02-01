@@ -22,7 +22,9 @@ export function InscriptionScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <ChevronLeft color="black" size={30} />
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <ChevronLeft color="black" size={30} />
+        </TouchableOpacity>
         <Text style={styles.text}>Inscription</Text>
       </View>
       <View style={styles.buttonContainer}>

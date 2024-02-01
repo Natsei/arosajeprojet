@@ -13,7 +13,8 @@ export function ConnexionScreen() {
 
   const handleConnecterValider = () => {
      //Naviguer vers l'écran ConnexionScreen avec les données saisies
-    navigation.navigate('Connexion', { email, password });
+    //navigation.navigate('Connexion', { email, password });
+    navigation.navigate('DetailScreen');
   };
   
   const handleInscription = () => {
@@ -23,7 +24,9 @@ export function ConnexionScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <ChevronLeft color="black" size={30} />
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <ChevronLeft color="black" size={30} />
+        </TouchableOpacity>
         <Text style={styles.text}>Connexion</Text>
       </View>
       <Image

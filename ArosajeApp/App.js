@@ -10,6 +10,8 @@ import { InscriptionScreen } from './screens/ConnexionInscriptionScreen/Inscript
 import { ProfileScreen } from './screens/ProfileScreen/ProfileScreen';
 import { ChatScreen } from './screens/ChatScreen/ChatScreen';
 import { DetailScreen } from './screens/DetailScreen/DetailScreen';
+import { UserPlantScreen } from './screens/UserPlantScreen/UserPlantScreen';
+import { PlantScreen } from './screens/PlantScreen/PlantScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +26,8 @@ export default function App() {
         >
           <Stack.Screen name="AppTabs" component={AppTabs} />
           <Stack.Screen name="AccueilScreen" component={AccueilScreen} />
+          <Stack.Screen name="UserPlantScreen" component={UserPlantScreen} />
+          <Stack.Screen name="PlantScreen" component={PlantScreen} />
           <Stack.Screen name="AddPictureScreen" component={AddPictureScreen} />
           <Stack.Screen name="ConnexionScreen" component={ConnexionScreen} />
           <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
