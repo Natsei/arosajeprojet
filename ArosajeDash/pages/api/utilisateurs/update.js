@@ -51,6 +51,10 @@ export default async function handler(req, res) {
       if(!Security.isValidEmail(email)){
         return res.status(400).json({ error: 'L\'email n\'est pas valide.' });
       }
+      //Test description
+      if(!Security.isValidDescription(description)){
+        return res.status(400).json({ error: 'La description ne doit pas dépasser 255 caractères.' });
+      }
 
       // Vérifier si l'email est déjà utilisé par un autre utilisateur (autre que lui-même)
       const utilisateurExistantEmail = await prisma.utilisateur.findFirst({

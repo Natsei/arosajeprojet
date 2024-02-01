@@ -70,6 +70,23 @@ class Security {
         // Vérifie si l'adresse e-mail correspond à la regex
         return emailRegex.test(email);
       }
+
+
+       /**
+       * Vérifie si la description est au bon format
+       * @param desc 
+       * @returns 
+       */
+       static isValidDescription(desc : string) {
+        var descValidLength = false;
+        // Vérifie si la longueur de la description est valide
+        if (desc.length <= 255) {
+            descValidLength = true;
+         }
+      
+        // Vérifie si l'adresse e-mail correspond à la regex
+        return descValidLength;
+      }
   
 }
 

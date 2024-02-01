@@ -49,6 +49,10 @@ export default async function handler(req, res) {
         if(!Security.isPasswordSecure(motDePasse)){
           return res.status(400).json({ error: 'Le mot de passe n\'est pas valide.' });
         }
+        //Test description
+        if(!Security.isValidDescription(description)){
+          return res.status(400).json({ error: 'La description ne doit pas dépasser 255 caractères.' });
+        }
 
         //Test si un utilisateur existe déjà
         const utilisateur = await prisma.utilisateur.findUnique({
