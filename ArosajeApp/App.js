@@ -9,6 +9,7 @@ import { ConnexionScreen } from './screens/ConnexionInscriptionScreen/ConnexionS
 import { InscriptionScreen } from './screens/ConnexionInscriptionScreen/InscriptionScreen';
 import { ProfileScreen } from './screens/ProfileScreen/ProfileScreen';
 import { ChatScreen } from './screens/ChatScreen/ChatScreen';
+import { DetailScreen } from './screens/DetailScreen/DetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
           <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
+          <Stack.Screen name="DetailScreen" component={DetailScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-// Créez un navigateur stack
-const Stack = createStackNavigator();
 
 //Page de base quand on arrive sur l'applications
 export function HomeScreen() {
@@ -49,20 +44,20 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-end', // Alignement vertical en bas
+    justifyContent: 'flex-end', 
     alignItems: 'center',
-    paddingBottom: 50, // Ajout de marge en bas
+    paddingBottom: 50, 
   },
   title: {
     fontSize: 50,
     width: 315,
-    marginLeft: 160, // Ajoutez la marge à gauche ici
+    marginLeft: 160,
     marginBottom: 40,
     color: '#F2E8CF',
   },  
   buttonContainer: {
-    width: '100%', // Agrandir à la largeur maximale
-    paddingHorizontal: 20, // Ajout de padding horizontal pour espacement
+    width: '100%', 
+    paddingHorizontal: 20, 
   },
   button: {
     display: 'flex',
@@ -70,13 +65,13 @@ const styles = StyleSheet.create({
     padding: 21,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20, // Ajout de marge entre les boutons
+    marginBottom: 20, 
     borderRadius: 16,
     backgroundColor: '#F2E8CF',
   },
   buttonText: {
     color: '#000000',
     fontSize: 16,
-    textAlign: 'center', // Centrer le texte dans le bouton
+    textAlign: 'center', 
   },
 });

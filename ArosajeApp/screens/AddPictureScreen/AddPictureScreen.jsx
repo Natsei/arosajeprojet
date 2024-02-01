@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageContainer: {
-    width: '80%', // Utilisation de pourcentage au lieu d'une valeur fixe
-    height: '30%', // Utilisation de pourcentage au lieu d'une valeur fixe
+    width: '80%', 
+    height: '30%', 
     backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'top',
     marginTop: 10,
-    height: '20%', // Utilisation de pourcentage au lieu d'une valeur fixe
+    height: '20%', 
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 15,

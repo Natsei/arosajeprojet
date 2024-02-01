@@ -15,7 +15,7 @@ export function ChatScreen() {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: require('../../assets/Home/homePicture.png'), // Remplacez le chemin d'accès ici
+          avatar: require('../../assets/Home/homePicture.png'),
         },
       },
     ]);
@@ -30,7 +30,7 @@ export function ChatScreen() {
       messages={messages}
       onSend={(newMessages) => onSend(newMessages)}
       user={{
-        _id: 1, // Utilisateur actuel
+        _id: 1, // Utilisateur actuel ( à variabiliser )
       }}
     />
   );

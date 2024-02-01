@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    marginBottom: windowWidth * 0.02, // Ajoutez une marge responsive en bas
+    marginBottom: windowWidth * 0.02,
   },
   imageAboveCategories: {
     width: windowWidth * 0.9,

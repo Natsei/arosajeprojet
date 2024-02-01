@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 export function PlantScreen({ navigation }) {
 
   const handleInscription = () => {
-    navigation.navigate('ChatScreen'); // Rediriger vers la page Inscription
+    navigation.navigate('DetailScreen'); // Rediriger vers la page Inscription
   };
 
   return (

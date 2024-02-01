@@ -48,36 +48,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: windowWidth * 0.05, // 5% of the window width
+    padding: windowWidth * 0.05, 
   },
   infoContainer: {
     width: '100%',
   },
   infoBox: {
-    marginBottom: windowHeight * 0.010, // 5% of the window height
+    marginBottom: windowHeight * 0.010, 
   },
   label: {
-    fontSize: windowWidth * 0.045, // 2.5% of the window width
-    fontWeight: 'bold',
-    marginBottom: windowHeight * 0.01, // 1% of the window height
+    fontSize: windowWidth * 0.045, 
+    fontWeight: 'bold', 
   },
   input: {
-    height: windowHeight * 0.05, // 8% of the window height
+    height: windowHeight * 0.05, 
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: windowWidth * 0.030, // 1% of the window width
-    paddingLeft: windowWidth * 0.02, // 2% of the window width
-    marginBottom: windowHeight * 0.01, // 2% of the window height
+    borderRadius: windowWidth * 0.030, 
+    paddingLeft: windowWidth * 0.02,
+    marginBottom: windowHeight * 0.01,
   },
   saveButton: {
     backgroundColor: '#F2E8CF',
-    paddingVertical: windowHeight * 0.02, // 3% of the window height
-    paddingHorizontal: windowWidth * 0.04, // 5% of the window width
-    borderRadius: windowWidth * 0.045, // 1% of the window width
-    marginTop: windowHeight * 0.05, // 5% of the window height
+    paddingVertical: windowHeight * 0.03, 
+    paddingHorizontal: windowWidth * 0.05, 
+    borderRadius: windowWidth * 0.045,
+    marginTop: windowHeight * 0.02, 
   },
   buttonText: {
-    fontSize: windowWidth * 0.06, // 2% of the window width
+    fontSize: windowWidth * 0.06, 
     color: '#000000',
     textAlign: 'center',
   },

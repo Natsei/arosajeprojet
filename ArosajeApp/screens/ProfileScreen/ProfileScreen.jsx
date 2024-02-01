@@ -16,14 +16,13 @@ export function ProfileScreen() {
         style={styles.profileImage}
       />
       <View style={styles.tabContainer}>
-        <Tab.Navigator
-          tabBarPosition="top"
-          screenOptions={{
-            tabBarItemStyle: {
-              marginTop: 10,
-            },
-          }}
-        >
+      <Tab.Navigator
+        tabBarPosition="top"
+        tabBarOptions={{ // Couleur du texte de l'onglet actif
+          tabStyle: { marginTop: 10 },
+          indicatorStyle: { backgroundColor: '#F2E8CF' }, // Changer la couleur de la barre ici
+        }}
+      >
           <Tab.Screen name="Informations" component={TabScreen} />
           <Tab.Screen name="MdpScreen" component={MdpScreen} />
         </Tab.Navigator>
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 10,
-    backgroundColor: 'white',
   },
   tabContainer: {
     flex: 1,
