@@ -22,7 +22,9 @@ export function InscriptionScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <ChevronLeft color="black" size={30} />
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <ChevronLeft color="black" size={30} />
+        </TouchableOpacity>
         <Text style={styles.text}>Inscription</Text>
       </View>
       <View style={styles.buttonContainer}>
@@ -80,47 +82,47 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: windowHeight * 0.05, // Utilisation d'une valeur relative pour paddingBottom
+    paddingBottom: windowHeight * 0.05,
     backgroundColor: "#FFFFFF",
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
+    marginBottom: windowHeight * 0.04, 
   },
   image: {
-    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
+    marginBottom: windowHeight * 0.04, 
   },
   text: {
-    fontSize: windowWidth * 0.08, // Utilisation d'une valeur relative pour la taille de police
-    marginLeft: windowWidth * 0.02, // Utilisation d'une valeur relative pour marginLeft
+    fontSize: windowWidth * 0.08, 
+    marginLeft: windowWidth * 0.02, 
   },
   buttonContainer: {
     width: '100%',
-    paddingHorizontal: windowWidth * 0.05, // Utilisation d'une valeur relative pour paddingHorizontal
+    paddingHorizontal: windowWidth * 0.05, 
   },
   input: {
-    height: windowHeight * 0.1, // Utilisation d'une valeur relative pour la hauteur
-    fontSize: windowWidth * 0.04, // Utilisation d'une valeur relative pour la taille de police
+    height: windowHeight * 0.1, 
+    fontSize: windowWidth * 0.04, 
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
-    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
-    paddingHorizontal: windowWidth * 0.02, // Utilisation d'une valeur relative pour paddingHorizontal
+    borderRadius: windowWidth * 0.04, 
+    marginBottom: windowHeight * 0.02, 
+    paddingHorizontal: windowWidth * 0.02, 
   },
   button: {
-    width: windowWidth * 0.9, // Utilisation d'une valeur relative pour la largeur
-    padding: windowHeight * 0.03, // Utilisation d'une valeur relative pour le rembourrage
+    width: windowWidth * 0.9,
+    padding: windowHeight * 0.03, 
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginTop
-    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
-    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
+    marginTop: windowHeight * 0.02, 
+    marginBottom: windowHeight * 0.02, 
+    borderRadius: windowWidth * 0.04, 
     backgroundColor: '#F2E8CF',
   },
   buttonText: {
     color: '#000000',
-    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
+    fontSize: windowWidth * 0.05, 
     textAlign: 'center',
   },
   signupContainer: {
@@ -128,16 +130,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signupTextPart1: {
-    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
+    fontSize: windowWidth * 0.05, 
     textAlign: 'center',
-    marginTop: windowHeight * 0.01, // Utilisation d'une valeur relative pour marginTop
+    marginTop: windowHeight * 0.01, 
   },
   signupTextPart2: {
-    fontSize: windowWidth * 0.05, // Utilisation d'une valeur relative pour la taille de police
+    fontSize: windowWidth * 0.05, 
     color: "#386641",
     textAlign: 'center',
     textDecorationLine: 'underline',
-    marginTop: windowHeight * 0.01, // Utilisation d'une valeur relative pour marginTop
+    marginTop: windowHeight * 0.01, 
   },
 });
 

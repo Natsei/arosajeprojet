@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Dimensions } from 'react-native';
 
-// Créez un navigateur stack
-const Stack = createStackNavigator();
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export function LoginScreen() {
   const navigation = useNavigation();
@@ -41,45 +39,42 @@ export function LoginScreen() {
   );
 }
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
-    justifyContent: 'flex-end', // Alignement vertical en bas
+    justifyContent: 'flex-end', 
   },
   container: {
     flex: 1,
     justifyContent: 'flex-end', // Alignement vertical en bas
     alignItems: 'center',
-    paddingBottom: windowHeight * 0.05, // Utilisation d'une valeur relative pour paddingBottom
+    paddingBottom: windowHeight * 0.05, 
   },
   title: {
     fontSize: windowWidth * 0.1, // Utilisation d'une valeur relative pour la taille de police
-    width: windowWidth * 0.8, // Utilisation d'une valeur relative pour la largeur
-    marginLeft: windowWidth * 0.2, // Utilisation d'une valeur relative pour marginLeft
-    marginBottom: windowHeight * 0.04, // Utilisation d'une valeur relative pour marginBottom
+    width: windowWidth * 0.8, 
+    marginLeft: windowWidth * 0.2,
+    marginBottom: windowHeight * 0.04, 
     color: '#F2E8CF',
   },
   buttonContainer: {
-    width: '100%', // Agrandir à la largeur maximale
-    paddingHorizontal: windowWidth * 0.05, // Utilisation d'une valeur relative pour paddingHorizontal
+    width: '100%',
+    paddingHorizontal: windowWidth * 0.05, 
   },
   button: {
-    width: windowWidth * 0.9, // Utilisation d'une valeur relative pour la largeur
-    padding: windowHeight * 0.03, // Utilisation d'une valeur relative pour le rembourrage
+    width: windowWidth * 0.9,
+    padding: windowHeight * 0.03, 
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: windowHeight * 0.02, // Utilisation d'une valeur relative pour marginBottom
-    borderRadius: windowWidth * 0.04, // Utilisation d'une valeur relative pour la bordure
+    marginBottom: windowHeight * 0.02, 
+    borderRadius: windowWidth * 0.04, 
     backgroundColor: '#F2E8CF',
   },
   buttonText: {
     color: '#000000',
-    fontSize: windowWidth * 0.04, // Utilisation d'une valeur relative pour la taille de police
-    textAlign: 'center', // Centrer le texte dans le bouton
+    fontSize: windowWidth * 0.04, 
+    textAlign: 'center', 
   },
 });
 
