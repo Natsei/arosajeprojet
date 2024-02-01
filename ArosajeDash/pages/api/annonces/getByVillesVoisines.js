@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Token non valide' });
     }
 
-    const { rayon } = req.body;
+    const { rayon } = req.query;
     const id = decoded.userId;
     const utilisateur = await prisma.utilisateur.findUnique({
         where: {
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
     // Récupérer la liste des villes dans le rayon donné pour l'utilisateur connecté depuis une autre API
     const villesProches = await Map.getVillesVoisines(utilisateur.cp,rayon); 
-
+    
     if (!villesProches) {
       return res.status(500).json({ error: 'Erreur lors de la récupération de la liste des villes proches' });
     }
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       const annonces = await prisma.annonce.findMany({
         where: {
           auteur: {
-            ville: {
+            cp: {
               in: villesProches,
             },
           },
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
           lesVisites: true,
         },
       });
-
+      
       res.status(200).json(annonces);
     } catch (error) {
       console.error('Erreur lors de la récupération des annonces par villes :', error);

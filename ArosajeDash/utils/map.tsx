@@ -5,7 +5,6 @@ interface City {
     nom_commune: string;
     distance: number;
   }
-
 class Map {
 
     /**
@@ -19,12 +18,12 @@ class Map {
         try {
         
             // Faire la requête à l'API externe
-            const response = await axios.get(`https://www.villes-voisines.fr/getcp.php?cp=${cp}&rayon=${rayon}`);
-            console.log(response);
-            // Récupérer les données de la réponse
-            villesVoisines = response.data.map((city: City) => city.code_postal);
-
+            const response = await axios.get<Record<string, City>>(`https://www.villes-voisines.fr/getcp.php?cp=${cp}&rayon=${rayon}`);
             
+            // Récupérer les code postaux 
+            villesVoisines = Object.values(response.data).map((item: City) => item.code_postal);
+            
+   
         } catch (error) {
             console.error('Erreur lors de la récupération des villes voisines :', error);
         }
