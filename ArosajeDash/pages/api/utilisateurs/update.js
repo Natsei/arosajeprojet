@@ -44,7 +44,31 @@ export default async function handler(req, res) {
       }
 
 
-      const { email, motDePasse, prenom, nom, ville, cp, rue, description, cheminPhoto } = req.body;
+      const { email, prenom, nom, ville, cp, rue, description } = req.body;
+
+      //Test des champs
+      //Test email
+      if(!Security.isValidEmail(email)){
+        return res.status(400).json({ error: 'L\'email n\'est pas valide.' });
+      }
+
+      // Vérifier si l'email est déjà utilisé par un autre utilisateur (autre que lui-même)
+      const utilisateurExistantEmail = await prisma.utilisateur.findFirst({
+        where: {
+          id: {
+            not: utilisateurId, // Exclure l'utilisateur lui-même
+          },
+          email: {
+            equals: email,
+          },
+        },
+      });
+
+      if (utilisateurExistantEmail) {
+        return res.status(400).json({ error: 'Cet email est déjà utilisé par un autre utilisateur' });
+      }
+
+
 
       // Mettre à jour les champs de l'utilisateur
       const utilisateurUpdated = await prisma.utilisateur.update({
@@ -53,14 +77,12 @@ export default async function handler(req, res) {
         },
         data: {
           email,
-          motDePasse,
           prenom,
           nom,
           ville,
           cp,
           rue,
           description,
-          cheminPhoto,
         },
       });
 
