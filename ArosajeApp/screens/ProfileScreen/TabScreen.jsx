@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export function TabScreen() {
+  const navigation = useNavigation(); // Utilisez useNavigation à l'intérieur de la fonction
+
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('');
 
   const handleSave = () => {
-    console.log('Informations enregistrées :', { name, surname, email, city });
+    navigation.navigate('MapScreen');
+    //console.log('Informations enregistrées :', { name, surname, email, city });
   };
 
   return (

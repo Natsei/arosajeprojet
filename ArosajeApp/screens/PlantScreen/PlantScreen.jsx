@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
@@ -12,6 +12,10 @@ export function PlantScreen() {
   const [plants, setPlants] = useState([
     { id: 1, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
     { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 3, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 4, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 5, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 6, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
 
   const handleAddPicturePress = () => {
@@ -32,28 +36,44 @@ export function PlantScreen() {
   }
 
   return (
-    <View style={styles.container}>
-    <View style={styles.header}>
-    <Text style={styles.title}>Les Plantes de Michel  </Text>
-      <View style={styles.profileImage}>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Les Plantes de Michel  </Text>
+        <View style={styles.profileImage}>
           <Image source={require('../../assets/Profile/Image.png')} style={styles.profileImage} />
+        </View>
       </View>
-    </View>
 
-    <View style={styles.plantSection}>
-      {plants.map((plant) => (
-        <TouchableOpacity
-          key={plant.id}
-          onPress={() => handlePlantPress(plant.name)}
-          style={styles.plantItem}
-        >
-          <Image source={plant.image} style={styles.plantImage} />
-          <Text style={styles.plantName}>{plant.name}</Text>
-          <Text style={styles.plantDescription}>{plant.description}</Text>
-        </TouchableOpacity>
-      ))}
+      <View style={styles.rectangleContainer}>
+        <Image
+          source={require('../../assets/Vector.png')}
+          style={styles.cityImage}
+        />
+        <View>
+          <Text style={styles.userInfo}>Montpellier</Text>
+        </View>
       </View>
-    </View>
+
+      <View style={styles.rectangleContainer}>
+        <View>
+          <Text style={styles.userInfo}>Salut c'est Michel, je suis botaniste depuis 1992</Text>
+        </View>
+      </View>
+
+      <View style={styles.plantSection}>
+        {plants.map((plant) => (
+          <TouchableOpacity
+            key={plant.id}
+            onPress={() => handlePlantPress(plant.name)}
+            style={styles.plantItem}
+          >
+            <Image source={plant.image} style={styles.plantImage} />
+            <Text style={styles.plantName}>{plant.name}</Text>
+            <Text style={styles.plantDescription}>{plant.description}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -61,11 +81,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F9F9F9",
+    padding: windowWidth * 0.05,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 30,
+    padding: 10,
     backgroundColor: "#F9F9F9",
   },
   title: {
@@ -74,11 +95,32 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center', // Aligner le texte du titre à gauche
   },
+  rectangleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: windowHeight * 0.02,
+    borderWidth: 0.5,
+    borderColor: 'lightgrey', // Bordure noire
+    borderRadius: 10,
+    padding: windowWidth * 0.05,
+    marginBottom: windowHeight * 0.012,
+  },
+  userInfo: {
+    fontSize: windowHeight * 0.02,
+    fontWeight: 'bold',
+  },
+  smallImage: {
+    width: windowWidth * 0.1,
+    height: windowWidth * 0.1,
+    resizeMode: 'cover',
+    borderRadius: windowHeight * 0.01,
+    marginRight: windowWidth * 0.02,
+  },
   profileImage: {
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
     borderRadius: windowWidth * 0.03,
-    paddingLeft: windowWidth * 0.035,
+    paddingLeft: windowWidth * 0.01,
     marginTop: windowWidth * 0.022,
   },
   imageAboveCategories: {
@@ -89,22 +131,24 @@ const styles = StyleSheet.create({
   },
   plantSection: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: windowWidth * 0.95,  // Modifier la largeur de la section
-    alignSelf: 'center',  // Centrer la section horizontalement
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: windowWidth * 0.025,
+    marginBottom: windowWidth * 0.03,
   },
   plantItem: {
     alignItems: 'center',
+    width: '48%', // Utilisez un pourcentage de la largeur de l'écran
     marginBottom: windowWidth * 0.03,
-    borderWidth: 0,  // Ajouter une bordure de 5 pixels
-    borderColor: 'black',  // Couleur de la bordure
-    borderRadius: 15,  // Facultatif : ajouter un rayon de bordure pour les coins arrondis
-    padding: windowWidth * 0.02,  // Ajouter du rembourrage à l'intérieur de la bordure
-    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: windowWidth * 0.02,
   },
   plantImage: {
-    width: windowWidth * 0.4,  // Ajuster la largeur de l'image
-    height: windowWidth * 0.4,  // Ajuster la hauteur de l'image
+    width: '100%', // Ajustez la largeur de l'image pour remplir l'élément parent
+    height: (windowWidth - windowWidth * 0.09) / 2,
     borderRadius: windowWidth * 0.02,
     marginBottom: windowWidth * 0.02,
   },
@@ -113,13 +157,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'flex-start',  // Aligner à gauche
     paddingLeft: 7,
-    marginTop: windowWidth * 0.01,  // Ajuster l'espace en haut du nom
+    marginTop: windowWidth * 0.01,  
   },
   plantDescription: {
-    textAlign: 'left',  // Aligner à gauche
+    textAlign: 'right', 
     alignSelf: 'flex-start',
     paddingLeft: 7,
     marginTop: windowWidth * 0.01,
     marginBottom: windowHeight * 0.007,
+  },
+  cityImage: {
+    width: 14,
+    height: 22,
+    resizeMode: 'cover',
+    borderRadius: windowHeight * 0.01,
+    marginRight: windowWidth * 0.02,
+  },
+  cityName: {
+    fontSize: windowHeight * 0.025, // Assurez-vous que la taille du texte est la même que pour les sous-titres
+    fontWeight: 'bold',
   },
 });

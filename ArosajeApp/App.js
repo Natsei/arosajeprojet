@@ -12,6 +12,8 @@ import { ChatScreen } from './screens/ChatScreen/ChatScreen';
 import { DetailScreen } from './screens/DetailScreen/DetailScreen';
 import { UserPlantScreen } from './screens/UserPlantScreen/UserPlantScreen';
 import { PlantScreen } from './screens/PlantScreen/PlantScreen';
+import { MapScreen } from './screens/MapScreen/MapScreen';
+import { HomeScreen } from './screens/HomeScreen/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +36,8 @@ export default function App() {
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="DetailScreen" component={DetailScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

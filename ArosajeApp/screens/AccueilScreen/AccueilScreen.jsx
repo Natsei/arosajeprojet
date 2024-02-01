@@ -12,6 +12,13 @@ export function AccueilScreen() {
   const [plants, setPlants] = useState([
     { id: 1, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
     { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 3, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 4, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 5, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 6, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 7, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 8, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
+    { id: 9, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
 
   const handleAddPicturePress = () => {
@@ -47,55 +54,58 @@ export function AccueilScreen() {
         </TouchableOpacity>
       </View>
     </View>
-
-      <SearchBar
-        placeholder="Search at the top"
-        lightTheme
-        round
-        containerStyle={styles.searchBarTop}
-       />
-
-      <Image
-        source={require('../../assets/Plantes/picture_home.png')}
-        style={styles.imageAboveCategories}
-      />
-
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
-      <View style={styles.categoryButtons}>
-  {categories.map((category) => (
-    <TouchableOpacity
-      key={category}
-      onPress={() => handleCategoryPress(category)}
-      style={[
-        styles.categoryButton,
-        {
-          backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white',
-          fontWeight: selectedCategory === category ? 'bold' : 'normal',
-        },
-      ]}
-    >
-      <Text>{category}</Text>
-    </TouchableOpacity>
-  ))}
-</View>
-      </ScrollView>
-
-      <View style={styles.plantSection}>
-        {plants.map((plant) => (
-          <TouchableOpacity
-            key={plant.id}
-            onPress={() => handlePlantPress(plant.name)}
-            style={styles.plantItem}
-          >
-            <Image source={plant.image} style={styles.plantImage} />
-            <Text style={styles.plantName}>{plant.name}</Text>
-            <Text>{plant.description}</Text>
-          </TouchableOpacity>
-        ))}
+  
+        <SearchBar
+          placeholder="Recherche en haut"
+          lightTheme
+          round
+          containerStyle={styles.searchBarTop}
+        />
+  
+        <Image
+          source={require('../../assets/Plantes/picture_home.png')}
+          style={styles.imageAboveCategories}
+        />
+  
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScrollView}>
+          <View style={styles.categoryButtons}>
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category}
+                onPress={() => handleCategoryPress(category)}
+                style={[
+                  styles.categoryButton,
+                  {
+                    backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white',
+                    fontWeight: selectedCategory === category ? 'bold' : 'normal',
+                  },
+                ]}
+              >
+                <Text>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+  
+        {/* Utiliser ScrollView pour permettre le défilement vertical des plantes */}
+        <ScrollView style={styles.plantScrollView} showsVerticalScrollIndicator={true}>
+          <View style={styles.plantSection}>
+            {plants.map((plant) => (
+              <TouchableOpacity
+                key={plant.id}
+                onPress={() => handlePlantPress(plant.name)}
+                style={styles.plantItem}
+              >
+                <Image source={plant.image} style={styles.plantImage} />
+                <Text style={styles.plantName}>{plant.name}</Text>
+                <Text>{plant.description}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
       </View>
-    </View>
-  );
-}
+    );
+  }
 
 const styles = StyleSheet.create({
   container: {
@@ -154,6 +164,7 @@ const styles = StyleSheet.create({
   imageAboveCategories: {
     width: windowWidth * 0.9,
     height: windowWidth * 0.4,
+    marginLeft: 20,
     marginBottom: windowWidth * 0.08,
     borderRadius: windowWidth * 0.05,
   },
@@ -172,20 +183,33 @@ const styles = StyleSheet.create({
   },
   plantSection: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: windowWidth * 0.025,
+    marginBottom: windowWidth * 0.03,
   },
   plantItem: {
     alignItems: 'center',
+    width: '48%', // Utilisez un pourcentage de la largeur de l'écran
     marginBottom: windowWidth * 0.03,
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: windowWidth * 0.02,
   },
   plantImage: {
-    width: windowWidth * 0.3,
-    height: windowWidth * 0.3,
+    width: '100%', // Ajustez la largeur de l'image pour remplir l'élément parent
+    height: (windowWidth - windowWidth * 0.09) / 2,
     borderRadius: windowWidth * 0.02,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
     fontWeight: 'bold',
+  },
+  plantScrollView: {
+    flex: 1.5,
+    marginTop: windowWidth * 0.02,
   },
 });
