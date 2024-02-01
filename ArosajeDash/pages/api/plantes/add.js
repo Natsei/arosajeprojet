@@ -31,6 +31,20 @@ export default async function handler(req, res) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
         }
 
+        //Test si la plante existe déjà
+        const planteExistante = await prisma.categorie.findUnique({
+          where: {
+            libelle,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if(planteExistante){
+          return res.status(400).json({ error: 'La plante existe déjà avec l\'id : ' + planteExistante.id});
+        }
+
 
         // Créer une nouvelle plante
         const plante = await prisma.plante.create({

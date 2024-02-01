@@ -28,6 +28,21 @@ export default async function handler(req, res) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
         }
 
+        // Vérifie que la catégorie n'existe pas déjà
+        //Test si la catégorie existe déjà
+        const categorieExistante = await prisma.categorie.findUnique({
+          where: {
+            libelle,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if(categorieExistante){
+          return res.status(400).json({ error: 'La catégorie existe déjà avec l\'id : ' + categorieExistante.id});
+        }
+
         // Créer une nouvelle catégorie
         const categorie = await prisma.categorie.create({
             data: {

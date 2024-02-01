@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import Map from '../../../utils/map';
 
 const prisma = new PrismaClient();
 
@@ -28,12 +29,40 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Le paramètre id est requis' });
     }
 
+
+    const { rayon } = req.query;
+    const idUser = decoded.userId;
+
+    const utilisateur = await prisma.utilisateur.findUnique({
+        where: {
+          id : idUser,
+        },
+        select: {
+          ville: true,
+          cp: true,
+          rue: true,
+        },
+    });
+
+    // Récupérer la liste des villes dans le rayon donné pour l'utilisateur connecté depuis une autre API
+    const villesProches = await Map.getVillesVoisines(utilisateur.cp,rayon); 
+
+    if (!villesProches) {
+      return res.status(500).json({ error: 'Erreur lors de la récupération de la liste des villes proches' });
+    }
+
+
     try {
       // Récupérer toutes les annonces liées à la catégorie spécifiée
       const annonces = await prisma.annonce.findMany({
         where: {
           plante: {
             categorieId: parseInt(id, 10),
+          },
+          auteur: {
+            cp: {
+              in: villesProches,
+            },
           },
         },
         include: {

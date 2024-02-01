@@ -30,7 +30,21 @@ export default async function handler(req, res) {
 
         // Vérifier si le token appartient à un administrateur
         if (!Security.isAdmin(userId)) {
-            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
+            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter un role' });
+        }
+
+         //Test si le role existe déjà
+         const roleExistant = await prisma.role.findUnique({
+          where: {
+            libelle,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if(roleExistant){
+          return res.status(400).json({ error: 'Le role existe déjà avec l\'id : ' + roleExistant.id});
         }
 
         // Ajouter le rôle à la base de données
