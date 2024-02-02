@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     });
   });
 
-    const { recherche,rayon,categorie } = req.query;
+    const { recherche,rayon,categorie,cp } = req.query;
 
 
     try {
@@ -69,20 +69,30 @@ export default async function handler(req, res) {
 
       // Ajouter la condition pour le rayon si le paramètre est fourni
       if (rayon) {
-        const id = decoded.userId;
-        const utilisateur = await prisma.utilisateur.findUnique({
-            where: {
-            id,
-            },
-            select: {
-            ville: true,
-            cp: true,
-            rue: true,
-            },
-        });
-
+        const userId = decoded.userId;
+        var leCodePostal = "";
+        //S'il n'y a pas de code postal, utiliser celui de l'utilisateur connecté
+        if(!cp){
+            const utilisateur = await prisma.utilisateur.findUnique({
+                where: {
+                id : userId,
+                },
+                select: {
+                ville: true,
+                cp: true,
+                rue: true,
+                },
+            });
+            leCodePostal = utilisateur.cp;
+        }else{
+            if (!Security.isAdmin(userId)) {
+                return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à consulter ces annonces' });
+            }
+            leCodePostal = cp;
+        }
+        
         // Récupérer la liste des villes dans le rayon donné pour l'utilisateur connecté depuis une autre API
-        const villesProches = await Map.getVillesVoisines(utilisateur.cp,rayon); 
+        const villesProches = await Map.getVillesVoisines(leCodePostal,rayon); 
 
         if (!villesProches) {
         return res.status(500).json({ error: 'Erreur lors de la récupération de la liste des villes proches' });
