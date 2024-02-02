@@ -24,7 +24,7 @@ class Security {
                 },
             });
             //Retourne true si l'utilisateur est Admin
-            isAdmin = rolesUtilisateur.some((roleUtilisateur) => roleUtilisateur.role?.nom === 'Administrateur');
+            isAdmin = rolesUtilisateur.some((roleUtilisateur : any) => roleUtilisateur.role?.nom === 'Administrateur');
 
         } catch (error) {
             console.error('Erreur lors de la création de l\'utilisateur :', error);
