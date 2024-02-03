@@ -5,6 +5,17 @@ import Map from '../../../utils/map';
 
 const prisma = new PrismaClient();
 
+
+/**
+ * Retourne toutes les annonces
+ * Accepte un paramètre recherche : recherche ->plante.libelle,plante.categorie.libelle
+ * Accepte un paramètre rayon : recherche -> dans toutes les villes situé dans le rayon autour du code postal fournit (si pas de code postal,celui de l'utilisateur connecté)
+ * Accepte un paramètre cp : code postal pour la recherche par rayon. Le rayon est obligatoire 
+ * Accepte un pramètre categorie : L'id de la catégorie de la plante est strictement égal a l'id passé en paramètre
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée

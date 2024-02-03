@@ -3,6 +3,14 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
+
+/**
+ * Retourne toutes les categories
+ * Accepte un paramètre recherche : recherche ->libelle
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée

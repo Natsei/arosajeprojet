@@ -4,6 +4,13 @@ import Security from '../../../utils/security';
 
 const prisma = new PrismaClient();
 
+/**
+ * Retourne tous les roles
+ * Accepte un paramètre recherche : recherche ->nom
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée

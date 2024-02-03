@@ -3,6 +3,15 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
+
+/**
+ * Retourne toutes les plantes
+ * Accepte un paramètre recherche : recherche ->libelle,categorie.libelle
+ * Accepte un pramètre categorie : L'id de la catégorie de la plante est strictement égal a l'id passé en paramètre
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée
