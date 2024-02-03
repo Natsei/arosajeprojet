@@ -18,9 +18,30 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Token non valide' });
     }
 
+    const { recherche } = req.query;
+
     try {
+
+      var whereCondition = {}
+
+      if(recherche){
+        // Diviser la recherche en mots
+        const motsRecherche = recherche.split(' ');
+
+        // Récupérer toutes les categories où le libellé ressemble à l'un des mots de la recherche
+        whereCondition = {
+            OR: motsRecherche.map((mot) => ({
+              libelle: {
+                contains: mot,
+              },
+            })),
+        };
+
+      }
+      
       // Récupérer toutes les catégories
       const categories = await prisma.categorie.findMany({
+        where: whereCondition,
         select: {
           id: true,
           libelle: true,
