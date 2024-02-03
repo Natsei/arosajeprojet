@@ -19,14 +19,36 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Token non valide' });
     }
 
+    const { recherche } = req.query;
+
     try {
+
+      var whereCondition = {}
+
+      if(recherche){
+        // Diviser la recherche en mots
+        const motsRecherche = recherche.split(' ');
+
+        // Récupérer tous les roles où le libellé ressemble à l'un des mots de la recherche
+        whereCondition = {
+          OR: motsRecherche.map((mot) => ({
+            nom: {
+              contains: mot,
+            },
+          })),
+        };
+
+      }
+
       // Vérifier si l'utilisateur a le droit de récupérer tous les rôles
       if (!Security.isAdmin(decoded.userId)) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à récupérer tous les rôles' });
       }
 
       // Récupérer tous les rôles
-      const roles = await prisma.role.findMany();
+      const roles = await prisma.role.findMany({
+        where: whereCondition,
+      });
 
       res.status(200).json(roles);
     } catch (error) {

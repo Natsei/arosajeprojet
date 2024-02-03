@@ -34,9 +34,9 @@ export default async function handler(req, res) {
         }
 
          //Test si le role existe déjà
-         const roleExistant = await prisma.role.findUnique({
+         const roleExistant = await prisma.role.findFirst({
           where: {
-            libelle,
+            nom : nom,
           },
           select: {
             id: true,
