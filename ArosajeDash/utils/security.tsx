@@ -27,13 +27,45 @@ class Security {
             isAdmin = rolesUtilisateur.some((roleUtilisateur : any) => roleUtilisateur.role?.nom === 'Administrateur');
 
         } catch (error) {
-            console.error('Erreur lors de la création de l\'utilisateur :', error);
+            console.error('Erreur lors de la récupération de l\'utilisateur :', error);
         } finally {
             await prisma.$disconnect();
             
         }
 
         return isAdmin;
+    }
+
+
+    /**
+     * Retourne true si l'utilisateur est Botaniste
+     * @param userId Id de l'utilisateur
+     * @returns 
+     */
+    static async isBotaniste(userId : string) : Promise<boolean> {
+        
+        var isBotaniste = false;
+        try {
+            // Récupération des roles de l'utilisateur
+            const rolesUtilisateur = await prisma.roleUtilisateur.findMany({
+                where: {
+                utilisateurId: userId,
+                },
+                include: {
+                role: true,
+                },
+            });
+            //Retourne true si l'utilisateur est Botaniste
+            isBotaniste = rolesUtilisateur.some((roleUtilisateur : any) => roleUtilisateur.role?.nom === 'Botaniste');
+
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        } finally {
+            await prisma.$disconnect();
+            
+        }
+
+        return isBotaniste;
     }
 
     /**
