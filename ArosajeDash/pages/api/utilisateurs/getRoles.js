@@ -17,14 +17,14 @@ export default async function handler(req, res) {
       console.error('Erreur lors de la vérification du token :', err);
       return res.status(401).json({ error: 'Token non valide' });
     }
-
-    const userId = decoded.userId;
+    const { id } = req.query;
+   
 
     try {
       // Vérifier si l'utilisateur existe
       const utilisateur = await prisma.utilisateur.findUnique({
         where: {
-          id: userId,
+          id: id,
         },
       });
 
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       // Récupérer tous les rôles de l'utilisateur
       const rolesUtilisateur = await prisma.roleUtilisateur.findMany({
         where: {
-          utilisateurId: userId,
+          utilisateurId: id,
         },
         include: {
           role: true,
