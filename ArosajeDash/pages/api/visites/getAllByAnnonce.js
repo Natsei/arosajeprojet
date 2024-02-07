@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Annonce non trouvée' });
     }
 
-    if (annonce.auteurId !== userId && !Security.isAdmin(userId)) {
+    if (annonce.auteurId !== userId && !(await Security.isAdmin(userId))) {
       return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à consulter les visites de cette annonce' });
     }
 

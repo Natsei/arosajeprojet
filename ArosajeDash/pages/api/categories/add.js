@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
     try {
         // Vérifier si le token appartient à un administrateur
-        if (!Security.isAdmin(userId)) {
+        if (!(await Security.isAdmin(userId))) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à ajouter une catégorie' });
         }
 

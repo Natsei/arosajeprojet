@@ -46,7 +46,7 @@ export default async function handler(req, res) {
         }
 
         // Vérifier si l'utilisateur qui met à jour est l'auteur de l'annonce
-        if (userId !== annonceToUpdate.auteur.id && !Security.isAdmin(userId)) {
+        if (userId !== annonceToUpdate.auteur.id && !(await Security.isAdmin(userId))) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à mettre à jour cette annonce' });
         }
 
