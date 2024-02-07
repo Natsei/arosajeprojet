@@ -64,6 +64,7 @@ model Utilisateur {
   lesVisites Visite[]
   accounts      Account[]
   sessions      Session[]
+  lesCommentaires Commentaire[]
 }
 
 model Role {
@@ -111,6 +112,7 @@ model Visite {
   annonceId Int
   visiteAcceptee VisiteAcceptee?
   visiteRefusee VisiteRefusee?
+  lesCommentaires Commentaire[]
 }
 
 model VisiteAcceptee {
@@ -128,6 +130,16 @@ model VisiteRefusee {
   dateRefus DateTime?
 
   @@id([visiteId])
+}
+
+model Commentaire {
+  id Int @id @default(autoincrement())
+  contenu String
+  datePublication DateTime
+  auteur Utilisateur @relation(fields: [auteurId], references: [id])
+  auteurId String
+  visite Visite @relation(fields: [visiteId], references: [id])
+  visiteId Int
 }
 
 model Plante {
