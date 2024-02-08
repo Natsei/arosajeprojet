@@ -57,7 +57,7 @@ export default async function handler(req, res) {
                 auteurId: true,
             },
         });
-        if (annonce.auteurId !== userId && !Security.isAdmin(userId)) {
+        if (annonce.auteurId !== userId && !(await Security.isAdmin(userId))) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette photo' });
         }
 

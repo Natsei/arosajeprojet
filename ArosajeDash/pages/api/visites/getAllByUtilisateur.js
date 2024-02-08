@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     const dateFilter = req.query.date; // Récupérer le paramètre de filtrage par date
 
     try {
-      if (utilisateurId !== userId && !Security.isAdmin(userId)) {
+      if (utilisateurId !== userId && !(await Security.isAdmin(userId))) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à consulter les visites de cet utilisateur' });
       }
 

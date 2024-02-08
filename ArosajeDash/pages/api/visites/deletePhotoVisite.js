@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
 
       // Vérifier si l'utilisateur est l'auteur de la visite ou administrateur
-      if (!Security.isAdmin(userId) && userId !== visiteAccepteeToDelete.visite.visiteurId) {
+      if (!(await Security.isAdmin(userId)) && userId !== visiteAccepteeToDelete.visite.visiteurId) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette visite acceptée' });
       }
 

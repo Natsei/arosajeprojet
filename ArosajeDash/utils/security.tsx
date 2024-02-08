@@ -24,7 +24,11 @@ class Security {
                 },
             });
             //Retourne true si l'utilisateur est Admin
-            isAdmin = rolesUtilisateur.some((roleUtilisateur : any) => roleUtilisateur.role?.nom === 'Administrateur');
+            isAdmin = rolesUtilisateur.some((roleUtilisateur : any) => {
+                console.log('Nom du rôle:', roleUtilisateur.role?.nom);
+                return roleUtilisateur.role?.nom.toLowerCase() === 'administrateur';
+            });
+            
 
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur :', error);

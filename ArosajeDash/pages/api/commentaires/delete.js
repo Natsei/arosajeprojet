@@ -2,10 +2,10 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import Security from '../../../utils/security';
 
-
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  // Vérifier la méthode HTTP
   if (req.method !== 'DELETE') {
     return res.status(405).end(); // Méthode non autorisée
   }
@@ -21,41 +21,39 @@ export default async function handler(req, res) {
     }
 
     const userId = decoded.userId;
-    const { annonceId } = req.query;
+    const { commentaireId } = req.query;
 
-    if (!annonceId) {
-      return res.status(400).json({ error: 'Le paramètre annonceId est requis' });
-    }
-
-    try {
-      // Vérifier si l'utilisateur est l'auteur de l'annonce
-      const annonce = await prisma.annonce.findUnique({
+     // Vérifier si l'utilisateur est l'auteur du commentaire
+     const commentaire = await prisma.commentaire.findUnique({
         where: {
-          id: parseInt(annonceId, 10),
+          id: parseInt(commentaireId, 10),
         },
         select: {
           auteurId: true,
         },
       });
 
-      if (!annonce) {
-        return res.status(404).json({ error: 'Annonce non trouvée' });
+      if (!commentaire) {
+        return res.status(404).json({ error: 'Commentaire non trouvé' });
       }
 
-      if (annonce.auteurId !== userId && !(await Security.isAdmin(userId))) {
-        return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette annonce' });
+      if (commentaire.auteurId !== userId && !(await Security.isAdmin(userId))) {
+        return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer ce commentaire' });
       }
 
-      // Supprimer l'annonce de la base de données
-      await prisma.annonce.delete({
+
+    try {
+
+      // Supprimer le commentaire
+      await prisma.commentaire.delete({
         where: {
-          id: parseInt(annonceId, 10),
+          id: parseInt(commentaireId),
         },
       });
 
-      res.status(200).json({ message: 'Annonce supprimée avec succès' });
+      res.status(200).json({ message: 'Commentaire supprimé avec succès' });
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'annonce :', error);
+      console.error('Erreur lors de la suppression du commentaire :', error);
       res.status(500).json({ error: 'Erreur serveur' });
     } finally {
       await prisma.$disconnect();

@@ -96,7 +96,7 @@ export default async function handler(req, res) {
             });
             leCodePostal = utilisateur.cp;
         }else{
-            if (!Security.isAdmin(userId)) {
+            if (!(await Security.isAdmin(userId))) {
                 return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à consulter ces annonces' });
             }
             leCodePostal = cp;
