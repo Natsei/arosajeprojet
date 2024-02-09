@@ -1,9 +1,29 @@
 import { PrismaClient } from '@prisma/client';
 
+const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 
 
 class Security {
+
+    /**
+     * Retourne le mot de passer hashé avec Bcrypt de l'utilisateur
+     * @param password pasword
+     * @returns 
+     */
+    static async hashPassword(password : string){
+        return await bcrypt.hash(password, 10);
+    }
+
+    /**
+     * Retourne true si les deux mots de passe correspondent
+     * @param password pasword en clair
+     * @param hashedPassword pasword hashé de la BDD
+     * @returns 
+     */
+    static async comparePassword(password : string, hashedPassword : string){
+        return await bcrypt.compare(password, hashedPassword);
+    }
 
     /**
      * Retourne true si l'utilisateur est Administrateur

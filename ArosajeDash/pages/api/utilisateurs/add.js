@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid'; 
 import sharp from 'sharp';
+import bcrypt from 'bcrypt';
 
 
 const prisma = new PrismaClient();
@@ -100,10 +101,12 @@ export default async function handler(req, res) {
           .toFile(cheminPhoto);
         }
 
+        var hashPassword = await Security.hashPassword(motDePasse);
+
         const nouvelUtilisateur = await prisma.utilisateur.create({
           data: {
               email,
-              motDePasse,
+              motDePasse : hashPassword,
               prenom,
               nom,
               ville,

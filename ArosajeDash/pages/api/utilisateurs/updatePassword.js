@@ -52,13 +52,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Le mot de passe n\'est pas valide.' });
       }
 
+      var hashPassword = await Security.hashPassword(motDePasse);
+
       // Mettre à jour les champs de l'utilisateur
       const utilisateurUpdated = await prisma.utilisateur.update({
         where: {
           id: utilisateurId,
         },
         data: {
-          motDePasse,
+          motDePasse : hashPassword,
         },
       });
 
