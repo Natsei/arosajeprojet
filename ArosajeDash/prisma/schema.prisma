@@ -65,6 +65,8 @@ model Utilisateur {
   accounts      Account[]
   sessions      Session[]
   lesCommentaires Commentaire[]
+  lesMessagesEnvoyes Message[] @relation(name: "lesMessagesEnvoyes") 
+  lesMessagesRecus Message[] @relation(name: "lesMessagesRecus") 
 }
 
 model Role {
@@ -140,6 +142,16 @@ model Commentaire {
   auteurId String
   visite Visite @relation(fields: [visiteId], references: [id])
   visiteId Int
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  contenu String
+  datePublication DateTime
+  auteur Utilisateur @relation(name: "lesMessagesEnvoyes", fields: [auteurId], references: [id])
+  auteurId String
+  destinataire Utilisateur @relation(name: "lesMessagesRecus", fields: [destinataireId], references: [id])
+  destinataireId String
 }
 
 model Plante {
