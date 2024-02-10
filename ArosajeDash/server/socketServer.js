@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
-import Security from '../../../utils/security';
+const { PrismaClient } = require('@prisma/client');
+const jwt = require('jsonwebtoken');
 
 const http = require('http');
 const { Server } = require('socket.io');
 const express = require('express');
+const prisma = new PrismaClient();
 
 const expressApp = express();
 const server = http.createServer(expressApp);
