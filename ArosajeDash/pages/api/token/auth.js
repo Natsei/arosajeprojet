@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import Security from '../../../utils/security';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,7 @@ export default async function handler(req, res) {
       },
     });
 
-    if (!utilisateur || utilisateur.motDePasse !== motDePasse) {
+    if (!utilisateur || !(await Security.comparePassword(motDePasse, utilisateur.motDePasse))) {
       return res.status(401).json({ error: 'Informations d\'identification incorrectes.' });
     }
 
