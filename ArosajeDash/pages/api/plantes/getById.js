@@ -16,8 +16,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') {
     // Répondre favorablement aux requêtes OPTIONS pré-vol
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
 
   if (req.method !== 'GET') {
