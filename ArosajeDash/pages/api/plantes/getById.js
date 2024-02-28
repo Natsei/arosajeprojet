@@ -1,18 +1,25 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import NextCors from 'nextjs-cors';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
 
-  await NextCors(req, res, {
-    // Options
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    origin: '*',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
- });
- 
+  // Autoriser les requêtes depuis n'importe quelle origine
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Autoriser les méthodes HTTP spécifiques
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+
+  // Autoriser les en-têtes spécifiques
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    // Répondre favorablement aux requêtes OPTIONS pré-vol
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée
   }
