@@ -1,10 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import Security from '../../../utils/security';
+import NextCors from 'nextjs-cors';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+
+  await NextCors(req, res, {
+    // Options
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    origin: '*',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+ });
+ 
   if (req.method !== 'PUT') {
     return res.status(405).end(); // Méthode non autorisée
   }
@@ -18,6 +27,8 @@ export default async function handler(req, res) {
       console.error('Erreur lors de la vérification du token :', err);
       return res.status(401).json({ error: 'Token non valide' });
     }
+
+    
 
     const userId = decoded.userId;
     const { utilisateurId } = req.query;
