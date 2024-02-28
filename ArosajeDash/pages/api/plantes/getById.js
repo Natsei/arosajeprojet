@@ -1,24 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import Cors from 'cors';
 
 const prisma = new PrismaClient();
+const cors = Cors({
+  methods: ['GET', 'HEAD', 'OPTIONS'],
+});
 
 export default async function handler(req, res) {
 
-  // Autoriser les requêtes depuis n'importe quelle origine
+  // Utiliser le middleware CORS
+  await cors(req, res);
+
+  // Vos en-têtes CORS supplémentaires si nécessaire
   res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Autoriser les méthodes HTTP spécifiques
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-
-  // Autoriser les en-têtes spécifiques
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    // Répondre favorablement aux requêtes OPTIONS pré-vol
-    return res.status(200).end();
+  // Répondre favorablement aux requêtes OPTIONS pré-vol
+  return res.status(200).end();
   }
-
+  
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée
   }
