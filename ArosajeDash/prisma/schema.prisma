@@ -59,6 +59,7 @@ model Utilisateur {
   description  String?
   cheminPhoto String? 
   dateInscription  DateTime
+  dateDerniereConnexion DateTime
   rolesUtilisateurs RoleUtilisateur[]
   lesAnnonces Annonce[]
   lesVisites Visite[]
