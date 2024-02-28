@@ -102,7 +102,6 @@ export default async function handler(req, res) {
         }
 
         var hashPassword = await Security.hashPassword(motDePasse);
-
         const nouvelUtilisateur = await prisma.utilisateur.create({
           data: {
               email,
@@ -115,6 +114,7 @@ export default async function handler(req, res) {
               description,
               cheminPhoto,
               dateInscription: new Date(),
+              dateDerniereConnexion: new Date(),
           },
         });
         res.status(201).json(nouvelUtilisateur);
