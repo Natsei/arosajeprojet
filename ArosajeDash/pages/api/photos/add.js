@@ -18,6 +18,10 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    // Répondre favorablement aux requêtes OPTIONS pré-vol
+    return res.status(200).end();
+  }
   if (req.method !== 'POST') {
     return res.status(405).end(); // Méthode non autorisée
   }

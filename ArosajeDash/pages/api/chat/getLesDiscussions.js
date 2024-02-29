@@ -5,6 +5,10 @@ import Security from '../../../utils/security';
 const prisma = new PrismaClient();
 
 export default async function getLesDiscussions(req, res) {
+  if (req.method === 'OPTIONS') {
+    // Répondre favorablement aux requêtes OPTIONS pré-vol
+    return res.status(200).end();
+  }
   if (req.method !== 'GET') {
     return res.status(405).end(); // Méthode non autorisée
   }

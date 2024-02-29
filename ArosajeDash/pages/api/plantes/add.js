@@ -2,9 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import Security from '../../../utils/security';
 
-
 const prisma = new PrismaClient();
-
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
