@@ -67,7 +67,15 @@ model Utilisateur {
   sessions      Session[]
   lesCommentaires Commentaire[]
   lesMessagesEnvoyes Message[] @relation(name: "lesMessagesEnvoyes") 
-  lesMessagesRecus Message[] @relation(name: "lesMessagesRecus") 
+  lesMessagesRecus Message[] @relation(name: "lesMessagesRecus")
+}
+
+model Email {
+  id Int @id @default(autoincrement())
+  source String
+  sujet String
+  emailDestinataire String
+  dateExpedition DateTime
 }
 
 model Role {

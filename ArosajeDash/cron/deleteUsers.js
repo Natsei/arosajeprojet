@@ -31,20 +31,57 @@ async function main() {
         },
     });
 
+     // Récupérer les emails avec la source "notification suppression de compte"
+     const emailEnvoyes = await prisma.email.findMany({
+        where: {
+          source: 'notification suppression de compte',
+          dateExpedition: {
+            gte: elevenMonthsAgo,
+          },
+        },
+        select: {
+          emailDestinataire: true,
+        },
+      });
+  
+      // Filtrer les utilisateurs dont l'email est présent dans les emails avec la source spécifiée
+      const filteredUsers = users.filter((user) => {
+        return !emailEnvoyes.some((email) => email.emailDestinataire === user.email);
+      });
+      
+
+
+
 
     //Les utilisateurs à supprimer : Connexion il y a 12mois
 
 
+    const sujet = '"Arosaj" <app@arosaj.fr>';
+    const source = "notification suppression de compte"
 
-    users.forEach(function(user) {
+    filteredUsers.forEach(function(user) {
         console.log(user);
         // send mail with defined transport object
         const info = transporter.sendMail({
-            from: '"Arosaj" <app@arosaj.fr>', 
+            from: sujet, 
             to: user.email, 
             subject: "Arosaj - Votre compte va être supprimé", // Subject line
             html: "<p>Votre compte va être supprimé pour cause d'une inactivité supérieure à 1 an.</p></br></br><p>Vous avez 1 mois pour vous reconnecter.</p>", // html body
         });
+
+        // Sauvegarder le message en base de données
+        async function addEmailBdd(user) {
+            const nouveauMessage = await prisma.email.create({
+                data: {
+                sujet,
+                source,
+                emailDestinataire: user.email,
+                dateExpedition: new Date(),
+                },
+            });
+        }
+        addEmailBdd(user);
+
 
         console.log("Message sent: %s", info.messageId);
     })

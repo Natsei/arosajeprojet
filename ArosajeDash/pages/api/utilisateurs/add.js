@@ -28,11 +28,7 @@ export default async function handler(req, res) {
     return res.status(405).end(); // Méthode non autorisée
   }
  
-  const token = req.headers.authorization?.split(' ')[1];
-
-  if (!token) {
-    return res.status(400).json({ error: 'Le token est requis dans les paramètres de la requête.' });
-  }
+ 
 
   try {
       // Utiliser multer pour traiter les fichiers multipart/form-data
