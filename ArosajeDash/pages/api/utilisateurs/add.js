@@ -35,94 +35,91 @@ export default async function handler(req, res) {
   }
 
   try {
-    jwt.verify(token, 'secret_key', async (err, decoded) => {
-        if (err) {
-          return res.status(401).json({ error: 'Token non valide' });
+      // Utiliser multer pour traiter les fichiers multipart/form-data
+      await upload(req, res);
+
+      const { email, motDePasse, prenom, nom, ville, cp, rue, description } = req.body;
+
+      //Test des champs
+      //Test email
+      if(!Security.isValidEmail(email)){
+        return res.status(400).json({ error: 'L\'email n\'est pas valide.' });
+      }
+      //Test password
+      if(!Security.isPasswordSecure(motDePasse)){
+        return res.status(400).json({ error: 'Le mot de passe n\'est pas valide.' });
+      }
+      //Test description
+      if(!Security.isValidDescription(description)){
+        return res.status(400).json({ error: 'La description ne doit pas dépasser 255 caractères.' });
+      }
+
+      //Test si un utilisateur existe déjà
+      const utilisateur = await prisma.utilisateur.findUnique({
+        where: {
+          email,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (utilisateur) {
+        return res.status(404).json({ error: 'Un utilisateur utilise déjà cette adresse email.' });
+      }
+
+      // Récupérer le fichier image depuis la requête
+      const imageFile = req.file;
+      var cheminPhoto = "";
+      if (imageFile) {
+        // Obtenir l'extension du fichier à partir du nom original
+        const fileExtension = path.extname(imageFile.originalname);
+
+        // Vérifier si l'extension est vide ou indéfinie
+        if (!fileExtension || fileExtension.trim() === '') {
+            return res.status(400).json({ error: 'L\'extension du fichier est manquante ou non valide' });
         }
 
-        // Utiliser multer pour traiter les fichiers multipart/form-data
-        await upload(req, res);
-
-        const { email, motDePasse, prenom, nom, ville, cp, rue, description } = req.body;
-
-        //Test des champs
-        //Test email
-        if(!Security.isValidEmail(email)){
-          return res.status(400).json({ error: 'L\'email n\'est pas valide.' });
-        }
-        //Test password
-        if(!Security.isPasswordSecure(motDePasse)){
-          return res.status(400).json({ error: 'Le mot de passe n\'est pas valide.' });
-        }
-        //Test description
-        if(!Security.isValidDescription(description)){
-          return res.status(400).json({ error: 'La description ne doit pas dépasser 255 caractères.' });
+        // Chemin vers le répertoire de stockage des images
+        const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
+        
+        // S'assurer que le répertoire de stockage existe
+        if (!fs.existsSync(uploadDirectory)) {
+            fs.mkdirSync(uploadDirectory);
         }
 
-        //Test si un utilisateur existe déjà
-        const utilisateur = await prisma.utilisateur.findUnique({
-          where: {
+        // Générer un UID pour le nom de fichier
+        const uid = uuidv4();
+        const name = uid+fileExtension;
+        // Construire le chemin complet du fichier dans le répertoire de stockage avec l'UID comme nom de fichier et l'extension originale
+        cheminPhoto = path.join(uploadDirectory, name);
+
+        // Compression de l'image avant de l'écrire sur le disque
+        await sharp(imageFile.buffer)
+        .resize({ width: imageFile.width, height: imageFile.height }) // Ajuste la largeur de l'image si nécessaire
+        .toFile(cheminPhoto);
+
+        cheminPhoto = name
+      }
+
+      var hashPassword = await Security.hashPassword(motDePasse);
+      const nouvelUtilisateur = await prisma.utilisateur.create({
+        data: {
             email,
-          },
-          select: {
-            id: true,
-          },
-        });
-  
-        if (utilisateur) {
-          return res.status(404).json({ error: 'Un utilisateur utilise déjà cette adresse email.' });
-        }
+            motDePasse : hashPassword,
+            prenom,
+            nom,
+            ville,
+            cp,
+            rue,
+            description,
+            cheminPhoto,
+            dateInscription: new Date(),
+            dateDerniereConnexion: new Date(),
+        },
+      });
+      res.status(201).json(nouvelUtilisateur);
 
-        // Récupérer le fichier image depuis la requête
-        const imageFile = req.file;
-        var cheminPhoto = "";
-        if (imageFile) {
-          // Obtenir l'extension du fichier à partir du nom original
-          const fileExtension = path.extname(imageFile.originalname);
-
-          // Vérifier si l'extension est vide ou indéfinie
-          if (!fileExtension || fileExtension.trim() === '') {
-              return res.status(400).json({ error: 'L\'extension du fichier est manquante ou non valide' });
-          }
-
-          // Chemin vers le répertoire de stockage des images
-          const uploadDirectory = path.join(process.cwd(), 'uploads');
-
-          // S'assurer que le répertoire de stockage existe
-          if (!fs.existsSync(uploadDirectory)) {
-              fs.mkdirSync(uploadDirectory);
-          }
-
-          // Générer un UID pour le nom de fichier
-          const uid = uuidv4();
-
-          // Construire le chemin complet du fichier dans le répertoire de stockage avec l'UID comme nom de fichier et l'extension originale
-          cheminPhoto = path.join(uploadDirectory, `${uid}${fileExtension}`);
-
-          // Compression de l'image avant de l'écrire sur le disque
-          await sharp(imageFile.buffer)
-          .resize({ width: imageFile.width, height: imageFile.height }) // Ajuste la largeur de l'image si nécessaire
-          .toFile(cheminPhoto);
-        }
-
-        var hashPassword = await Security.hashPassword(motDePasse);
-        const nouvelUtilisateur = await prisma.utilisateur.create({
-          data: {
-              email,
-              motDePasse : hashPassword,
-              prenom,
-              nom,
-              ville,
-              cp,
-              rue,
-              description,
-              cheminPhoto,
-              dateInscription: new Date(),
-              dateDerniereConnexion: new Date(),
-          },
-        });
-        res.status(201).json(nouvelUtilisateur);
-    });
   } catch (error) {
     console.error('Erreur lors de la création de l\'utilisateur :', error);
     res.status(500).json({ error: 'Erreur serveur' });
