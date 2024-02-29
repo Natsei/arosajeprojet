@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
   plantImage: {
     width: windowWidth * 0.3,
     height: windowWidth * 0.3,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -63,21 +63,21 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: windowWidth * 0.045, 
-    fontWeight: FONT_WEIGHTS.bold, 
+    fontWeight: style.FONT_WEIGHTS.bold, 
   },
   input: {
     height: windowHeight * 0.05, 
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: windowWidth * 0.030, 
+    borderRadius: style.BORDER_SIZE.border, 
     paddingLeft: windowWidth * 0.02,
     marginBottom: windowHeight * 0.01,
   },
   saveButton: {
-    backgroundColor: COLORS.button,
+    backgroundColor: style.COLORS.button,
     paddingVertical: windowHeight * 0.03, 
     paddingHorizontal: windowWidth * 0.05, 
-    borderRadius: windowWidth * 0.045,
+    borderRadius: style.BORDER_SIZE.border,
     marginTop: windowHeight * 0.02, 
   },
   buttonText: {

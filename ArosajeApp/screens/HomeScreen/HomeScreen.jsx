@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 //Page de base quand on arrive sur l'applications
 export function HomeScreen() {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: 315,
     marginLeft: 160,
     marginBottom: 40,
-    color: COLORS.button,
+    color: style.COLORS.button,
   },  
   buttonContainer: {
     width: '100%', 
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20, 
-    borderRadius: 16,
-    backgroundColor: COLORS.button,
+    borderRadius: style.BORDER_SIZE.border,
+    backgroundColor: style.COLORS.button,
   },
   buttonText: {
     color: '#000000',

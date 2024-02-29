@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 export function ChatScreen() {
   const [messages, setMessages] = useState([]);

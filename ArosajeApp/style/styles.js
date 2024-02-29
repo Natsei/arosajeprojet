@@ -16,6 +16,10 @@ export const COLORS = {
     normal: 'normal',
     bold: 'bold',
   };
+
+  export const BORDER_SIZE = {
+    border: windowWidth * 0.04,
+  }
   
   export const FONT_SIZES = {
       small: windowWidth * 0.05,

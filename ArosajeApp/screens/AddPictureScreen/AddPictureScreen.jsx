@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 // import { RNCamera } from 'react-native-camera';
 // import ImagePicker from 'react-native-image-picker';
 
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   // Styles here
   container: {
     flex: 1,
-    backgroundColor: COLORS.primary,
+    backgroundColor: style.COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -160,14 +160,14 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '30%',
     marginBottom: 20,
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
     overflow: 'hidden',
   },
   dashedBorder: {
     width: '100%',
     height: '100%',
     borderWidth: 3,
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
     borderColor: 'black',
     borderStyle: 'dashed',
     position: 'absolute',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
   },
   text: {
     fontSize: 18,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   selectStyle: {
     borderWidth: 1,
     borderColor: 'gray',
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginBottom: 20,
@@ -214,8 +214,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   modalCancelStyle: {
-    backgroundColor: COLORS.button,
-    borderRadius: 10,
+    backgroundColor: style.COLORS.button,
+    borderRadius: style.BORDER_SIZE.border,
     marginVertical: 10,
     paddingVertical: 10, // Augmentez la taille du bouton
   },
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     height: '20%', 
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 15,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: 20,
     paddingHorizontal: 10,
     width: '80%',
@@ -238,10 +238,10 @@ const styles = StyleSheet.create({
   saveButton: {
     height: 50,
     width: 150,
-    backgroundColor: COLORS.button,
+    backgroundColor: style.COLORS.button,
     justifyContent: 'center',
     borderWidth: 1,
-    borderRadius: 30,
+    borderRadius: style.BORDER_SIZE.border,
     paddingLeft: 2,
     marginBottom: 20, // Ajustement de la marge inférieure
   },
@@ -256,15 +256,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 60,
     width: 60,
-    backgroundColor: COLORS.button,
-    borderRadius: 18,
+    backgroundColor: style.COLORS.button,
+    borderRadius: style.BORDER_SIZE.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText: {
     color: 'black',
     fontSize: 48,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   buttonTextConfirm: {
     fontSize: 26, 

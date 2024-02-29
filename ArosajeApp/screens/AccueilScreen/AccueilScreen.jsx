@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, TextInput } from 'react-native';
 import { SearchBar } from 'react-native-elements'; // Import du composant SearchBar
 import { useNavigation } from '@react-navigation/native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -84,8 +84,8 @@ export function AccueilScreen() {
                 style={[
                   styles.categoryButton,
                   {
-                    backgroundColor: selectedCategory === category ? COLORS.button : COLORS.primary,
-                    fontWeight: selectedCategory === category ? FONT_WEIGHTS.bold : FONT_WEIGHTS.normal,
+                    backgroundColor: selectedCategory === category ? style.COLORS.button : style.COLORS.primary,
+                    fontWeight: selectedCategory === category ? style.FONT_WEIGHTS.bold : style.FONT_WEIGHTS.normal,
                   },
                 ]}
               >
@@ -139,15 +139,15 @@ const styles = StyleSheet.create({
   profileImage: {
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
-    borderRadius: windowWidth * 0.04,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.03,
     marginTop: windowWidth * 0.01,
   },
   addButton: {
-    backgroundColor: COLORS.button,
+    backgroundColor: style.COLORS.button,
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
-    borderRadius: windowWidth * 0.06,
+    borderRadius: style.BORDER_SIZE.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: windowWidth * 0.03,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * -0.01,
     fontSize: windowWidth * 0.09,
     width: windowWidth * 0.05,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   searchBarTop: {
     borderTopWidth: 0,
@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.03,
   },
   searchInput: {
-    backgroundColor: COLORS.primary,
-    borderRadius: windowWidth * 0.04,
+    backgroundColor: style.COLORS.primary,
+    borderRadius: style.BORDER_SIZE.border,
     borderBottomWidth: 0,
     borderTopWidth: 0,
     paddingHorizontal: windowWidth * 0.03,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.4,
     marginLeft: 20,
     marginBottom: windowWidth * 0.08,
-    borderRadius: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
   },
   categoryScrollView: {
     maxHeight: windowWidth * 0.1,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   categoryButton: {
     padding: windowWidth * 0.02,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   plantSection: {
@@ -207,20 +207,20 @@ const styles = StyleSheet.create({
     width: '48%',
     marginBottom: windowWidth * 0.03,
     borderWidth: 1,
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.primary,
-    borderRadius: 15,
+    borderColor: style.COLORS.primary,
+    backgroundColor: style.COLORS.primary,
+    borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.02,
   },
   plantImage: {
     width: '100%',
     height: (windowWidth - windowWidth * 0.09) / 2.5,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   plantScrollView: {
     flex: 1.5,

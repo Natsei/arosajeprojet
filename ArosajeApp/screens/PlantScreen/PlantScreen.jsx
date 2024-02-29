@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: windowHeight * 0.04,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
     marginTop: 20,
     textAlign: 'center', // Aligner le texte du titre à gauche
   },
@@ -104,25 +104,25 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.02,
     borderWidth: 0.5,
     borderColor: 'lightgrey', // Bordure noire
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.05,
     marginBottom: windowHeight * 0.012,
   },
   userInfo: {
     fontSize: windowHeight * 0.02,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   smallImage: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
     resizeMode: 'cover',
-    borderRadius: windowHeight * 0.01,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   profileImage: {
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
-    borderRadius: windowWidth * 0.03,
+    borderRadius: style.BORDER_SIZE.border,
     paddingLeft: windowWidth * 0.01,
     marginTop: windowWidth * 0.022,
   },
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.9,
     height: windowWidth * 0.4,
     marginBottom: windowWidth * 0.08,
-    borderRadius: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
   },
   plantSection: {
     flexDirection: 'row',
@@ -144,20 +144,20 @@ const styles = StyleSheet.create({
     width: '48%', // Utilisez un pourcentage de la largeur de l'écran
     marginBottom: windowWidth * 0.03,
     borderWidth: 1,
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.primary,
-    borderRadius: 15,
+    borderColor: style.COLORS.primary,
+    backgroundColor: style.COLORS.primary,
+    borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.02,
   },
   plantImage: {
     width: '100%', // Ajustez la largeur de l'image pour remplir l'élément parent
     height: (windowWidth - windowWidth * 0.09) / 2,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
     alignSelf: 'flex-start',  // Aligner à gauche
     paddingLeft: 7,
     marginTop: windowWidth * 0.01,  
@@ -173,11 +173,11 @@ const styles = StyleSheet.create({
     width: 14,
     height: 22,
     resizeMode: 'cover',
-    borderRadius: windowHeight * 0.01,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   cityName: {
     fontSize: windowHeight * 0.025, // Assurez-vous que la taille du texte est la même que pour les sous-titres
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
 });

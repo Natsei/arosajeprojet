@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 //Page d'inscription à changer de place
 export function InscriptionScreen() {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: windowWidth * 0.04, 
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: windowWidth * 0.04, 
+    borderRadius: style.BORDER_SIZE.border, 
     marginBottom: windowHeight * 0.02, 
     paddingHorizontal: windowWidth * 0.02, 
   },
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: windowHeight * 0.02, 
     marginBottom: windowHeight * 0.02, 
-    borderRadius: windowWidth * 0.04, 
-    backgroundColor: COLORS.button,
+    borderRadius: style.BORDER_SIZE.border, 
+    backgroundColor: style.COLORS.button,
   },
   buttonText: {
     color: '#000000',

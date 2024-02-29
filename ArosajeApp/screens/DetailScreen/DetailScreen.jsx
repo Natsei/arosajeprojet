@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+import * as style from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -70,13 +70,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: windowWidth * 0.06,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
     textAlign: 'center',
     marginBottom: windowHeight * 0.05,
   },
   subtitle: {
     fontSize: windowWidth * 0.04,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
     marginTop: windowHeight * 0.03,
     textAlign: 'left',
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.9,
     height: windowHeight * 0.3,
     resizeMode: 'contain',
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
   },
   cityContainer: {
     flexDirection: 'row',
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.05,
     height: windowHeight * 0.035,
     resizeMode: 'cover',
-    borderRadius: windowWidth * 0.01,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   cityName: {
     fontSize: windowWidth * 0.04,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   blackLine: {
     height: 0.5,
@@ -122,14 +122,14 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.02,
     borderWidth: 0.4,
     borderColor: 'lightgrey',
-    borderRadius: 10,
+    borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.03,
   },
   smallImage: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
     resizeMode: 'cover',
-    borderRadius: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   userInfoContainer: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     fontSize: windowWidth * 0.035,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   userInfoDescription: {
     fontSize: windowWidth * 0.03,
@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.03,
   },
   button: {
-    backgroundColor: COLORS.button,
+    backgroundColor: style.COLORS.button,
     flex: 1,
     paddingVertical: windowHeight * 0.03,
     marginHorizontal: windowWidth * 0.02,
-    borderRadius: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: windowWidth * 0.05,
-    fontWeight: FONT_WEIGHTS.bold,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
 });
 
