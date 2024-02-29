@@ -50,9 +50,8 @@ const styles = StyleSheet.create({
     paddingBottom: 50, 
   },
   title: {
-    fontSize: 50,
-    width: 315,
-    marginLeft: 160,
+    fontSize: style.FONT_SIZES.extra_large,
+    textAlign: 'center',
     marginBottom: 40,
     color: style.COLORS.button,
   },  

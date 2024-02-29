@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: style.COLORS.primary,
   },
   title: {
-    fontSize: 12,
+    fontSize: style.FONT_SIZES.large,
     fontWeight: style.FONT_WEIGHTS.bold,
     marginTop: 20,
     alignSelf: 'center',

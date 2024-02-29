@@ -126,6 +126,8 @@ const AddPictureScreen = () => {
       <TextInput
         style={styles.descriptionInput}
         placeholder="Entrez la description ici"
+        multiline={true} //Multiline pour permettre plusieurs lignes
+        textAlign={'left'}
         onChangeText={(text) => setDescription(text)}
         value={description}
       />
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
   },
   selectTextStyle: {
     fontSize: 18,
-  },
+  },/*
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -221,10 +223,9 @@ const styles = StyleSheet.create({
   },
   modalOptionTextStyle: {
     fontSize: 18,
-  },
+  },*/
   descriptionInput: {
     textAlign: 'left',
-    textAlignVertical: 'top',
     marginTop: 10,
     height: '20%', 
     borderColor: 'gray',

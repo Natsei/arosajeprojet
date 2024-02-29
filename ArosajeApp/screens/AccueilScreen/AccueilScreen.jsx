@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, TextInput } from 'react-native';
-import { SearchBar } from 'react-native-elements'; // Import du composant SearchBar
+import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import * as style from '../../style/styles';// Importez vos styles
-
+import * as style from '../../style/styles';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -42,20 +41,20 @@ export function AccueilScreen() {
   }
 
   return (
-    <View style={styles.container}>
-    <View style={styles.header}>
-      <View style={styles.leftHeader}>
-        <Text style={styles.villeText}>Montpellier</Text>
-      </View>
-      <View style={styles.rightHeader}>
-        <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleProfile}>
-          <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
-        </TouchableOpacity>
-      </View>
-    </View>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.leftHeader}>
+            <Text style={styles.villeText}>Montpellier</Text>
+          </View>
+          <View style={styles.rightHeader}>
+            <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleProfile}>
+              <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
+            </TouchableOpacity>
+          </View>
+        </View>
   
         <View style={styles.searchBarTop}>
           <SearchBar
@@ -111,8 +110,8 @@ export function AccueilScreen() {
           </View>
         </ScrollView>
       </View>
-    );
-  }
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -152,7 +151,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: windowWidth * 0.03,
     marginTop: windowWidth * 0.01,
-  },
+ 
+
+ },
   addButtonText: {
     color: 'black',
     marginRight: windowWidth * -0.01,
@@ -161,24 +162,19 @@ const styles = StyleSheet.create({
     fontWeight: style.FONT_WEIGHTS.bold,
   },
   searchBarTop: {
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
     marginBottom: windowWidth * 0.02,
-    paddingHorizontal: windowWidth * 0.03,
-  },
-  searchInput: {
-    backgroundColor: style.COLORS.primary,
-    borderRadius: style.BORDER_SIZE.border,
-    borderBottomWidth: 0,
+    paddingHorizontal: windowWidth * 0.05,
+    backgroundColor: 'transparent',
     borderTopWidth: 0,
-    paddingHorizontal: windowWidth * 0.03,
-    color: 'black',
-    fontSize: windowWidth * 0.04,
+    borderBottomWidth: 0,
+  },
+  inputContainer: {
+    backgroundColor: style.COLORS.button,
   },
   imageAboveCategories: {
     width: windowWidth * 0.9,
     height: windowWidth * 0.4,
-    marginLeft: 20,
+    marginLeft: windowWidth * 0.05,
     marginBottom: windowWidth * 0.08,
     borderRadius: style.BORDER_SIZE.border,
   },

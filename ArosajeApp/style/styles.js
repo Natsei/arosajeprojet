@@ -5,6 +5,8 @@ export const COLORS = {
     text: '#333333',
     background: '#FFFFFF',
     button: '#F2E8CF',
+    navbar_plant: 'green',
+    error: 'red',
   };
     
   import { Dimensions } from 'react-native';
@@ -25,6 +27,7 @@ export const COLORS = {
       small: windowWidth * 0.05,
       medium: windowWidth * 0.07,
       large: windowWidth * 0.09,
+      extra_large: windowWidth * 0.12,
   };
   
   export const TEXT_STYLES = {

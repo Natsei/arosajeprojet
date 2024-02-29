@@ -8,38 +8,43 @@ import { AccueilScreen } from '../AccueilScreen/AccueilScreen';
 
 const Tab = createBottomTabNavigator();
 
+const commonTabOptions = {
+  headerShown: false,
+  tabBarActiveTintColor: 'green',
+};
+
 const AppTabs = () => (
   <Tab.Navigator>
     <Tab.Screen
       name="Home"
       component={HomeScreen}
       options={{
+        ...commonTabOptions,
         tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
-        headerShown: false,
       }}
     />
     <Tab.Screen
       name="Accueil"
       component={AccueilScreen}
       options={{
+        ...commonTabOptions,
         tabBarIcon: ({ color, size }) => <MessagesSquare color={color} size={size} />,
-        headerShown: false,
       }}
     />
     <Tab.Screen
       name="Plant"
       component={PlantScreen}
       options={{
+        ...commonTabOptions,
         tabBarIcon: ({ color, size }) => <Leaf color={color} size={size} />,
-        headerShown: false,
       }}
     />
     <Tab.Screen
       name="Profile"
       component={ProfileScreen}
       options={{
+        ...commonTabOptions,
         tabBarIcon: ({ color, size }) => <CircleUser color={color} size={size} />,
-        headerShown: false,
       }}
     />
   </Tab.Navigator>

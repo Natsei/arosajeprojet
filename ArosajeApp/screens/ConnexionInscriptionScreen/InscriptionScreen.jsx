@@ -14,10 +14,12 @@ export function InscriptionScreen() {
   const [email, setEmail] = React.useState('');
   const [ville, setVille] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [cp, setCp] = React.useState('');
+  const [rue, setRue] = React.useState('');
 
   const handleConnecterValider = () => {
     // Naviguer vers l'écran ConnexionScreen avec les données saisies
-    navigation.navigate('Connexion', { email, password, nom, prenom, ville });
+    navigation.navigate('Connexion', { email, password, nom, prenom, ville, cp, rue });
   };
 
   return (
@@ -56,6 +58,22 @@ export function InscriptionScreen() {
           placeholder="Ville"
           value={ville}
           onChangeText={setVille}
+        />
+
+        {/* Champ de saisie pour le code postal */}
+        <TextInput
+          style={styles.input}
+          placeholder="Code Postal"
+          value={cp}
+          onChangeText={setCp}
+        />
+
+        {/* Champ de saisie pour la Rue*/}
+        <TextInput
+          style={styles.input}
+          placeholder="Rue"
+          value={rue}
+          onChangeText={setRue}
         />
 
         {/* Champ de saisie pour le mot de passe */}
@@ -103,7 +121,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.05, 
   },
   input: {
-    height: windowHeight * 0.1, 
+    height: windowHeight * 0.08, 
     fontSize: windowWidth * 0.04, 
     borderColor: 'gray',
     borderWidth: 1,
@@ -112,18 +130,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.02, 
   },
   button: {
-    width: windowWidth * 0.9,
-    padding: windowHeight * 0.03, 
+    width: windowWidth * 0.9, // Réduire la largeur du bouton
+    height: windowHeight * 0.08, // Maintenir la hauteur du bouton
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: windowHeight * 0.02, 
-    marginBottom: windowHeight * 0.02, 
     borderRadius: style.BORDER_SIZE.border, 
     backgroundColor: style.COLORS.button,
+    marginBottom: windowHeight * 0.02, // Espacement entre les boutons
   },
   buttonText: {
     color: '#000000',
-    fontSize: windowWidth * 0.05, 
+    fontSize: style.FONT_SIZES.medium,
     textAlign: 'center',
   },
   signupContainer: {

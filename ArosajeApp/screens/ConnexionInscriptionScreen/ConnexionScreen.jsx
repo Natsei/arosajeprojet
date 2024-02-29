@@ -89,18 +89,16 @@ const styles = StyleSheet.create({
     fontSize: windowWidth * 0.07,    
     marginLeft: windowWidth * 0.02,   
   },
-  buttonContainer: {
-    width: '100%',
-    paddingHorizontal: windowWidth * 0.05,   
-  },
   input: {
-    height: windowHeight * 0.1,    
-    fontSize: windowWidth * 0.04,    
+    width: windowWidth * 0.9,    
+    fontSize: style.FONT_SIZES.small,    
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderRadius: style.BORDER_SIZE.border,    
+    marginTop: windowHeight * 0.02,  
     marginBottom: windowHeight * 0.02,    
     paddingHorizontal: windowWidth * 0.02, 
+    padding: windowHeight * 0.03,  
   },
   button: {
     width: windowWidth * 0.9,   
