@@ -130,6 +130,7 @@ export default async function handler(req, res) {
               email: true,
               prenom: true,
               nom: true,
+              cheminPhoto: true,
             },
           },
           plante: {

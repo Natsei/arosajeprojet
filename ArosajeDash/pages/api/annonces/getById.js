@@ -35,10 +35,34 @@ export default async function handler(req, res) {
           id: annonceId,
         },
         include: {
-            auteur: true,
-            plante: true,
-            lesPhotos: true,
-            lesVisites: true,
+          auteur: {
+            select: {
+              id: true,
+              email: true,
+              prenom: true,
+              nom: true,
+              cheminPhoto: true,
+            },
+          },
+          plante: {
+            select: {
+              id: true,
+              libelle: true,
+              description: true,
+              categorie: {
+                select: {
+                  id: true,
+                  libelle: true,
+                },
+              },
+            },
+          },
+          lesPhotos: {
+            select: {
+              id: true,
+              cheminPhoto: true,
+            },
+          },
         },
       });
 
