@@ -66,12 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: style.FONT_WEIGHTS.bold, 
   },
   input: {
-    height: windowHeight * 0.05, 
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: style.BORDER_SIZE.border, 
-    paddingLeft: windowWidth * 0.02,
-    marginBottom: windowHeight * 0.01,
+    ...style.BUTTONS.form_style,
   },
   saveButton: {
     backgroundColor: style.COLORS.button,

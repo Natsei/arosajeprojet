@@ -70,12 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: windowHeight * 0.01, 
   },
   input: {
-    height: windowHeight * 0.06, 
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: style.BORDER_SIZE.border,
-    paddingLeft: windowWidth * 0.02, 
-    marginBottom: windowHeight * 0.01, 
+    ...style.BUTTONS.form_style,
   },
   saveButton: {
     backgroundColor: style.COLORS.button,

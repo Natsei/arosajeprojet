@@ -14,7 +14,7 @@ const commonTabOptions = {
 };
 
 const AppTabs = () => (
-  <Tab.Navigator tabBar>
+  <Tab.Navigator>
     <Tab.Screen
       name="Home"
       component={HomeScreen}

@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
     color: style.COLORS.button,
   },  
   buttonContainer: {
-    width: '100%', 
-    paddingHorizontal: 20, 
+    ...style.BUTTONS.button_style,
   },
   button: {
     display: 'flex',
