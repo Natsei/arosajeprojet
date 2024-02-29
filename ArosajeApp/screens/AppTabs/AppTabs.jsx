@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 import { Home, Leaf, CircleUser, MessagesSquare } from 'lucide-react-native';
 import { HomeScreen } from '../HomeScreen/HomeScreen';
 import { PlantScreen } from '../PlantScreen/PlantScreen';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -52,9 +53,6 @@ export function DetailScreen({ navigation }) {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.smallerButton]} onPress={handleInscription}>
-          <Text style={styles.buttonText}>Appeler</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleInscription}>
           <Text style={styles.buttonText}>Prendre contact</Text>
         </TouchableOpacity>
@@ -72,13 +70,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: windowWidth * 0.06,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     textAlign: 'center',
     marginBottom: windowHeight * 0.05,
   },
   subtitle: {
     fontSize: windowWidth * 0.04,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     marginTop: windowHeight * 0.03,
     textAlign: 'left',
   },
@@ -102,15 +100,15 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.02,
   },
   cityImage: {
-    width: windowWidth * 0.07,
-    height: windowHeight * 0.04,
+    width: windowWidth * 0.05,
+    height: windowHeight * 0.035,
     resizeMode: 'cover',
     borderRadius: windowWidth * 0.01,
     marginRight: windowWidth * 0.02,
   },
   cityName: {
     fontSize: windowWidth * 0.04,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   blackLine: {
     height: 0.5,
@@ -139,7 +137,7 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     fontSize: windowWidth * 0.035,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   userInfoDescription: {
     fontSize: windowWidth * 0.03,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.03,
   },
   button: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     flex: 1,
     paddingVertical: windowHeight * 0.03,
     marginHorizontal: windowWidth * 0.02,
@@ -162,8 +160,8 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   buttonText: {
-    fontSize: windowWidth * 0.035,
-    fontWeight: 'bold',
+    fontSize: windowWidth * 0.05,
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });
 

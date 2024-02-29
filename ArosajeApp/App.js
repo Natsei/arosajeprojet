@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../ArosajeApp/style/styles';// Importez vos styles
 import AppTabs from './screens/AppTabs/AppTabs'; //Appel pour la navbar
 import { AccueilScreen } from './screens/AccueilScreen/AccueilScreen';
 import { AddPictureScreen } from './screens/AddPictureScreen/AddPictureScreen';

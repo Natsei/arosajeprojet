@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
-import { RNCamera } from 'react-native-camera';
-import ImagePicker from 'react-native-image-picker';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+// import { RNCamera } from 'react-native-camera';
+// import ImagePicker from 'react-native-image-picker';
 
 const AddPictureScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -10,58 +11,58 @@ const AddPictureScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
-  const handleImagePick = () => {
-    try {
-      const options = {
-        title: 'Choisir une image',
-        cancelButtonTitle: 'Annuler',
-        takePhotoButtonTitle: 'Prendre une photo',
-        chooseFromLibraryButtonTitle: 'Choisir depuis la galerie',
-        mediaType: 'photo',
-        storageOptions: {
-          skipBackup: true,
-        },
-      };
+  // const handleImagePick = () => {
+  //   try {
+  //     const options = {
+  //       title: 'Choisir une image',
+  //       cancelButtonTitle: 'Annuler',
+  //       takePhotoButtonTitle: 'Prendre une photo',
+  //       chooseFromLibraryButtonTitle: 'Choisir depuis la galerie',
+  //       mediaType: 'photo',
+  //       storageOptions: {
+  //         skipBackup: true,
+  //       },
+  //     };
   
-      ImagePicker.launchImageLibrary(options, (response) => {
-        if (response.didCancel) {
-          console.log("L'utilisateur a annulé la sélection de l'image");
-        } else if (response.error) {
-          console.log("Erreur: ", response.error);
-        } else {
-          console.log("Image sélectionnée: ", response.uri);
-          setSelectedImage(response.uri);
-        }
-      });
-    } catch (error) {
-      console.error("Erreur lors de la sélection de l'image : ", error);
-    }
-  };
+  //     ImagePicker.launchImageLibrary(options, (response) => {
+  //       if (response.didCancel) {
+  //         console.log("L'utilisateur a annulé la sélection de l'image");
+  //       } else if (response.error) {
+  //         console.log("Erreur: ", response.error);
+  //       } else {
+  //         console.log("Image sélectionnée: ", response.uri);
+  //         setSelectedImage(response.uri);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Erreur lors de la sélection de l'image : ", error);
+  //   }
+  // };
 
-  const handleOptionSelect = (option) => {
-    setSelectedValue(option.label);
-    setModalVisible(false);
-  };
+  // const handleOptionSelect = (option) => {
+  //   setSelectedValue(option.label);
+  //   setModalVisible(false);
+  // };
 
-  const onCameraCapture = async (data) => {
-    try {
-      // Vous pouvez manipuler les données de l'image capturée ici, par exemple, l'enregistrer dans le stockage.
-      console.log("Image capturée: ", data.uri);
-      setSelectedImage(data.uri);
-    } catch (error) {
-      console.error("Erreur lors de la capture de l'image : ", error);
-    } finally {
-      setIsCameraOpen(false); // Fermer la caméra après la capture
-    }
-  };
+  // const onCameraCapture = async (data) => {
+  //   try {
+  //     // Vous pouvez manipuler les données de l'image capturée ici, par exemple, l'enregistrer dans le stockage.
+  //     console.log("Image capturée: ", data.uri);
+  //     setSelectedImage(data.uri);
+  //   } catch (error) {
+  //     console.error("Erreur lors de la capture de l'image : ", error);
+  //   } finally {
+  //     setIsCameraOpen(false); // Fermer la caméra après la capture
+  //   }
+  // };
 
-  const options = [
-    { label: 'Plante', value: 'plante' },
-    { label: 'Java', value: 'java' },
-    { label: 'JavaScript', value: 'js' },
-    { label: 'Python', value: 'python' },
-    { label: 'C#', value: 'csharp' },
-  ];
+  // const options = [
+  //   { label: 'Plante', value: 'plante' },
+  //   { label: 'Java', value: 'java' },
+  //   { label: 'JavaScript', value: 'js' },
+  //   { label: 'Python', value: 'python' },
+  //   { label: 'C#', value: 'csharp' },
+  // ];
 
   return (
     <View style={styles.container}>
@@ -86,7 +87,7 @@ const AddPictureScreen = () => {
         <Text style={styles.selectTextStyle}>{selectedValue}</Text>
       </TouchableOpacity>
 
-      <Modal
+      {/* <Modal
         transparent={true}
         animationType="slide"
         visible={modalVisible}
@@ -111,7 +112,7 @@ const AddPictureScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
 
       <TextInput
         style={styles.descriptionInput}
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   modalCancelStyle: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     borderRadius: 10,
     marginVertical: 10,
     paddingVertical: 10, // Augmentez la taille du bouton
@@ -228,13 +229,13 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     height: 50,
-    width: 150, 
-    backgroundColor: '#F2E8CF',
+    width: 150,
+    backgroundColor: COLORS.button,
     justifyContent: 'center',
     borderWidth: 1,
-    borderRadius: 30, 
-    paddingLeft: 2, 
-    marginBottom: 1, 
+    borderRadius: 30,
+    paddingLeft: 2,
+    marginBottom: 20, // Ajustement de la marge inférieure
   },
   cameraPreview: {
     flex: 1,
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 60,
     width: 60,
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'black',
     fontSize: 48,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   buttonTextConfirm: {
     fontSize: 26, 

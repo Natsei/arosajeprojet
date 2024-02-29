@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, TextInput } from 'react-native';
+import { SearchBar } from 'react-native-elements'; // Import du composant SearchBar
 import { useNavigation } from '@react-navigation/native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,6 +22,7 @@ export function AccueilScreen() {
     { id: 8, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
     { id: 9, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
+  const [searchText, setSearchText] = useState('');
 
   const handleAddPicturePress = () => {
     navigation.navigate('AddPictureScreen');
@@ -42,7 +45,6 @@ export function AccueilScreen() {
     <View style={styles.container}>
     <View style={styles.header}>
       <View style={styles.leftHeader}>
-        <Text style={styles.villeText}>Ville : </Text>
         <Text style={styles.villeText}>Montpellier</Text>
       </View>
       <View style={styles.rightHeader}>
@@ -55,12 +57,18 @@ export function AccueilScreen() {
       </View>
     </View>
   
-        <SearchBar
-          placeholder="Recherche en haut"
-          lightTheme
-          round
-          containerStyle={styles.searchBarTop}
-        />
+        <View style={styles.searchBarTop}>
+          <SearchBar
+            placeholder="Rechercher des plantes"
+            onChangeText={(text) => setSearchText(text)}
+            value={searchText}
+            lightTheme
+            round
+            containerStyle={styles.searchBarTop}
+            inputContainerStyle={styles.inputContainer}
+          />
+        </View>
+        
   
         <Image
           source={require('../../assets/Plantes/picture_home.png')}
@@ -76,8 +84,8 @@ export function AccueilScreen() {
                 style={[
                   styles.categoryButton,
                   {
-                    backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white',
-                    fontWeight: selectedCategory === category ? 'bold' : 'normal',
+                    backgroundColor: selectedCategory === category ? COLORS.button : COLORS.primary,
+                    fontWeight: selectedCategory === category ? FONT_WEIGHTS.bold : FONT_WEIGHTS.normal,
                   },
                 ]}
               >
@@ -87,7 +95,6 @@ export function AccueilScreen() {
           </View>
         </ScrollView>
   
-        {/* Utiliser ScrollView pour permettre le défilement vertical des plantes */}
         <ScrollView style={styles.plantScrollView} showsVerticalScrollIndicator={true}>
           <View style={styles.plantSection}>
             {plants.map((plant) => (
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * -0.08,
   },
   villeText: {
-    fontSize: windowWidth * 0.04,
+    fontSize: windowWidth * 0.06,
     marginLeft: windowWidth * 0.02,
   },
   profileImage: {
@@ -139,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: windowWidth * 0.01,
   },
   addButton: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
     borderRadius: windowWidth * 0.06,
@@ -153,13 +160,23 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * -0.01,
     fontSize: windowWidth * 0.09,
     width: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   searchBarTop: {
     backgroundColor: '#F5F5F5',
     borderTopWidth: 0,
     borderBottomWidth: 0,
     marginBottom: windowWidth * 0.02,
+    paddingHorizontal: windowWidth * 0.03,
+  },
+  searchInput: {
+    backgroundColor: COLORS.primary,
+    borderRadius: windowWidth * 0.04,
+    borderBottomWidth: 0,
+    borderTopWidth: 0,
+    paddingHorizontal: windowWidth * 0.03,
+    color: 'black',
+    fontSize: windowWidth * 0.04,
   },
   imageAboveCategories: {
     width: windowWidth * 0.9,
@@ -190,26 +207,28 @@ const styles = StyleSheet.create({
   },
   plantItem: {
     alignItems: 'center',
-    width: '48%', // Utilisez un pourcentage de la largeur de l'écran
+    width: '48%',
     marginBottom: windowWidth * 0.03,
     borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary,
     borderRadius: 15,
     padding: windowWidth * 0.02,
   },
   plantImage: {
-    width: '100%', // Ajustez la largeur de l'image pour remplir l'élément parent
-    height: (windowWidth - windowWidth * 0.09) / 2,
+    width: '100%',
+    height: (windowWidth - windowWidth * 0.09) / 2.5,
     borderRadius: windowWidth * 0.02,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   plantScrollView: {
     flex: 1.5,
     marginTop: windowWidth * 0.02,
   },
 });
+
+export default AccueilScreen;

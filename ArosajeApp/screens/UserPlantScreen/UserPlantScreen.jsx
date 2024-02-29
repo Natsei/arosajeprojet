@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -49,6 +50,6 @@ const styles = StyleSheet.create({
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });

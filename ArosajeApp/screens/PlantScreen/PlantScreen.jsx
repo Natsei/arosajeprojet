@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -27,8 +28,10 @@ export function PlantScreen() {
     setSelectedCategory(category === selectedCategory ? null : category);
   };
 
-  const handlePlantPress = (plantName) => {
-    console.log(`Navigating to ${plantName} details page`);
+  //Ramène sur la plante sélectionner
+  const handlePlantPress = (name) => {
+    console.log(`Navigating to ${name} details page`);
+    navigation.navigate('DetailScreen');
   };
 
   const handleProfile = () => {
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: windowHeight * 0.04,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     marginTop: 20,
     textAlign: 'center', // Aligner le texte du titre à gauche
   },
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     fontSize: windowHeight * 0.02,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   smallImage: {
     width: windowWidth * 0.1,
@@ -141,8 +144,8 @@ const styles = StyleSheet.create({
     width: '48%', // Utilisez un pourcentage de la largeur de l'écran
     marginBottom: windowWidth * 0.03,
     borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary,
     borderRadius: 15,
     padding: windowWidth * 0.02,
   },
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     alignSelf: 'flex-start',  // Aligner à gauche
     paddingLeft: 7,
     marginTop: windowWidth * 0.01,  
@@ -175,6 +178,6 @@ const styles = StyleSheet.create({
   },
   cityName: {
     fontSize: windowHeight * 0.025, // Assurez-vous que la taille du texte est la même que pour les sous-titres
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });

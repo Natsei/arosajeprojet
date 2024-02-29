@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: windowWidth * 0.045, 
-    fontWeight: 'bold', 
+    fontWeight: FONT_WEIGHTS.bold, 
   },
   input: {
     height: windowHeight * 0.05, 
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: windowHeight * 0.01,
   },
   saveButton: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     paddingVertical: windowHeight * 0.03, 
     paddingHorizontal: windowWidth * 0.05, 
     borderRadius: windowWidth * 0.045,

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export function MdpScreen() {
+  const navigation = useNavigation(); // Utilisez useNavigation à l'intérieur de la fonction
+
   const [Mdp, setMdp] = useState('');
   const [NewMdp, setNewMdp] = useState('');
   const [ChangeMdp, setChangeMdp] = useState('');
 
+  // const handleSave = () => {
+  //   console.log('Informations enregistrées :', { Mdp, NewMdp, ChangeMdp });
+  // };
+
   const handleSave = () => {
-    console.log('Informations enregistrées :', { Mdp, NewMdp, ChangeMdp });
+    navigation.navigate('DetailScreen');
+    //console.log('Informations enregistrées :', { name, surname, email, city });
   };
 
   return (
@@ -57,7 +66,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: windowWidth * 0.045, 
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     marginBottom: windowHeight * 0.01, 
   },
   input: {
@@ -69,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: windowHeight * 0.01, 
   },
   saveButton: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
     paddingVertical: windowHeight * 0.03, 
     paddingHorizontal: windowWidth * 0.05, 
     borderRadius: windowWidth * 0.045,

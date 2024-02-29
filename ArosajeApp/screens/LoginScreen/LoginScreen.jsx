@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 import { StyleSheet, Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.8, 
     marginLeft: windowWidth * 0.2,
     marginBottom: windowHeight * 0.04, 
-    color: '#F2E8CF',
+    color: COLORS.button,
   },
   buttonContainer: {
     width: '100%',
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: windowHeight * 0.02, 
     borderRadius: windowWidth * 0.04, 
-    backgroundColor: '#F2E8CF',
+    backgroundColor: COLORS.button,
   },
   buttonText: {
     color: '#000000',

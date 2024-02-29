@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, Image, Text } from 'react-native';
+import { View, StyleSheet, StatusBar, Image, Text, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { TEXT_STYLES, COLORS, FONT_WEIGHTS, FONT_SIZES } from '../../style/styles';// Importez vos styles
 import { MdpScreen } from './MdpScreen';
 import { TabScreen } from './TabScreen';
 
@@ -18,9 +19,9 @@ export function ProfileScreen() {
       <View style={styles.tabContainer}>
       <Tab.Navigator
         tabBarPosition="top"
-        tabBarOptions={{ // Couleur du texte de l'onglet actif
+        screenOptions={{ // Couleur du texte de l'onglet actif
           tabStyle: { marginTop: 10 },
-          indicatorStyle: { backgroundColor: '#F2E8CF' }, // Changer la couleur de la barre ici
+          indicatorStyle: { backgroundColor: COLORS.button }, // Changer la couleur de la barre ici
         }}
       >
           <Tab.Screen name="Informations" component={TabScreen} />
@@ -35,11 +36,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.primary,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontWeight: FONT_WEIGHTS.bold,
     marginTop: 20,
     alignSelf: 'center',
   },
