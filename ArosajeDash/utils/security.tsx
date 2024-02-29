@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Utilisateur } from '@prisma/client';
 
 const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
@@ -143,6 +143,43 @@ class Security {
         // Vérifie si l'adresse e-mail correspond à la regex
         return descValidLength;
       }
+
+    /**
+     * Retourne l'utilisateur si l'utilisateur existe
+     * @param email email de l'utilisateur
+     * @param password mot de passe en clair de l'utilisateur
+     * @returns 
+     */
+    static async authUser(email : string, password : string) : Promise<Utilisateur|null> {
+        
+        var utilisateur = null;
+        try {
+           // Vérifier les informations d'identification
+            utilisateur = await prisma.utilisateur.findUnique({
+                where: {
+                email,
+                },
+            });
+        
+            if (utilisateur && (await this.comparePassword(password, utilisateur.motDePasse))) {
+                //Changemenet de la date de dernière connexion
+                const utilisateurUpdated = await prisma.utilisateur.update({
+                    where: {
+                    id: utilisateur.id,
+                    },
+                    data: {
+                    dateDerniereConnexion : new Date(),
+                    },
+                });
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        } finally {
+            await prisma.$disconnect();
+            
+        }
+        return utilisateur;
+    }
   
 }
 

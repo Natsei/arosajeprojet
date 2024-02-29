@@ -21,25 +21,10 @@ export default async function handler(req, res) {
 
   try {
     // Vérifier les informations d'identification
-    const utilisateur = await prisma.utilisateur.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (!utilisateur || !(await Security.comparePassword(motDePasse, utilisateur.motDePasse))) {
+    var utilisateur = await Security.authUser(email,motDePasse);
+    if (!utilisateur) {
       return res.status(401).json({ error: 'Informations d\'identification incorrectes.' });
     }
-
-    //Changemenet de la date de dernière connexion
-    const utilisateurUpdated = await prisma.utilisateur.update({
-      where: {
-        id: utilisateur.id,
-      },
-      data: {
-        dateDerniereConnexion : new Date(),
-      },
-    });
 
     // Générer le token JWT
     const token = jwt.sign({ userId: utilisateur.id }, 'secret_key', { expiresIn: '1h' });
