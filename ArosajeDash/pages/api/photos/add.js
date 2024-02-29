@@ -73,7 +73,7 @@ export default async function handler(req, res) {
         }
 
         // Chemin vers le répertoire de stockage des images
-        const uploadDirectory = path.join(process.cwd(), 'uploads');
+        const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
 
         // S'assurer que le répertoire de stockage existe
         if (!fs.existsSync(uploadDirectory)) {
@@ -84,7 +84,9 @@ export default async function handler(req, res) {
         const uid = uuidv4();
 
         // Construire le chemin complet du fichier dans le répertoire de stockage avec l'UID comme nom de fichier et l'extension originale
-        const filePath = path.join(uploadDirectory, `${uid}${fileExtension}`);
+        const name = uid+fileExtension;
+        const filePath = path.join(uploadDirectory, name);
+        
 
         // Compression de l'image avant de l'écrire sur le disque
         await sharp(imageFile.buffer)
@@ -94,7 +96,7 @@ export default async function handler(req, res) {
         // Ajouter la nouvelle photo à l'annonce
         const nouvellePhoto = await prisma.photo.create({
             data: {
-            cheminPhoto: filePath, 
+            cheminPhoto: name, 
             annonce: {
                 connect: {
                 id: parseInt(annonceId, 10),

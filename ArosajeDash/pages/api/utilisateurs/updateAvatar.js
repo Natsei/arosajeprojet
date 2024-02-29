@@ -73,12 +73,15 @@ export default async function handler(req, res) {
         return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à modifier cet utilisateur' });
       }
 
-
+      // Chemin vers le répertoire de stockage des images
+      const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
 
       //Suppression de l'ancienne image si elle existe
       if(utilisateurToUpdate.cheminPhoto !== ""){
+        
         // Construire le chemin complet du fichier à supprimer
-        let filePath = utilisateurToUpdate.cheminPhoto;
+        let filePath =  path.join(uploadDirectory, utilisateurToUpdate.cheminPhoto);
+
         // Vérifier si le fichier existe avant de le supprimer
         if (fs.existsSync(filePath)) {
             // Supprimer le fichier du système de fichiers
@@ -97,8 +100,6 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: 'L\'extension du fichier est manquante ou non valide' });
       }
 
-      // Chemin vers le répertoire de stockage des images
-      const uploadDirectory = path.join(process.cwd(), 'uploads');
 
       // S'assurer que le répertoire de stockage existe
       if (!fs.existsSync(uploadDirectory)) {
@@ -107,9 +108,9 @@ export default async function handler(req, res) {
 
       // Générer un UID pour le nom de fichier
       const uid = uuidv4();
-
+      const name = uid+fileExtension;
       // Construire le chemin complet du fichier dans le répertoire de stockage avec l'UID comme nom de fichier et l'extension originale
-      let cheminPhoto = path.join(uploadDirectory, `${uid}${fileExtension}`);
+      let cheminPhoto = path.join(uploadDirectory, name);
 
       // Compression de l'image avant de l'écrire sur le disque
       await sharp(imageFile.buffer)
@@ -123,7 +124,7 @@ export default async function handler(req, res) {
           id: utilisateurId,
         },
         data: {
-          cheminPhoto
+          cheminPhoto: name
         },
       });
 

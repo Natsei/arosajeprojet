@@ -64,9 +64,10 @@ export default async function handler(req, res) {
         if (annonce.auteurId !== userId && !(await Security.isAdmin(userId))) {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette photo' });
         }
-
+        // Chemin vers le répertoire de stockage des images
+        const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
         // Construire le chemin complet du fichier à supprimer
-        const filePath = photo.cheminPhoto;
+        const filePath = path.join(uploadDirectory, photo.cheminPhoto);
 
         // Vérifier si le fichier existe avant de le supprimer
         if (fs.existsSync(filePath)) {

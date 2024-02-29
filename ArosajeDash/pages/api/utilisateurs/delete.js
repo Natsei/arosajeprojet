@@ -68,8 +68,11 @@ export default async function handler(req, res) {
 
       if(utilisateurASupprimer.cheminPhoto !== ""){
 
+        // Chemin vers le répertoire de stockage des images
+        const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
+
         // Construire le chemin complet du fichier à supprimer
-        const filePath = utilisateurASupprimer.cheminPhoto;
+        const filePath = uploadDirectory+utilisateurASupprimer.cheminPhoto;
 
         // Vérifier si le fichier existe avant de le supprimer
         if (fs.existsSync(filePath)) {
