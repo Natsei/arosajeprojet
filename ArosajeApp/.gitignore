@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 ArosajeApp/node_modules/
+ArosajeApp/package-lock.json
+ArosajeApp/package.json
 
 # Expo
 .expo/
