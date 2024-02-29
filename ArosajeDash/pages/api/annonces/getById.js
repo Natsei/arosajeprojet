@@ -42,6 +42,7 @@ export default async function handler(req, res) {
               prenom: true,
               nom: true,
               cheminPhoto: true,
+              ville: true,
             },
           },
           plante: {
