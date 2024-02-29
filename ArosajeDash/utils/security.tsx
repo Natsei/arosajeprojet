@@ -160,7 +160,7 @@ class Security {
                 email,
                 },
             });
-        
+            
             if (utilisateur && (await this.comparePassword(password, utilisateur.motDePasse))) {
                 //Changemenet de la date de dernière connexion
                 const utilisateurUpdated = await prisma.utilisateur.update({
@@ -171,7 +171,10 @@ class Security {
                     dateDerniereConnexion : new Date(),
                     },
                 });
+            }else{
+                utilisateur = null;
             }
+            
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur :', error);
         } finally {
