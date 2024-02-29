@@ -37,13 +37,30 @@ export default async function handler(req, res) {
               email: true,
               prenom: true,
               nom: true,
-              // Ajoute d'autres champs que tu souhaites inclure
+              description: true,
+              cheminPhoto: true,
+              ville: true,
             },
           },
-          plante: true,
-          lesPhotos: true,
-          lesVisites: true,
-          // Ajoute d'autres relations que tu souhaites inclure
+          plante: {
+            select: {
+              id: true,
+              libelle: true,
+              description: true,
+              categorie: {
+                select: {
+                  id: true,
+                  libelle: true,
+                },
+              },
+            },
+          },
+          lesPhotos: {
+            select: {
+              id: true,
+              cheminPhoto: true,
+            },
+          },
         },
       });
 
