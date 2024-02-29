@@ -117,13 +117,11 @@ export function AccueilScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 30,
-    backgroundColor: "#F5F5F5",
   },
   leftHeader: {
     flex: 1.5,
@@ -163,7 +161,6 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHTS.bold,
   },
   searchBarTop: {
-    backgroundColor: '#F5F5F5',
     borderTopWidth: 0,
     borderBottomWidth: 0,
     marginBottom: windowWidth * 0.02,

@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ChevronLeft } from 'lucide-react-native';
 import { TEXT_STYLES, COLORS, FONT_WEIGHTS } from '../../style/styles';// Importez vos styles
 // import { RNCamera } from 'react-native-camera';
 // import ImagePicker from 'react-native-image-picker';
 
 const AddPictureScreen = () => {
+  const navigation = useNavigation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [description, setDescription] = useState('');
   const [selectedValue, setSelectedValue] = useState('plante');
   const [modalVisible, setModalVisible] = useState(false);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
-
+  
+  const Button = () => {
+    navigation.navigate('AccueilScreen');
+  };
   // const handleImagePick = () => {
   //   try {
   //     const options = {
@@ -66,6 +72,9 @@ const AddPictureScreen = () => {
 
   return (
     <View style={styles.container}>
+          <TouchableOpacity onPress={Button}>
+          <ChevronLeft color="black" size={30} />
+        </TouchableOpacity>
       <View style={styles.imageContainer}>
         <View style={styles.dashedBorder}>
           {selectedImage ? (
@@ -142,7 +151,7 @@ const styles = StyleSheet.create({
   // Styles here
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -150,7 +159,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '80%',
     height: '30%',
-    backgroundColor: '#F5F5F5',
     marginBottom: 20,
     borderRadius: 10,
     overflow: 'hidden',
