@@ -54,8 +54,22 @@ async function main() {
 
 
     //Les utilisateurs à supprimer : Connexion il y a 12mois
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 11);
+
+    // Récupérer la liste des utilisateurs avec derniereConnexion il y a 12 mois
+    const usersToDelete = await prisma.utilisateur.deleteMany({
+        where: {
+            dateDerniereConnexion: {
+            lte: twelveMonthsAgo,
+            },
+        },
+    });
 
 
+
+
+    //Envoi des email
     const sujet = '"Arosaj" <app@arosaj.fr>';
     const source = "notification suppression de compte"
 
