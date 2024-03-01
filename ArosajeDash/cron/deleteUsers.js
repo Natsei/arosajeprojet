@@ -18,6 +18,7 @@ const transporter = nodemailer.createTransport({
 //Envoi des emails de prévention
 async function main() {
 
+  
     //Les utilisateurs à prévenir : Connexion il y a 11mois
     const elevenMonthsAgo = new Date();
     elevenMonthsAgo.setMonth(elevenMonthsAgo.getMonth() - 11);
@@ -55,10 +56,9 @@ async function main() {
 
     //Les utilisateurs à supprimer : Connexion il y a 12mois
     const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 11);
-
-    // Récupérer la liste des utilisateurs avec derniereConnexion il y a 12 mois
-    const usersToDelete = await prisma.utilisateur.deleteMany({
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+    // Suppression des utilisateurs avec derniereConnexion il y a 12 mois
+    await prisma.utilisateur.deleteMany({
         where: {
             dateDerniereConnexion: {
             lte: twelveMonthsAgo,
@@ -101,7 +101,5 @@ async function main() {
     })
   
 }
-
-//Suppression des comptes
 
 main();
