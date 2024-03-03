@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     jwt.verify(token, 'secret_key', (err, decoded) => {
       if (err) {
         console.error('Erreur lors de la vérification du token :', err);
-        return reject('Token non valide');
+        return res.status(401).end(); // Token non valide
       }
       resolve(decoded);
     });
