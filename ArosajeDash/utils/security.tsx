@@ -165,10 +165,10 @@ class Security {
                 //Changemenet de la date de dernière connexion
                 const utilisateurUpdated = await prisma.utilisateur.update({
                     where: {
-                    id: utilisateur.id,
+                        id: utilisateur.id,
                     },
                     data: {
-                    dateDerniereConnexion : new Date(),
+                        dateDerniereConnexion: new Date(),
                     },
                 });
             }else{

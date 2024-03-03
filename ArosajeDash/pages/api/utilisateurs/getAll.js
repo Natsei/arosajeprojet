@@ -95,6 +95,7 @@ export default async function handler(req, res) {
           description: true,
           cheminPhoto: true,
           dateInscription: true,
+          dateDerniereConnexion: true,
         }
       });
 
