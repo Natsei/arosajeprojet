@@ -41,8 +41,13 @@ export function AccueilScreen() {
     fetcher
   );
 
-  if (error,  errorAnnonce) return "An error has occurred.";
-  if (isLoading,  isLoadingAnnonce) return "Loading...";
+  const { dataUser, errorUser, isLoadingUser } = useSWR(
+    "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
+    fetcher
+  );
+
+  if (error || errorAnnonce || errorUser) return "An error has occurred.";
+  if (isLoading || isLoadingAnnonce || isLoadingUser) return "Loading...";
   
   const [searchText, setSearchText] = useState('');
 
