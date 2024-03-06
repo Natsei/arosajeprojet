@@ -6,13 +6,66 @@ import * as style from '../../style/styles';// Importez vos styles
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
+
 export function TabScreen() {
   const navigation = useNavigation(); // Utilisez useNavigation à l'intérieur de la fonction
 
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [city, setCity] = useState('');
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [cp, setCp] = useState("");
+  const [rue, setRue] = useState("");
+  const [description, setDescription] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
+    fetcher
+  );
+
+  if (error) return "An error has occurred.";
+  if (isLoading) return "Loading...";
+
+  const handleSave = () => {
+    // Construction du corps de la requête à envoyer à l'API
+    const requestBody = {
+      email: email,
+      prenom: surname,
+      nom: name,
+      ville: city,
+      cp: cp,
+      rue: rue,
+      description: description
+    };
+
+    // Envoi de la requête à notre API
+    fetch("http://localhost:3000/api/utilisateurs/update?utilisateurId="+global.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${global.token}`, // Ajoutez le token ici
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('modifié');
+        } else {
+          // Gére les cas d'échec de connexion
+          setErrorMessage("Information non modifés."); // Affiche un message d'erreur à l'utilisateur
+
+        }
+      })
+      .catch((error) => {
+        setErrorMessage("Erreur lors de la tentative de modification :", error);
+        // Affiche un message d'erreur à l'utilisateur
+      });
+  };
 
   const handleSave = () => {
     navigation.navigate('MapScreen');
@@ -22,10 +75,13 @@ export function TabScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <InfoBox label="Nom" value={name} onChangeText={setName} />
-        <InfoBox label="Prénom" value={surname} onChangeText={setSurname} />
-        <InfoBox label="Email" value={email} onChangeText={setEmail} />
-        <InfoBox label="Ville" value={city} onChangeText={setCity} />
+        <InfoBox label="Nom" value={data.nom} onChangeText={setName} />
+        <InfoBox label="Prénom" value={data.prenom} onChangeText={setSurname} />
+        <InfoBox label="Email" value={data.email} onChangeText={setEmail} />
+        <InfoBox label="Ville" value={data.ville} onChangeText={setCity} />
+        <InfoBox label="Code postal" value={data.cp} onChangeText={setCp} />
+        <InfoBox label="Rue" value={data.rue} onChangeText={setRue} />
+        <InfoBox label="Description" value={data.description} onChangeText={setDescription} />
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
