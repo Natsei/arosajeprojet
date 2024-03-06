@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, Image, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, StatusBar, Image, Text} from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as style from '../../style/styles';// Importez vos styles
 import { MdpScreen } from './MdpScreen';

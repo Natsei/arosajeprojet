@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import * as style from '../../style/styles';// Importez vos styles

@@ -12,7 +12,6 @@ const fetcher = (url) =>
   );
 
 export function TabScreen() {
-  const navigation = useNavigation(); // Utilisez useNavigation à l'intérieur de la fonction
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -65,11 +64,6 @@ export function TabScreen() {
         setErrorMessage("Erreur lors de la tentative de modification :", error);
         // Affiche un message d'erreur à l'utilisateur
       });
-  };
-
-  const handleSave = () => {
-    navigation.navigate('MapScreen');
-    //console.log('Informations enregistrées :', { name, surname, email, city });
   };
 
   return (
