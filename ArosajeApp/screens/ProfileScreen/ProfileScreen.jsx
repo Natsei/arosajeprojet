@@ -4,16 +4,34 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import * as style from '../../style/styles';// Importez vos styles
 import { MdpScreen } from './MdpScreen';
 import { TabScreen } from './TabScreen';
+import useSWR from "swr";
+import global from '../../global';
 
 const Tab = createMaterialTopTabNavigator();
 
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
+
 export function ProfileScreen() {
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
+    fetcher
+  );
+
+  if (error) return "An error has occurred.";
+  if (isLoading) return "Loading...";
+
   return (
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
       <Text style={styles.title}>Profil</Text>
       <Image
-        source={require('../../assets/Profile/Image.png')}
+        source={{
+          uri:
+            "http://localhost:3000/img/uploads/" + data.cheminPhoto,
+        }}
         style={styles.profileImage}
       />
       <View style={styles.tabContainer}>

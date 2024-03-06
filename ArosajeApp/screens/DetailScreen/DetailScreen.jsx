@@ -1,11 +1,31 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import * as style from '../../style/styles';// Importez vos styles
+import useSWR from "swr";
+import global from '../../global';
+import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export function DetailScreen({ navigation }) {
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
+
+export function DetailScreen({ route }) {
+
+  const { id } = route.params;
+
+  const navigation = useNavigation();
+
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/annonces/getById?id="+id,
+    fetcher
+  );
+
+  if (error) return "An error has occurred.";
+  if (isLoading) return "Loading...";
 
   const handleInscription = () => {
     navigation.navigate('ChatScreen');
@@ -21,33 +41,32 @@ export function DetailScreen({ navigation }) {
           style={styles.image}
         />
 
-        <Text style={styles.subtitle}>Nom de la plante</Text>
-        <Text>Plante A</Text>
+        <Text style={styles.subtitle}>{data.plante.libelle}</Text>
+        <Text></Text>
 
         <View style={styles.cityContainer}>
           <Image
             source={require('../../assets/Vector.png')}
             style={styles.cityImage}
           />
-          <Text style={styles.cityName}>Montpellier</Text>
+          <Text style={styles.cityName}>{data.auteur.ville}</Text>
         </View>
         <View style={styles.blackLine} />
 
         <Text style={styles.subtitle}>Description</Text>
-        <Text style={styles.subtitleDescription}>Héééé c'est une description ouuuuu, non mais en vrai, je pourrais parler de ma plante pendant
-          des heures car en vrai c'est un hér
-          Héééé c'est une description ouuuuu, non mais en vrai, je pourrais parler de ma plante pendant
-          des heures car en vrai c'est un hér
-        </Text>
+        <Text style={styles.subtitleDescription}>{data.description}</Text>
 
         <View style={styles.rectangleContainer}>
           <Image
-            source={require('../../assets/Profile/Image.png')}
+            source={{
+              uri:
+                "http://localhost:3000/img/uploads/" + data.auteur.cheminPhoto,
+            }}
             style={styles.smallImage}
           />
           <View style={styles.userInfoContainer}>
-            <Text style={styles.userInfo}>Michel Durand</Text>
-            <Text style={styles.userInfoDescription}>Je suis Michel et j’aime les plantes</Text>
+            <Text style={styles.userInfo}>{data.auteur.prenom} {data.auteur.nom}</Text>
+            <Text style={styles.userInfoDescription}>{data.auteur.description}</Text>
           </View>
         </View>
       </View>

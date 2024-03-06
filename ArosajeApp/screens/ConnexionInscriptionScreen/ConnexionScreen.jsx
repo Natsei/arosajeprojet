@@ -3,20 +3,53 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions 
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
 import * as style from '../../style/styles';// Importez vos styles
+import { useState } from "react";
+import global from '../../global';
 
 //Page de connexion
 export function ConnexionScreen() {
   const navigation = useNavigation();
 
    //États pour les champs de saisie
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
-  const handleConnecterValider = () => {
-     //Naviguer vers l'écran ConnexionScreen avec les données saisies
-    //navigation.navigate('Connexion', { email, password });
-    navigation.navigate('DetailScreen');
-  };
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [errorMessage, setErrorMessage] = useState('');
+ 
+   const handleConnecterValider = () => {
+     // Construction du corps de la requête à envoyer à l'API
+     const requestBody = {
+       email: email,
+       motDePasse: password,
+     };
+ 
+     // Envoi de la requête à votre API
+     fetch("http://localhost:3000/api/token/auth", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(requestBody),
+     })
+       .then((response) => {
+         if (response.ok) {
+           // La connexion est réussie, redirige l'utilisateur vers une autre page
+           response.json().then((data) => {
+             global.token = data.token;
+             global.userId = data.id; // Stocke le token dans le state ou dans un contexte global
+           });
+           navigation.navigate("AccueilScreen");
+         } else {
+           console.log(response);
+           // Gére les cas d'échec de connexion
+           setErrorMessage("Informations d'identification incorrectes."); // Affiche un message d'erreur à l'utilisateur
+ 
+         }
+       })
+       .catch((error) => {
+         setErrorMessage("Erreur lors de la tentative de connexion :", error);
+         // Affiche un message d'erreur à l'utilisateur
+       });
+   };
   
   const handleInscription = () => {
     navigation.navigate('InscriptionScreen'); // Rediriger vers la page Inscription
@@ -34,6 +67,9 @@ export function ConnexionScreen() {
         source={require('../../assets/Connexion/flowerPot.png')}
         style={styles.image}
       />
+      {errorMessage ? (
+          <Text style={styles.COLORS.error}>{errorMessage}</Text>
+        ) : null}
       <View style={styles.buttonContainer}>
         {/* Champ de saisie pour l'email */}
         <TextInput

@@ -3,10 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import * as style from '../../style/styles';
+import global from '../../global';
+import useSWR from 'swr';
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
 
 export function AccueilScreen() {
+  
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState(['Petites Plantes', 'Arbuste', 'Fleurs', 'Plantes d\'intérieurs', 'Plantes Aquatiques']);
@@ -21,6 +30,20 @@ export function AccueilScreen() {
     { id: 8, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
     { id: 9, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
+
+  const { dataAnnonce, errorAnnonce, isLoadingAnnonce } = useSWR(
+    "http://localhost:3000/api/annonces/getAll",
+    fetcher
+  );
+
+  const { dataCategorie, error, isLoading } = useSWR(
+    "http://localhost:3000/api/categories/getAll",
+    fetcher
+  );
+
+  if (error,  errorAnnonce) return "An error has occurred.";
+  if (isLoading,  isLoadingAnnonce) return "Loading...";
+  
   const [searchText, setSearchText] = useState('');
 
   const handleAddPicturePress = () => {
@@ -33,7 +56,7 @@ export function AccueilScreen() {
   };
 
   const handlePlantPress = (plantName) => {
-    console.log(`Navigating to ${plantName} details page`);
+    navigation.navigate('DetailScreen', { id: plantId });
   };
 
   const handleProfile = () => {
@@ -44,7 +67,8 @@ export function AccueilScreen() {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.leftHeader}>
-            <Text style={styles.villeText}>Montpellier</Text>
+            <Text style={styles.villeText}>Ville: </Text>
+            <Text style={styles.villeText}>{dataUser.ville} </Text>
           </View>
           <View style={styles.rightHeader}>
             <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
