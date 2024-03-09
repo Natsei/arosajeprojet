@@ -2,21 +2,77 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
+import { useState } from "react";
+import global from '../../global';
 
 //Page d'inscription à changer de place
 export function InscriptionScreen() {
   const navigation = useNavigation();
 
   // États pour les champs de saisie
-  const [nom, setNom] = React.useState('');
-  const [prenom, setPrenom] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [ville, setVille] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [email, setEmail] = useState("");
+  const [ville, setVille] = useState("");
+  const [cp, setCp] = useState("");
+  const [rue, setRue] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleConnecterValider = () => {
-    // Naviguer vers l'écran ConnexionScreen avec les données saisies
-    navigation.navigate('Connexion', { email, password, nom, prenom, ville });
+  const handleInscriptionValider = () => {
+    // Construction du corps de la requête à envoyer à l'API
+    const requestBody = {
+      email: email,
+      motDePasse: password,
+      prenom: prenom,
+      nom: nom,
+      ville: ville,
+      cp: cp,
+      rue: rue,
+    };
+
+    // Envoi de la requête à votre API
+    fetch("http://localhost:3000/api/utilisateurs/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (response.ok) {
+          const requestBodyLog = {
+            email: email,
+            motDePasse: password,
+          };
+          // Envoi de la requête à votre API
+          fetch("http://localhost:3000/api/token/auth", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBodyLog),
+          })
+            .then((response) => {
+              if (response.ok) {
+                // La connexion est réussie, redirige l'utilisateur vers une autre page
+                response.json().then((data) => {
+                  global.token = data.token; // Stocke le token dans le state ou dans un contexte global
+                });
+                navigation.navigate("AccueilScreen");
+              }
+            });
+        } else {
+          console.log(response);
+          // Gére les cas d'échec de connexion
+          setErrorMessage("Informations d'inscription invalides."); // Affiche un message d'erreur à l'utilisateur
+
+        }
+      })
+      .catch((error) => {
+        setErrorMessage("Erreur lors de la tentative de connexion :", error);
+        // Affiche un message d'erreur à l'utilisateur
+      });
   };
 
   return (
@@ -57,6 +113,22 @@ export function InscriptionScreen() {
           onChangeText={setVille}
         />
 
+        {/* Champ de saisie pour le code postal */}
+        <TextInput
+          style={styles.input}
+          placeholder="Code Postal"
+          value={cp}
+          onChangeText={setCp}
+        />
+
+        {/* Champ de saisie pour la Rue*/}
+        <TextInput
+          style={styles.input}
+          placeholder="Rue"
+          value={rue}
+          onChangeText={setRue}
+        />
+
         {/* Champ de saisie pour le mot de passe */}
         <TextInput
           style={styles.input}
@@ -66,7 +138,7 @@ export function InscriptionScreen() {
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleConnecterValider}>
+        <TouchableOpacity style={styles.button} onPress={handleInscriptionValider}>
           <Text style={styles.buttonText}>S'inscrire</Text>
         </TouchableOpacity>
       </View>

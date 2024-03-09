@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import useSWR from "swr";
+import global from '../../global';
 
 const windowWidth = Dimensions.get('window').width;
+
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
 
 export function AccueilScreen() {
   const navigation = useNavigation();
@@ -14,8 +21,27 @@ export function AccueilScreen() {
     { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
 
+  const { dataAnnonce, errorAnnonce, isLoadingAnnonce } = useSWR(
+    "http://localhost:3000/api/annonces/getAll",
+    fetcher
+  );
+
+  const { dataCategorie, error, isLoading } = useSWR(
+    "http://localhost:3000/api/categories/getAll",
+    fetcher
+  );
+
+  const { dataUser, errorUser, isLoadingUser } = useSWR(
+    "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
+    fetcher
+  );
+
+  if (error || errorAnnonce || errorUser) return "An error has occurred.";
+  if (isLoading || isLoadingAnnonce || isLoadingUser) return "Loading...";
+
   const handleAddPicturePress = () => {
     navigation.navigate('AddPictureScreen');
+
   };
 
   const handleCategoryPress = (category) => {
@@ -23,8 +49,8 @@ export function AccueilScreen() {
     setSelectedCategory(category === selectedCategory ? null : category);
   };
 
-  const handlePlantPress = (plantName) => {
-    console.log(`Navigating to ${plantName} details page`);
+  const handlePlantPress = (plantId) => {
+    navigation.navigate('DetailScreen', { id: plantId });
   };
 
   const handleProfile = () => {
@@ -84,7 +110,7 @@ export function AccueilScreen() {
         {plants.map((plant) => (
           <TouchableOpacity
             key={plant.id}
-            onPress={() => handlePlantPress(plant.name)}
+            onPress={() => handlePlantPress(plant.id)}
             style={styles.plantItem}
           >
             <Image source={plant.image} style={styles.plantImage} />
