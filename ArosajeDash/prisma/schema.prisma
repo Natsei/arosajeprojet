@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  
+  access_token       String?  
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  
+  session_state      String?
+
+  user Utilisateur @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         Utilisateur     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Utilisateur {
+  id    String    @id @default(cuid())
+  email String  @unique
+  motDePasse  String
+  prenom  String
+  nom  String
+  ville  String?
+  cp  String?
+  rue  String?
+  description  String?
+  cheminPhoto String? 
+  dateInscription  DateTime
+  dateDerniereConnexion DateTime
+  rolesUtilisateurs RoleUtilisateur[]
+  lesAnnonces Annonce[]
+  lesVisites Visite[]
+  accounts      Account[]
+  sessions      Session[]
+  lesCommentaires Commentaire[]
+  lesMessagesEnvoyes Message[] @relation(name: "lesMessagesEnvoyes") 
+  lesMessagesRecus Message[] @relation(name: "lesMessagesRecus")
+}
+
+model Email {
+  id Int @id @default(autoincrement())
+  source String
+  sujet String
+  emailDestinataire String
+  dateExpedition DateTime
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  rolesUtilisateurs RoleUtilisateur[]
+}
+
+model RoleUtilisateur {
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id])
+  utilisateurId String 
+  role Role @relation(fields: [roleId], references: [id])
+  roleId Int 
+
+  @@id([utilisateurId, roleId])
+}
+
+model Photo {
+  id Int @id @default(autoincrement())
+  cheminPhoto String
+  annonce Annonce @relation(fields: [annonceId], references: [id])
+  annonceId Int
+}
+
+model Annonce {
+  id Int @id @default(autoincrement())
+  description String
+  datePublication DateTime
+  auteur Utilisateur @relation(fields: [auteurId], references: [id])
+  auteurId String
+  plante Plante @relation(fields: [planteId], references: [id])
+  planteId Int
+  lesPhotos Photo[]
+  lesVisites Visite[]
+}
+
+
+model Visite {
+  id Int @id @default(autoincrement())
+  dateVisite DateTime
+  dateInvitation DateTime
+  visiteur Utilisateur @relation(fields: [visiteurId], references: [id])
+  visiteurId String
+  annonce Annonce @relation(fields: [annonceId], references: [id])
+  annonceId Int
+  visiteAcceptee VisiteAcceptee?
+  visiteRefusee VisiteRefusee?
+  lesCommentaires Commentaire[]
+}
+
+model VisiteAcceptee {
+  visite Visite @relation(fields: [visiteId], references: [id]) 
+  visiteId Int 
+  dateAcceptation DateTime
+  cheminPhoto String?
+
+  @@id([visiteId])
+}
+
+model VisiteRefusee {
+  visite Visite @relation(fields: [visiteId], references: [id]) 
+  visiteId Int
+  dateRefus DateTime?
+
+  @@id([visiteId])
+}
+
+model Commentaire {
+  id Int @id @default(autoincrement())
+  contenu String
+  datePublication DateTime
+  auteur Utilisateur @relation(fields: [auteurId], references: [id])
+  auteurId String
+  visite Visite @relation(fields: [visiteId], references: [id])
+  visiteId Int
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  contenu String
+  datePublication DateTime
+  auteur Utilisateur @relation(name: "lesMessagesEnvoyes", fields: [auteurId], references: [id])
+  auteurId String
+  destinataire Utilisateur @relation(name: "lesMessagesRecus", fields: [destinataireId], references: [id])
+  destinataireId String
+}
+
+model Plante {
+  id    Int     @id @default(autoincrement())
+  libelle String  @unique
+  description  String 
+  categorie Categorie @relation(fields: [categorieId], references: [id])
+  categorieId Int
+  annonces Annonce[]
+}
+
+model Categorie {
+  id    Int     @id @default(autoincrement())
+  libelle String  @unique
+  lesPlantes Plante[]
+}
