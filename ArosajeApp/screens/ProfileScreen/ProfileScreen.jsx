@@ -1,10 +1,11 @@
-import React from "react";
-import { View, StyleSheet, StatusBar, Image, Text } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MdpScreen } from "./MdpScreen";
-import { TabScreen } from "./TabScreen";
+import React from 'react';
+import { View, StyleSheet, StatusBar, Image, Text} from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import * as style from '../../style/styles';// Importez vos styles
+import { MdpScreen } from './MdpScreen';
+import { TabScreen } from './TabScreen';
 import useSWR from "swr";
-import global from "../../global";
+import global from '../../global';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -24,22 +25,23 @@ export function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="dark-content"
-      />
+      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
       <Text style={styles.title}>Profil</Text>
-    
+      <Image
+        source={{
+          uri:
+            "http://localhost:3000/img/uploads/" + data.cheminPhoto,
+        }}
+        style={styles.profileImage}
+      />
       <View style={styles.tabContainer}>
-        <Tab.Navigator
-          tabBarPosition="top"
-          tabBarOptions={{
-            // Couleur du texte de l'onglet actif
-            tabStyle: { marginTop: 10 },
-            indicatorStyle: { backgroundColor: "#F2E8CF" }, // Changer la couleur de la barre ici
-          }}
-        >
+      <Tab.Navigator
+        tabBarPosition="top"
+        screenOptions={{ // Couleur du texte de l'onglet actif
+          tabStyle: { marginTop: 10 },
+          indicatorStyle: { backgroundColor: style.COLORS.button }, // Changer la couleur de la barre ici
+        }}
+      >
           <Tab.Screen name="Informations" component={TabScreen} />
           <Tab.Screen name="MdpScreen" component={MdpScreen} />
         </Tab.Navigator>
@@ -52,19 +54,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: "white",
+    backgroundColor: style.COLORS.primary,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: style.FONT_SIZES.large,
+    fontWeight: style.FONT_WEIGHTS.bold,
     marginTop: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   profileImage: {
     width: 150,
     height: 150,
-    borderRadius: 15,
-    alignSelf: "center",
+    borderRadius: style.BORDER_SIZE.border,
+    alignSelf: 'center',
     marginTop: 20,
     marginBottom: 10,
   },

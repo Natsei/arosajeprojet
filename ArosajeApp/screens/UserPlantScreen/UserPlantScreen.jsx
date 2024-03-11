@@ -1,24 +1,45 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import * as style from '../../style/styles';// Importez vos styles
+import { useNavigation } from '@react-navigation/native';
+import useSWR from "swr";
+import { ChevronLeft } from "lucide-react-native";
+import global from '../../global';
 
 const windowWidth = Dimensions.get('window').width;
 
-export function UserPlantScreen({ navigation }) {
+const fetcher = (url) =>
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
+    res.json()
+  );
 
-  const handleInscription = () => {
-    navigation.navigate('DetailScreen'); // Rediriger vers la page Inscription
+export function UserPlantScreen({ route }) {
+  const { id } = route.params;
+
+  const navigation = useNavigation();
+
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/annonces/getAllByUtilisateur?id=" + id,
+    fetcher
+  );
+
+  if (error) return "An error has occurred.";
+  if (isLoading) return "Loading...";
+
+  const handleDetailPlante = (plantId) => {
+    navigation.navigate('DetailScreen', { id: plantId });
   };
 
   return (
     <View style={styles.plantSection}>
-        {plants.map((plant) => (
+        {data.map((plant) => (
           <TouchableOpacity
-            key={plant.id}
-            onPress={() => handlePlantPress(plant.name)}
+            key={plant.plante.id}
+            onPress={() => handleDetailPlante(plant.plante.id)}
             style={styles.plantItem}
           >
-            <Image source={plant.image} style={styles.plantImage} />
-            <Text style={styles.plantName}>{plant.name}</Text>
+            {/* <Image source={plant.plante.image} style={styles.plantImage} /> */}
+            <Text style={styles.plantName}>{plant.plante.libelle}</Text>
             <Text>{plant.description}</Text>
           </TouchableOpacity>
         ))}
@@ -44,11 +65,11 @@ const styles = StyleSheet.create({
   plantImage: {
     width: windowWidth * 0.3,
     height: windowWidth * 0.3,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
 });

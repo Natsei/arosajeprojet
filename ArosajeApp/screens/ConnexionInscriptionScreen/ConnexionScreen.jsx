@@ -11,7 +11,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { ChevronLeft } from "lucide-react-native";
 import { useState } from "react";
-import global from '../../global';
+import global from "../../global";
+import * as style from "../../style/styles";
 
 //Page de connexion
 export function ConnexionScreen() {
@@ -19,7 +20,7 @@ export function ConnexionScreen() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleConnecterValider = () => {
     // Construction du corps de la requête à envoyer à l'API
@@ -48,7 +49,6 @@ export function ConnexionScreen() {
           console.log(response);
           // Gére les cas d'échec de connexion
           setErrorMessage("Informations d'identification incorrectes."); // Affiche un message d'erreur à l'utilisateur
-
         }
       })
       .catch((error) => {
@@ -74,7 +74,7 @@ export function ConnexionScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <ChevronLeft color="black" size={30} />
         </TouchableOpacity>
         <Text style={styles.text}>Connexion</Text>
@@ -84,8 +84,8 @@ export function ConnexionScreen() {
         style={styles.image}
       />
       {errorMessage ? (
-          <Text>{errorMessage}</Text>
-        ) : null}
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
       <View style={styles.buttonContainer}>
         {/* Champ de saisie pour l'email */}
         <TextInput
@@ -144,19 +144,16 @@ const styles = StyleSheet.create({
     fontSize: windowWidth * 0.07,
     marginLeft: windowWidth * 0.02,
   },
-  buttonContainer: {
-    width: "100%",
-    paddingHorizontal: windowWidth * 0.05,
-    marginTop: windowHeight * 0.04,
-  },
   input: {
-    height: windowHeight * 0.1,
-    fontSize: windowWidth * 0.04,
+    width: windowWidth * 0.9,
+    fontSize: style.FONT_SIZES.small,
     borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: windowWidth * 0.04,
+    borderWidth: 0.8,
+    borderRadius: style.BORDER_SIZE.border,
+    marginTop: windowHeight * 0.02,
     marginBottom: windowHeight * 0.02,
     paddingHorizontal: windowWidth * 0.02,
+    padding: windowHeight * 0.03,
   },
   button: {
     width: windowWidth * 0.9,
@@ -165,8 +162,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: windowHeight * 0.02,
     marginBottom: windowHeight * 0.02,
-    borderRadius: windowWidth * 0.04,
-    backgroundColor: "#F2E8CF",
+    borderRadius: style.BORDER_SIZE.border,
+    backgroundColor: style.COLORS.button,
   },
   buttonText: {
     color: "#000000",
@@ -188,6 +185,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textDecorationLine: "underline",
     marginTop: windowHeight * 0.01,
+  },
+  errorMessage: {
+    color: style.COLORS.error,
   },
 });
 

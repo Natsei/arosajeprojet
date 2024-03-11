@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as style from '../../style/styles';// Importez vos styles
 
 //Page de base quand on arrive sur l'applications
 export function HomeScreen() {
@@ -44,20 +45,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 50, 
+    paddingBottom: 50,
   },
   title: {
-    fontSize: 50,
-    width: 315,
-    marginLeft: 160,
+    fontSize: style.FONT_SIZES.extra_large,
+    textAlign: 'center',
     marginBottom: 40,
-    color: '#F2E8CF',
-  },  
+    color: style.COLORS.button,
+  },
   buttonContainer: {
-    width: '100%', 
-    paddingHorizontal: 20, 
+    ...style.BUTTONS.button_style,
   },
   button: {
     display: 'flex',
@@ -65,13 +64,13 @@ const styles = StyleSheet.create({
     padding: 21,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20, 
-    borderRadius: 16,
-    backgroundColor: '#F2E8CF',
+    marginBottom: 20,
+    borderRadius: style.BORDER_SIZE.border,
+    backgroundColor: style.COLORS.button,
   },
   buttonText: {
     color: '#000000',
     fontSize: 16,
-    textAlign: 'center', 
+    textAlign: 'center',
   },
 });

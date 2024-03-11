@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
+import * as style from '../../style/styles';// Importez vos styles
 import { useState } from "react";
 import global from '../../global';
 
@@ -74,6 +75,11 @@ export function InscriptionScreen() {
         // Affiche un message d'erreur à l'utilisateur
       });
   };
+
+  // const handleConnecterValider = () => {
+  //   // Naviguer vers l'écran ConnexionScreen avec les données saisies
+  //   navigation.navigate('Connexion', { email, password, nom, prenom, ville, cp, rue });
+  // };
 
   return (
     <View style={styles.container}>
@@ -160,41 +166,40 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: windowHeight * 0.04, 
+    marginBottom: windowHeight * 0.04,
   },
   image: {
-    marginBottom: windowHeight * 0.04, 
+    marginBottom: windowHeight * 0.04,
   },
   text: {
-    fontSize: windowWidth * 0.08, 
-    marginLeft: windowWidth * 0.02, 
+    fontSize: windowWidth * 0.08,
+    marginLeft: windowWidth * 0.02,
   },
   buttonContainer: {
     width: '100%',
-    paddingHorizontal: windowWidth * 0.05, 
+    paddingHorizontal: windowWidth * 0.05,
   },
   input: {
-    height: windowHeight * 0.1, 
-    fontSize: windowWidth * 0.04, 
+    height: windowHeight * 0.08,
+    fontSize: windowWidth * 0.04,
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: windowWidth * 0.04, 
-    marginBottom: windowHeight * 0.02, 
-    paddingHorizontal: windowWidth * 0.02, 
+    borderRadius: style.BORDER_SIZE.border,
+    marginBottom: windowHeight * 0.02,
+    paddingHorizontal: windowWidth * 0.02,
   },
   button: {
-    width: windowWidth * 0.9,
-    padding: windowHeight * 0.03, 
+    width: windowWidth * 0.9, // Réduire la largeur du bouton
+    height: windowHeight * 0.08, // Maintenir la hauteur du bouton
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: windowHeight * 0.02, 
-    marginBottom: windowHeight * 0.02, 
-    borderRadius: windowWidth * 0.04, 
-    backgroundColor: '#F2E8CF',
+    borderRadius: style.BORDER_SIZE.border,
+    backgroundColor: style.COLORS.button,
+    marginBottom: windowHeight * 0.02, // Espacement entre les boutons
   },
   buttonText: {
     color: '#000000',
-    fontSize: windowWidth * 0.05, 
+    fontSize: style.FONT_SIZES.medium,
     textAlign: 'center',
   },
   signupContainer: {
@@ -202,16 +207,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signupTextPart1: {
-    fontSize: windowWidth * 0.05, 
+    fontSize: windowWidth * 0.05,
     textAlign: 'center',
-    marginTop: windowHeight * 0.01, 
+    marginTop: windowHeight * 0.01,
   },
   signupTextPart2: {
-    fontSize: windowWidth * 0.05, 
+    fontSize: windowWidth * 0.05,
     color: "#386641",
     textAlign: 'center',
     textDecorationLine: 'underline',
-    marginTop: windowHeight * 0.01, 
+    marginTop: windowHeight * 0.01,
   },
 });
 

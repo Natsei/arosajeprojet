@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, TextInput } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import useSWR from "swr";
+import * as style from '../../style/styles';
 import global from '../../global';
+import useSWR from 'swr';
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const fetcher = (url) =>
   fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
@@ -13,31 +15,14 @@ const fetcher = (url) =>
   );
 
 export function AccueilScreen() {
+  
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState(['Petites Plantes', 'Arbuste', 'Fleurs', 'Plantes d\'intérieurs', 'Plantes Aquatiques']);
   const [plants, setPlants] = useState([
     { id: 1, name: 'Lila mdr', image: require('../../assets/Plantes/Plante1.jpg'), description: 'Plante jolis' },
-    { id: 2, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
+    { id: 3, name: 'Jonquille 2', image: require('../../assets/Plantes/Plante2.jpg'), description: 'Plante pas ouf' },
   ]);
-
-  const { dataAnnonce, errorAnnonce, isLoadingAnnonce } = useSWR(
-    "http://localhost:3000/api/annonces/getAll",
-    fetcher
-  );
-
-  const { dataCategorie, error, isLoading } = useSWR(
-    "http://localhost:3000/api/categories/getAll",
-    fetcher
-  );
-
-  const { dataUser, errorUser, isLoadingUser } = useSWR(
-    "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
-    fetcher
-  );
-
-  if (error || errorAnnonce || errorUser) return "An error has occurred.";
-  if (isLoading || isLoadingAnnonce || isLoadingUser) return "Loading...";
 
   const handleAddPicturePress = () => {
     navigation.navigate('AddPictureScreen');
@@ -60,26 +45,31 @@ export function AccueilScreen() {
   return (
     <View style={styles.container}>
     <View style={styles.header}>
-      <View style={styles.leftHeader}>
-        <Text style={styles.villeText}>Ville : </Text>
-        <Text style={styles.villeText}>Montpellier</Text>
-      </View>
-      <View style={styles.rightHeader}>
-        <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleProfile}>
-          <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={styles.leftHeader}>
+            <Text style={styles.villeText}>Ville: </Text>
+            <Text style={styles.villeText}>Montpellier</Text>
+          </View>
+          <View style={styles.rightHeader}>
+            <TouchableOpacity onPress={handleAddPicturePress} style={styles.addButton}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleProfile}>
+              <Image source={require('../../assets/Profile/profilepicture.png')} style={styles.profileImage} />
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <SearchBar
-        placeholder="Search at the top"
-        lightTheme
-        round
-        containerStyle={styles.searchBarTop}
-       />
+      <View style={styles.searchBarTop}>
+        <SearchBar
+          placeholder="Rechercher des plantes"
+          // onChangeText={(text) => setSearchText(text)}
+          // value={searchText}
+          lightTheme
+          round
+          containerStyle={styles.searchBarTop}
+          inputContainerStyle={styles.inputContainer}
+        />
+      </View>
 
       <Image
         source={require('../../assets/Plantes/picture_home.png')}
@@ -95,8 +85,8 @@ export function AccueilScreen() {
       style={[
         styles.categoryButton,
         {
-          backgroundColor: selectedCategory === category ? '#F2E8CF' : 'white',
-          fontWeight: selectedCategory === category ? 'bold' : 'normal',
+          backgroundColor: selectedCategory === category ? style.COLORS.button : style.COLORS.primary,
+          fontWeight: selectedCategory === category ? style.FONT_WEIGHTS.bold : style.FONT_WEIGHTS.normal,
         },
       ]}
     >
@@ -106,19 +96,21 @@ export function AccueilScreen() {
 </View>
       </ScrollView>
 
-      <View style={styles.plantSection}>
-        {plants.map((plant) => (
-          <TouchableOpacity
-            key={plant.id}
-            onPress={() => handlePlantPress(plant.id)}
-            style={styles.plantItem}
-          >
-            <Image source={plant.image} style={styles.plantImage} />
-            <Text style={styles.plantName}>{plant.name}</Text>
-            <Text>{plant.description}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <ScrollView style={styles.plantScrollView} showsVerticalScrollIndicator={true}>
+          <View style={styles.plantSection}>
+            {plants.map((plant) => (
+              <TouchableOpacity
+                key={plant.id}
+                onPress={() => handlePlantPress(plant.id)}
+                style={styles.plantItem}
+              >
+                <Image source={plant.image} style={styles.plantImage} />
+                <Text style={styles.plantName}>{plant.name}</Text>
+                <Text>{plant.description}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
     </View>
   );
 }
@@ -126,13 +118,11 @@ export function AccueilScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 30,
-    backgroundColor: "#F5F5F5",
   },
   leftHeader: {
     flex: 1.5,
@@ -144,44 +134,49 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * -0.08,
   },
   villeText: {
-    fontSize: windowWidth * 0.04,
+    fontSize: windowWidth * 0.06,
     marginLeft: windowWidth * 0.02,
   },
   profileImage: {
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
-    borderRadius: windowWidth * 0.04,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.03,
     marginTop: windowWidth * 0.01,
   },
   addButton: {
-    backgroundColor: '#F2E8CF',
+    backgroundColor: style.COLORS.button,
     width: windowWidth * 0.12,
     height: windowWidth * 0.12,
-    borderRadius: windowWidth * 0.06,
+    borderRadius: style.BORDER_SIZE.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: windowWidth * 0.03,
     marginTop: windowWidth * 0.01,
-  },
+},
   addButtonText: {
     color: 'black',
     marginRight: windowWidth * -0.01,
     fontSize: windowWidth * 0.09,
     width: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   searchBarTop: {
-    backgroundColor: '#F5F5F5',
+    marginBottom: windowWidth * 0.02,
+    paddingHorizontal: windowWidth * 0.05,
+    backgroundColor: 'transparent',
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    marginBottom: windowWidth * 0.02,
+  },
+  inputContainer: {
+    backgroundColor: style.COLORS.button,
   },
   imageAboveCategories: {
     width: windowWidth * 0.9,
     height: windowWidth * 0.4,
+    marginLeft: windowWidth * 0.05,
     marginBottom: windowWidth * 0.08,
-    borderRadius: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
   },
   categoryScrollView: {
     maxHeight: windowWidth * 0.1,
@@ -193,25 +188,40 @@ const styles = StyleSheet.create({
   },
   categoryButton: {
     padding: windowWidth * 0.02,
-    borderRadius: windowWidth * 0.02,
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   plantSection: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: windowWidth * 0.025,
+    marginBottom: windowWidth * 0.03,
   },
   plantItem: {
     alignItems: 'center',
+    width: '48%',
     marginBottom: windowWidth * 0.03,
+    borderWidth: 1,
+    borderColor: style.COLORS.primary,
+    backgroundColor: style.COLORS.primary,
+    borderRadius: style.BORDER_SIZE.border,
+    padding: windowWidth * 0.02,
   },
   plantImage: {
-    width: windowWidth * 0.3,
-    height: windowWidth * 0.3,
-    borderRadius: windowWidth * 0.02,
+    width: '100%',
+    height: (windowWidth - windowWidth * 0.09) / 2.5,
+    borderRadius: style.BORDER_SIZE.border,
     marginBottom: windowWidth * 0.02,
   },
   plantName: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: style.FONT_WEIGHTS.bold,
+  },
+  plantScrollView: {
+    flex: 1.5,
+    marginTop: windowWidth * 0.02,
   },
 });
+
+export default AccueilScreen;

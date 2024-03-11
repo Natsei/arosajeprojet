@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as style from "../../style/styles"; // Importez vos styles
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export function MdpScreen() {
-  const [Mdp, setMdp] = useState('');
-  const [NewMdp, setNewMdp] = useState('');
-  const [ChangeMdp, setChangeMdp] = useState('');
+  const navigation = useNavigation(); // Utilisez useNavigation à l'intérieur de la fonction
+
+  const [Mdp, setMdp] = useState("");
+  const [NewMdp, setNewMdp] = useState("");
+  const [ChangeMdp, setChangeMdp] = useState("");
+
+  // const handleSave = () => {
+  //   console.log('Informations enregistrées :', { Mdp, NewMdp, ChangeMdp });
+  // };
 
   const handleSave = () => {
-    console.log('Informations enregistrées :', { Mdp, NewMdp, ChangeMdp });
+    navigation.navigate("DetailScreen");
+    //console.log('Informations enregistrées :', { name, surname, email, city });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <InfoBox label="Mot de Passe" value={Mdp} onChangeText={setMdp} />
-        <InfoBox label="Nouveau Mot de Passe" value={NewMdp} onChangeText={setNewMdp} />
-        <InfoBox label="Confirmation Mot de Passe" value={ChangeMdp} onChangeText={setChangeMdp} />
+        <InfoBox
+          label="Nouveau Mot de Passe"
+          value={NewMdp}
+          onChangeText={setNewMdp}
+        />
+        <InfoBox
+          label="Confirmation Mot de Passe"
+          value={ChangeMdp}
+          onChangeText={setChangeMdp}
+        />
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -43,42 +67,37 @@ const InfoBox = ({ label, value, onChangeText }) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: windowWidth * 0.05, 
+    backgroundColor: style.COLORS.background,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: windowWidth * 0.05,
   },
   infoContainer: {
-    width: '100%',
-    borderRadius: 10,
+    width: "100%",
+    borderRadius: style.BORDER_SIZE.border,
   },
   infoBox: {
-    marginBottom: windowHeight * 0.015, 
+    marginBottom: windowHeight * 0.015,
   },
   label: {
-    fontSize: windowWidth * 0.045, 
-    fontWeight: 'bold',
-    marginBottom: windowHeight * 0.01, 
+    fontSize: windowWidth * 0.045,
+    fontWeight: style.FONT_WEIGHTS.bold,
+    marginBottom: windowHeight * 0.01,
   },
   input: {
-    height: windowHeight * 0.06, 
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: windowWidth * 0.030, 
-    paddingLeft: windowWidth * 0.02, 
-    marginBottom: windowHeight * 0.01, 
+    ...style.BUTTONS.form_style,
   },
   saveButton: {
-    backgroundColor: '#F2E8CF',
-    paddingVertical: windowHeight * 0.03, 
-    paddingHorizontal: windowWidth * 0.05, 
-    borderRadius: windowWidth * 0.045,
-    marginTop: windowHeight * 0.02, 
+    backgroundColor: style.COLORS.button,
+    paddingVertical: windowHeight * 0.03,
+    paddingHorizontal: windowWidth * 0.05,
+    borderRadius: style.BORDER_SIZE.border,
+    marginTop: windowHeight * 0.02,
   },
   buttonText: {
-    fontSize: windowWidth * 0.06, 
-    color: '#000000',
-    textAlign: 'center',
+    fontSize: windowWidth * 0.06,
+    color: "#000000",
+    textAlign: "center",
   },
 });
 

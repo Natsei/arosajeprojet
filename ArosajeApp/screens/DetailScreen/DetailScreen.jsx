@@ -1,18 +1,13 @@
-import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import * as style from '../../style/styles';// Importez vos styles
 import useSWR from "swr";
+import { ChevronLeft } from "lucide-react-native";
 import global from '../../global';
 import { useNavigation } from '@react-navigation/native';
 
-const windowHeight = Dimensions.get("window").height;
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const fetcher = (url) =>
   fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
@@ -25,40 +20,6 @@ export function DetailScreen({ route }) {
 
   const navigation = useNavigation();
 
-  /*const [plante, setPlante] = React.useState([]);
-
-  React.useEffect(() => {
-    getPlante();
-  }, []);
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbHMwNXR6c3EwMDA0MTM0ZDBpZTJ5Y3UyIiwiaWF0IjoxNzA4OTQ1NDAyLCJleHAiOjE3MDg5NDkwMDJ9.ZPkngUQKSJhQNaOuj9p3DxEvcj7QI7H7TUMzCHq1BWo";
-
-  const getPlante = () => {
-    fetch("http://localhost:3000/api/plantes/getById?id=1", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Ajoutez le token ici
-      },
-    })
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.headers);
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response.data);
-        setPlante(response.data);
-      })
-      .catch((error) => {
-        console.error(
-          "Erreur lors de la récupération des données de la plante :",
-          error
-        );
-      });
-  };*/
-
   const { data, error, isLoading } = useSWR(
     "http://localhost:3000/api/annonces/getById?id="+id,
     fetcher
@@ -67,13 +28,19 @@ export function DetailScreen({ route }) {
   if (error) return "An error has occurred.";
   if (isLoading) return "Loading...";
 
-  const handleInscription = () => {
+  const handleChat = () => {
     navigation.navigate("ChatScreen");
   };
 
+  const handleProfilClient = (userId) => {
+    navigation.navigate("UserPlantScreen", { id: userId });
+  };
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate("AccueilScreen")}>
+          <ChevronLeft color="black" size={30} />
+      </TouchableOpacity>
       <Text style={styles.title}>Détails</Text>
 
       <View style={styles.content}>
@@ -105,25 +72,15 @@ export function DetailScreen({ route }) {
             }}
             style={styles.smallImage}
           />
-          <View>
-            <Text style={styles.userInfo}>
-              {data.auteur.prenom} {data.auteur.nom}
-            </Text>
-            <Text style={styles.userInfoDescription}>
-              {data.auteur.description}
-            </Text>
+          <View style={styles.userInfoContainer}>
+            <Text style={styles.userInfo}>{data.auteur.prenom} {data.auteur.nom}</Text>
+            <Text style={styles.userInfoDescription}>{data.auteur.description}</Text>
           </View>
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.smallerButton]}
-          onPress={handleInscription}
-        >
-          <Text style={styles.buttonText}>Appeler</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleInscription}>
+        <TouchableOpacity style={styles.button} onPress={handleChat}>
           <Text style={styles.buttonText}>Prendre contact</Text>
         </TouchableOpacity>
       </View>
@@ -135,111 +92,103 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    padding: windowWidth * 0.05, // Ajouter un padding global à gauche
+    paddingHorizontal: windowWidth * 0.05,
+    paddingTop: windowHeight * 0.05,
   },
   title: {
-    fontSize: windowHeight * 0.04,
-    fontWeight: "bold",
-    marginTop: 20,
-    textAlign: "center", // Aligner le texte du titre à gauche
+    fontSize: windowWidth * 0.06,
+    fontWeight: style.FONT_WEIGHTS.bold,
+    textAlign: 'center',
+    marginBottom: windowHeight * 0.05,
   },
   subtitle: {
-    fontSize: windowHeight * 0.025,
-    fontWeight: "bold",
-    marginTop: windowHeight * 0.015,
-    textAlign: "left", // Aligner le texte des sous-titres à gauche
+    fontSize: windowWidth * 0.04,
+    fontWeight: style.FONT_WEIGHTS.bold,
+    marginTop: windowHeight * 0.03,
+    textAlign: 'left',
   },
   subtitleDescription: {
-    fontSize: 18,
-    marginTop: windowHeight * 0.015,
-    textAlign: "left", // Aligner le texte des sous-titres à gauche
-  },
-
-  content: {
-    alignItems: "flex-start",
+    fontSize: windowWidth * 0.035,
     marginTop: windowHeight * 0.02,
+    textAlign: 'left',
+  },
+  content: {
+    alignItems: 'center',
   },
   image: {
-    width: 350,
-    height: 300,
-    resizeMode: "contain",
-    borderRadius: windowHeight * 0.02,
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.3,
+    resizeMode: 'contain',
+    borderRadius: style.BORDER_SIZE.border,
   },
   cityContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: windowHeight * 0.015,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: windowHeight * 0.02,
   },
   cityImage: {
-    width: 14,
-    height: 22,
-    resizeMode: "cover",
-    borderRadius: windowHeight * 0.01,
+    width: windowWidth * 0.05,
+    height: windowHeight * 0.035,
+    resizeMode: 'cover',
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   cityName: {
-    fontSize: windowHeight * 0.025, // Assurez-vous que la taille du texte est la même que pour les sous-titres
-    fontWeight: "bold",
+    fontSize: windowWidth * 0.04,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   blackLine: {
     height: 0.5,
-    width: "90%",
-    backgroundColor: "lightgrey",
-    marginBottom: windowHeight * 0.015, // Ajustez la marge en fonction de vos besoins
-    marginTop: windowHeight * 0.015,
+    width: '90%',
+    backgroundColor: 'lightgrey',
+    marginVertical: windowHeight * 0.02,
   },
   rectangleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: windowHeight * 0.02,
     borderWidth: 0.4,
-    borderColor: "lightgrey", // Bordure noire
-    borderRadius: 10,
+    borderColor: 'lightgrey',
+    borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.03,
   },
   smallImage: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
-    resizeMode: "cover",
-    borderRadius: windowHeight * 0.01,
+    resizeMode: 'cover',
+    borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
   userInfoContainer: {
-    borderWidth: 1,
-    borderColor: "black", // Bordure noire
-    marginLeft: windowWidth * 0.02,
-    padding: windowWidth * 0.02,
-    borderRadius: windowHeight * 0.01,
+    flex: 1,
   },
   userInfo: {
-    fontSize: windowHeight * 0.02,
-    fontWeight: "bold",
+    fontSize: windowWidth * 0.035,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
   userInfoDescription: {
-    fontSize: windowHeight * 0.018,
-    color: "gray",
+    fontSize: windowWidth * 0.03,
+    color: 'gray',
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: windowHeight * 0.03,
   },
   button: {
-    backgroundColor: "#F2E8CF",
+    backgroundColor: style.COLORS.button,
     flex: 1,
     paddingVertical: windowHeight * 0.03,
-    paddingHorizontal: windowWidth * 0.05,
     marginHorizontal: windowWidth * 0.02,
-    borderRadius: windowHeight * 0.017,
-    alignItems: "center", // Aligner le contenu au centre
-    justifyContent: "center", // Aligner le contenu au centre
+    borderRadius: style.BORDER_SIZE.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   smallerButton: {
-    flex: 0.5, // Utilisez un flex plus petit pour le bouton "Appeler"
+    flex: 0.5,
   },
   buttonText: {
-    textAlign: "center",
-    fontSize: windowHeight * 0.02,
-    fontWeight: "bold",
+    fontSize: windowWidth * 0.05,
+    fontWeight: style.FONT_WEIGHTS.bold,
   },
 });
+
