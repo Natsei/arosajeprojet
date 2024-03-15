@@ -36,6 +36,9 @@ export function DetailScreen({ route }) {
     navigation.navigate("UserPlantScreen", { id: userId });
   };
 
+  console.log(data.lesPhotos);
+
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("AccueilScreen")}>
@@ -45,7 +48,11 @@ export function DetailScreen({ route }) {
 
       <View style={styles.content}>
         <Image
-          source={require("../../assets/Profile/Image.png")}
+          source={{
+            uri:
+              "http://localhost:3000/img/uploads/" +
+              data.lesPhotos?.cheminPhoto,
+          }}
           style={styles.image}
         />
 

@@ -43,8 +43,8 @@ export function ConnexionScreen() {
           response.json().then((data) => {
             global.token = data.token;
             global.userId = data.id; // Stocke le token dans le state ou dans un contexte global
+            navigation.navigate("AccueilScreen");
           });
-          navigation.navigate("AccueilScreen");
         } else {
           console.log(response);
           // Gére les cas d'échec de connexion

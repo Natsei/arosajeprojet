@@ -27,6 +27,8 @@ export default async function handler(req, res) {
   // Vérifier la validité du token
   jwt.verify(token, 'secret_key', async (err, decoded) => {
     if (err) {
+      console.log(err);
+      console.log(req.headers.authorization);
       console.error('Erreur lors de la vérification du token :', err);
       return res.status(401).json({ error: 'Token non valide' });
     }
