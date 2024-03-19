@@ -32,6 +32,8 @@ export function InscriptionScreen() {
       rue: rue,
     };
 
+    console.log(requestBody);
+
     // Envoi de la requête à votre API
     fetch("http://localhost:3000/api/utilisateurs/add", {
       method: "POST",
@@ -42,7 +44,7 @@ export function InscriptionScreen() {
     })
       .then((response) => {
         if (response.ok) {
-          const requestBodyLog = {
+          /*const requestBodyLog = {
             email: email,
             motDePasse: password,
           };
@@ -62,9 +64,11 @@ export function InscriptionScreen() {
                 });
                 navigation.navigate("AccueilScreen");
               }
-            });
+            });*/
+
+            navigation.navigate("HomeScreen");
         } else {
-          console.log(response);
+          //console.log(response);
           // Gére les cas d'échec de connexion
           setErrorMessage("Informations d'inscription invalides."); // Affiche un message d'erreur à l'utilisateur
 
@@ -77,7 +81,7 @@ export function InscriptionScreen() {
   };
 
   // const handleConnecterValider = () => {
-  //   // Naviguer vers l'écran ConnexionScreen avec les données saisies
+  //   Naviguer vers l'écran ConnexionScreen avec les données saisies
   //   navigation.navigate('Connexion', { email, password, nom, prenom, ville, cp, rue });
   // };
 

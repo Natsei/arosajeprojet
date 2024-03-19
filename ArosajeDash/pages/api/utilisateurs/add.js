@@ -34,7 +34,13 @@ export default async function handler(req, res) {
       // Utiliser multer pour traiter les fichiers multipart/form-data
       await upload(req, res);
 
-      const { email, motDePasse, prenom, nom, ville, cp, rue, description } = req.body;
+      console.log(req.body);
+
+      //const { email, motDePasse, prenom, nom, ville, cp, rue, description } = req.body;
+      const { email, motDePasse, prenom, nom, ville, cp, rue } = req.body;
+
+      const description = " ";
+      const cheminPhoto = '752437ac-7ad1-4657-8ed7-9f18e8e08c0a.jpg';
 
       //Test des champs
       //Test email
@@ -46,9 +52,9 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Le mot de passe n\'est pas valide.' });
       }
       //Test description
-      if(!Security.isValidDescription(description)){
+      /*if(!Security.isValidDescription(description)){
         return res.status(400).json({ error: 'La description ne doit pas dépasser 255 caractères.' });
-      }
+      }*/
 
       //Test si un utilisateur existe déjà
       const utilisateur = await prisma.utilisateur.findUnique({
@@ -65,7 +71,7 @@ export default async function handler(req, res) {
       }
 
       // Récupérer le fichier image depuis la requête
-      const imageFile = req.file;
+      /*const imageFile = req.file;
       var cheminPhoto = "";
       if (imageFile) {
         // Obtenir l'extension du fichier à partir du nom original
@@ -96,7 +102,7 @@ export default async function handler(req, res) {
         .toFile(cheminPhoto);
 
         cheminPhoto = name
-      }
+      }*/
 
       var hashPassword = await Security.hashPassword(motDePasse);
       const nouvelUtilisateur = await prisma.utilisateur.create({

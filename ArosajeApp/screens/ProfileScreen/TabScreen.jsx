@@ -22,15 +22,6 @@ const fetcher = (url) =>
   );
 
 export function TabScreen() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [cp, setCp] = useState("");
-  const [rue, setRue] = useState("");
-  const [description, setDescription] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
   const { data, error, isLoading } = useSWR(
     "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
     fetcher
@@ -39,7 +30,17 @@ export function TabScreen() {
   if (error) return "An error has occurred.";
   if (isLoading) return "Loading...";
 
+  const [name, setName] = useState(data.nom);
+  const [surname, setSurname] = useState(data.prenom);
+  const [email, setEmail] = useState(data.email);
+  const [city, setCity] = useState(data.ville);
+  const [cp, setCp] = useState(data.cp);
+  const [rue, setRue] = useState(data.rue);
+  const [description, setDescription] = useState(data.description);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSave = () => {
+    console.log('email: '+email);
     // Construction du corps de la requête à envoyer à l'API
     const requestBody = {
       email: email,
