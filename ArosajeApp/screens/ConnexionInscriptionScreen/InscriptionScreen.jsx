@@ -44,7 +44,7 @@ export function InscriptionScreen() {
     })
       .then((response) => {
         if (response.ok) {
-          /*const requestBodyLog = {
+          const requestBodyLog = {
             email: email,
             motDePasse: password,
           };
@@ -61,10 +61,10 @@ export function InscriptionScreen() {
                 // La connexion est réussie, redirige l'utilisateur vers une autre page
                 response.json().then((data) => {
                   global.token = data.token; // Stocke le token dans le state ou dans un contexte global
+                  navigation.navigate("AccueilScreen");
                 });
-                navigation.navigate("AccueilScreen");
               }
-            });*/
+            });
 
             navigation.navigate("HomeScreen");
         } else {

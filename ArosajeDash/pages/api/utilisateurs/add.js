@@ -13,11 +13,11 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 const upload = promisify(multer().single('image'));
 
-export const config = {
+/*export const config = {
   api: {
     bodyParser: false,
   },
-};
+};*/
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -33,8 +33,6 @@ export default async function handler(req, res) {
   try {
       // Utiliser multer pour traiter les fichiers multipart/form-data
       await upload(req, res);
-
-      console.log(req.body);
 
       //const { email, motDePasse, prenom, nom, ville, cp, rue, description } = req.body;
       const { email, motDePasse, prenom, nom, ville, cp, rue } = req.body;
