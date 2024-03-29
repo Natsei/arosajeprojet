@@ -97,7 +97,10 @@ export default async function handler(req, res) {
 
         cheminPhoto = name
       }
-
+      
+      //Chiffrement des données
+      var rueChiffree = Security.encryptData(rue.toLowerCase());
+     
       var hashPassword = await Security.hashPassword(motDePasse);
       const nouvelUtilisateur = await prisma.utilisateur.create({
         data: {
@@ -107,13 +110,17 @@ export default async function handler(req, res) {
             nom,
             ville,
             cp,
-            rue,
+            rue : rueChiffree,
             description,
             cheminPhoto,
             dateInscription: new Date(),
             dateDerniereConnexion: new Date(),
         },
       });
+
+      //On retourne les données non chiffrées 
+      nouvelUtilisateur.rue = rue;
+
       res.status(201).json(nouvelUtilisateur);
 
   } catch (error) {

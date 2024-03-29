@@ -2,6 +2,8 @@ import { PrismaClient, Utilisateur } from '@prisma/client';
 
 const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
+const crypto = require('crypto');
+const key = require('../key');
 
 
 class Security {
@@ -182,6 +184,34 @@ class Security {
             
         }
         return utilisateur;
+    }
+
+    /**
+     * Retourne la donnée chiffrée
+     * @param data 
+     * @returns 
+     */
+    static encryptData(data : any) {
+        const chiffrement = crypto.createCipher('aes-256-cbc', key.encryptionKey);
+        let donneeChiffree = chiffrement.update(data, 'utf8', 'hex');
+        donneeChiffree += chiffrement.final('hex');
+        return donneeChiffree;
+    }
+
+     /**
+     * Retourne la donnée dechiffrée
+     * @param donneeChiffree 
+     * @returns 
+     */
+    static decryptData(donneeChiffree : any) {
+        var donneeDehiffree = donneeChiffree;
+        if( typeof donneeChiffree === 'string'){
+            const dechiffrement = crypto.createDecipher('aes-256-cbc', key.encryptionKey);
+            donneeDehiffree = dechiffrement.update(donneeChiffree, 'hex', 'utf8');
+            donneeDehiffree += dechiffrement.final('utf8');
+        }
+       
+        return donneeDehiffree;
     }
   
 }

@@ -99,6 +99,12 @@ export default async function handler(req, res) {
         }
       });
 
+      utilisateurs.forEach((utilisateur) => {
+         //Déchiffrement des données
+         utilisateur.rue = Security.decryptData(utilisateur.rue)
+      });
+     
+      
       res.status(200).json(utilisateurs);
     } catch (error) {
       console.error('Erreur lors de la récupération des utilisateurs :', error);

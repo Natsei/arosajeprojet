@@ -21,7 +21,7 @@ async function main() {
   
     //Les utilisateurs à prévenir : Connexion il y a 11mois
     const elevenMonthsAgo = new Date();
-    elevenMonthsAgo.setMonth(elevenMonthsAgo.getMonth() - 11);
+    elevenMonthsAgo.setMonth(elevenMonthsAgo.getMonth() - 12);
 
     // Récupérer la liste des utilisateurs avec derniereConnexion il y a 11 mois
     const users = await prisma.utilisateur.findMany({
@@ -56,7 +56,7 @@ async function main() {
 
     //Les utilisateurs à supprimer : Connexion il y a 12mois
     const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 13);
     // Suppression des utilisateurs avec derniereConnexion il y a 12 mois
     await prisma.utilisateur.deleteMany({
         where: {
@@ -70,7 +70,7 @@ async function main() {
 
 
     //Envoi des email
-    const sujet = '"Arosaj" <app@arosaj.fr>';
+    const sujet = '"Arosaje" <app@arosaje.fr>';
     const source = "notification suppression de compte"
 
     filteredUsers.forEach(function(user) {
@@ -79,7 +79,7 @@ async function main() {
         const info = transporter.sendMail({
             from: sujet, 
             to: user.email, 
-            subject: "Arosaj - Votre compte va être supprimé", // Subject line
+            subject: "Arosaje - Votre compte va être supprimé", // Subject line
             html: "<p>Votre compte va être supprimé pour cause d'une inactivité supérieure à 1 an.</p></br></br><p>Vous avez 1 mois pour vous reconnecter.</p>", // html body
         });
 

@@ -52,6 +52,9 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Utilisateur non trouvé.' });
       }
 
+      //Déchiffrement des données
+      utilisateur.rue = Security.decryptData(utilisateur.rue)
+
       res.status(200).json(utilisateur);
     });
   } catch (error) {

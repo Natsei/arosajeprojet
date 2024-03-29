@@ -78,7 +78,8 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Cet email est déjà utilisé par un autre utilisateur' });
       }
 
-
+      //Chiffrement des données
+      var rueChiffree = Security.encryptData(rue.toLowerCase());
 
       // Mettre à jour les champs de l'utilisateur
       const utilisateurUpdated = await prisma.utilisateur.update({
@@ -89,12 +90,15 @@ export default async function handler(req, res) {
           email,
           prenom,
           nom,
-          ville,
-          cp,
-          rue,
+          ville: villeChiffree,
+          cp: cpChiffree,
+          rue: rueChiffree,
           description,
         },
       });
+
+       //On retourne les données non chiffrées 
+       utilisateurUpdated.rue = rue;
 
       res.status(200).json(utilisateurUpdated);
     } catch (error) {
