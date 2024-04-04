@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       const { email, motDePasse, prenom, nom, ville, cp, rue } = req.body;
 
       const description = " ";
-      const cheminPhoto = '752437ac-7ad1-4657-8ed7-9f18e8e08c0a.jpg';
+      const cheminPhoto = 'default-user.jpg';
 
       //Test des champs
       //Test email
