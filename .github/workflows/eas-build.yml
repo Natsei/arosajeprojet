@@ -9,8 +9,6 @@ jobs:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
-      - run: ls
-      - run: cd ArosajeApp
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
