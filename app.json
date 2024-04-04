@@ -4,6 +4,9 @@
       "eas": {
         "projectId": "2bc608d1-6935-4930-96e8-e15a34230949"
       }
+    },
+    "android": {
+      "package": "com.natseii.arosaje"
     }
   }
 }
