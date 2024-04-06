@@ -3,6 +3,8 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal"
+      "env": {
+        "API_URL": "http://api.local"
     },
     "preview": {
       "distribution": "internal"
