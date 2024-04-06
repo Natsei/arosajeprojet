@@ -10,7 +10,7 @@
             },
             "credentialsSource": "remote"
         },
-        "production": {}
+        "production": {},
         "development": {
          "developmentClient": true,
          "distribution": "internal",
