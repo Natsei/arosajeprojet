@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, Image, Text} from 'react-native';
+import { View, StyleSheet, StatusBar, Image, Text, TouchableOpacity} from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as style from '../../style/styles';// Importez vos styles
 import { MdpScreen } from './MdpScreen';
 import { TabScreen } from './TabScreen';
 import useSWR from "swr";
 import global from '../../global';
+import { ChevronLeft } from "lucide-react-native";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -25,12 +26,15 @@ export function ProfileScreen() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('AccueilScreen')}>
+          <ChevronLeft color="black" size={30} />
+        </TouchableOpacity>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
       <Text style={styles.title}>Profil</Text>
       <Image
         source={{
           uri:
-            "http://localhost:3000/img/uploads/" + data.cheminPhoto,
+            "http://localhost:3000/img/uploads/" + data.cheminPhoto + ".jpg",
         }}
         style={styles.profileImage}
       />

@@ -1,81 +1,65 @@
 const { PrismaClient } = require('@prisma/client');
 const jwt = require('jsonwebtoken');
-
 const http = require('http');
 const { Server } = require('socket.io');
 const express = require('express');
+const cors = require('cors');
 const prisma = new PrismaClient();
 
 const expressApp = express();
+
+// Configuration CORS
+expressApp.use(cors({
+  origin: 'http://localhost:8081', // Remplacez par l'origine de votre application front-end
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 const server = http.createServer(expressApp);
 
-const io = new Server(server);
-
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:8081', // Remplacez par l'origine de votre application front-end
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Ajoutez cette ligne pour autoriser les cookies de session
+  }
+});
 
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.auth.token;
-    // Vérifie l'authentification  
-    const decoded = await new Promise((resolve, reject) => {
-      jwt.verify(token, 'secret_key', (err, decoded) => {
-        if (err) reject(err);
-        else resolve(decoded);
-      });
+    if (!token) {
+      return next(new Error("Pas de token fourni"));
+    }
+
+    // Vérifie l'authentification
+    const decoded = jwt.verify(token, 'secret_key');
+    if (!decoded) {
+      return next(new Error("Authentification échouée"));
+    }
+
+    const utilisateur = await prisma.utilisateur.findUnique({
+      where: { id: decoded.id },
     });
 
-    if (!decoded) {
-      socket.emit('authenticationError', { message: "Authentification échouée" });
-      return next(new Error("Authentification échouée"));
+    if (!utilisateur) {
+      return next(new Error("Utilisateur non trouvé"));
     }
-    
-    const getUser = async ( id ) => {
-      return await prisma.utilisateur.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          id: true,
-          email: true,
-          prenom: true,
-          nom: true,
-          ville: true,
-          cp: true,
-          rue: true,
-          description: true,
-          cheminPhoto: true,
-          dateInscription: true,
-          lesMessagesEnvoyes: true,
-          lesMessagesRecus: true,
-        },
-      });
-    }
-    const utilisateur = await getUser(userId);
 
-    if (utilisateur) {
-      // Ajoute l'utilisateur authentifié à l'objet du socket
-      socket.utilisateur = utilisateur;
-      return next();
-    } else {
-      next(new Error("Authentification échouée"));
-      return next(new Error("Authentification échouée"));
-    }
-    
+    socket.utilisateur = utilisateur;
+    next();
   } catch (erreur) {
     console.error('Erreur d\'authentification:', erreur);
-    socket.emit('authenticationError', { message: "Erreur d'authentification" });
     return next(new Error("Erreur d'authentification"));
   }
 });
 
-
-
 io.on('connection', (socket) => {
-  console.log('Un utilisateur s\'est connecté : '+ socket.utilisateur.id);
+  console.log('Un utilisateur s\'est connecté : ' + socket.utilisateur.id);
 
-  // Gère les événements Socket.io ici
   socket.on('sendMessage', async ({ destinataireId, contenu }) => {
     try {
-      // Sauvegarder le message en base de données
       const nouveauMessage = await prisma.message.create({
         data: {
           auteurId: socket.utilisateur.id,
@@ -85,15 +69,11 @@ io.on('connection', (socket) => {
         },
       });
 
-      // Émettre le message à l'utilisateur destinataire
       io.to(destinataireId).emit('newMessage', nouveauMessage);
     } catch (erreur) {
       console.error('Erreur lors de la sauvegarde du message en base de données :', erreur);
     }
   });
-
-
-
 
   socket.on('disconnect', () => {
     console.log('Un utilisateur s\'est déconnecté');

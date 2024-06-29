@@ -42,7 +42,7 @@ export function AccueilScreen() {
     "http://localhost:3000/api/utilisateurs/getById?id=" + global.userId,
     fetcher
   );
-
+  
   const getAnnonce = (idCategorie) => {
     if (!idCategorie || idCategorie === 0) {
       return useSWR(
@@ -85,8 +85,6 @@ export function AccueilScreen() {
     navigation.navigate("ProfileScreen");
   };
 
-  console.log(getAnnonce(selectedCategory).data);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -106,7 +104,7 @@ export function AccueilScreen() {
               source={{
                 uri:
                   "http://localhost:3000/img/uploads/" +
-                  requestUser.data?.cheminPhoto,
+                  requestUser.data?.cheminPhoto + ".jpg",
               }}
               style={styles.profileImage}
             />
@@ -191,14 +189,17 @@ export function AccueilScreen() {
               onPress={() => handlePlantPress(annonce.id)}
               style={styles.plantItem}
             >
-              <Image
-                source={{
-                  uri:
-                    "http://localhost:3000/img/uploads/" +
-                    annonce.lesPhotos?.cheminPhoto,
-                }}
-                style={styles.plantImage}
-              />
+              {annonce.lesPhotos.map((photo) => (
+                  <Image
+                  key={photo.id}
+                  source={{
+                    uri:
+                      "http://localhost:3000/img/uploads/" +
+                      photo.cheminPhoto,
+                  }}
+                  style={styles.plantImage}
+                />
+              ))}
               <Text style={styles.plantName}>{annonce.plante.libelle}</Text>
               <Text>{annonce.description}</Text>
             </TouchableOpacity>
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "black",
-    marginRight: windowWidth * -0.01,
+    marginRight: windowWidth * 0.01,
     fontSize: windowWidth * 0.09,
     width: windowWidth * 0.05,
     fontWeight: style.FONT_WEIGHTS.bold,

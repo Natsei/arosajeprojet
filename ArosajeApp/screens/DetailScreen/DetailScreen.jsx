@@ -1,27 +1,33 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
-import * as style from '../../style/styles';// Importez vos styles
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
+import * as style from "../../style/styles"; // Importez vos styles
 import useSWR from "swr";
 import { ChevronLeft } from "lucide-react-native";
-import global from '../../global';
-import { useNavigation } from '@react-navigation/native';
+import global from "../../global";
+import { useNavigation } from "@react-navigation/native";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const fetcher = (url) =>
-  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then((res) =>
-    res.json()
+  fetch(url, { headers: { Authorization: "Bearer " + global.token } }).then(
+    (res) => res.json()
   );
 
 export function DetailScreen({ route }) {
-
   const { id } = route.params;
 
   const navigation = useNavigation();
 
   const { data, error, isLoading } = useSWR(
-    "http://localhost:3000/api/annonces/getById?id="+id,
+    "http://localhost:3000/api/annonces/getById?id=" + id,
     fetcher
   );
 
@@ -29,6 +35,7 @@ export function DetailScreen({ route }) {
   if (isLoading) return "Loading...";
 
   const handleChat = () => {
+
     navigation.navigate("ChatScreen");
   };
 
@@ -37,25 +44,25 @@ export function DetailScreen({ route }) {
   };
 
   console.log(data.lesPhotos);
-
+  console.log(data.lesPhotos.cheminPhoto);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("AccueilScreen")}>
-          <ChevronLeft color="black" size={30} />
+        <ChevronLeft color="black" size={30} />
       </TouchableOpacity>
       <Text style={styles.title}>Détails</Text>
 
       <View style={styles.content}>
-        <Image
-          source={{
-            uri:
-              "http://localhost:3000/img/uploads/" +
-              data.lesPhotos?.cheminPhoto,
-          }}
-          style={styles.image}
-        />
-
+        {data.lesPhotos.map((photo) => (
+          <Image
+            key={photo.id}
+            source={{
+              uri: "http://localhost:3000/img/uploads/" + photo.cheminPhoto,
+            }}
+            style={styles.image}
+          />
+        ))}
         <Text style={styles.subtitle}>{data.plante.libelle}</Text>
         <Text></Text>
 
@@ -80,8 +87,12 @@ export function DetailScreen({ route }) {
             style={styles.smallImage}
           />
           <View style={styles.userInfoContainer}>
-            <Text style={styles.userInfo}>{data.auteur.prenom} {data.auteur.nom}</Text>
-            <Text style={styles.userInfoDescription}>{data.auteur.description}</Text>
+            <Text style={styles.userInfo}>
+              {data.auteur.prenom} {data.auteur.nom}
+            </Text>
+            <Text style={styles.userInfoDescription}>
+              {data.auteur.description}
+            </Text>
           </View>
         </View>
       </View>
@@ -105,38 +116,38 @@ const styles = StyleSheet.create({
   title: {
     fontSize: windowWidth * 0.06,
     fontWeight: style.FONT_WEIGHTS.bold,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: windowHeight * 0.05,
   },
   subtitle: {
     fontSize: windowWidth * 0.04,
     fontWeight: style.FONT_WEIGHTS.bold,
     marginTop: windowHeight * 0.03,
-    textAlign: 'left',
+    textAlign: "left",
   },
   subtitleDescription: {
     fontSize: windowWidth * 0.035,
     marginTop: windowHeight * 0.02,
-    textAlign: 'left',
+    textAlign: "left",
   },
   content: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   image: {
     width: windowWidth * 0.9,
     height: windowHeight * 0.3,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     borderRadius: style.BORDER_SIZE.border,
   },
   cityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: windowHeight * 0.02,
   },
   cityImage: {
     width: windowWidth * 0.05,
     height: windowHeight * 0.035,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
@@ -146,23 +157,23 @@ const styles = StyleSheet.create({
   },
   blackLine: {
     height: 0.5,
-    width: '90%',
-    backgroundColor: 'lightgrey',
+    width: "90%",
+    backgroundColor: "lightgrey",
     marginVertical: windowHeight * 0.02,
   },
   rectangleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: windowHeight * 0.02,
     borderWidth: 0.4,
-    borderColor: 'lightgrey',
+    borderColor: "lightgrey",
     borderRadius: style.BORDER_SIZE.border,
     padding: windowWidth * 0.03,
   },
   smallImage: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     borderRadius: style.BORDER_SIZE.border,
     marginRight: windowWidth * 0.02,
   },
@@ -175,10 +186,10 @@ const styles = StyleSheet.create({
   },
   userInfoDescription: {
     fontSize: windowWidth * 0.03,
-    color: 'gray',
+    color: "gray",
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: windowHeight * 0.03,
   },
   button: {
@@ -187,8 +198,8 @@ const styles = StyleSheet.create({
     paddingVertical: windowHeight * 0.03,
     marginHorizontal: windowWidth * 0.02,
     borderRadius: style.BORDER_SIZE.border,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   smallerButton: {
     flex: 0.5,
@@ -198,4 +209,3 @@ const styles = StyleSheet.create({
     fontWeight: style.FONT_WEIGHTS.bold,
   },
 });
-
