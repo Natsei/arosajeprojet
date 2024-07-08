@@ -82,7 +82,7 @@ export default async function handler(req, res) {
 
         // Chemin vers le répertoire de stockage des images
         const uploadDirectory = path.join(process.cwd(), 'public','img','uploads');
-        
+
         // S'assurer que le répertoire de stockage existe
         if (!fs.existsSync(uploadDirectory)) {
             fs.mkdirSync(uploadDirectory);

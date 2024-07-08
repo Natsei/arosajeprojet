@@ -5,6 +5,7 @@ import { ChevronLeft } from 'lucide-react-native';
 import * as style from '../../style/styles';// Importez vos styles
 import { useState } from "react";
 import global from '../../global';
+import { CheckBox } from 'react-native-elements';
 
 //Page d'inscription à changer de place
 export function InscriptionScreen() {
@@ -19,8 +20,14 @@ export function InscriptionScreen() {
   const [rue, setRue] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
+  const [isChecked, setIsChecked] = useState(false); // État pour la checkbox
 
   const handleInscriptionValider = () => {
+
+    if (!isChecked) {
+      setErrorMessage('Veuillez cocher la case pour vous inscrire.');
+      return;
+    }
     // Construction du corps de la requête à envoyer à l'API
     const requestBody = {
       email: email,
@@ -148,6 +155,15 @@ export function InscriptionScreen() {
           onChangeText={setPassword}
         />
 
+      <CheckBox
+        title="J'accepte la politique de confidentialité"
+        checked={isChecked}
+        onPress={() => setIsChecked(!isChecked)}
+      />
+      {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
+
         <TouchableOpacity style={styles.button} onPress={handleInscriptionValider}>
           <Text style={styles.buttonText}>S'inscrire</Text>
         </TouchableOpacity>
@@ -221,6 +237,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textDecorationLine: 'underline',
     marginTop: windowHeight * 0.01,
+  },
+  errorMessage: {
+    color: style.COLORS.error,
   },
 });
 

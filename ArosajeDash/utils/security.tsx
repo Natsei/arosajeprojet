@@ -9,7 +9,7 @@ class Security {
     /**
      * Retourne le mot de passer hashé avec Bcrypt de l'utilisateur
      * @param password pasword
-     * @returns 
+     * @returns
      */
     static async hashPassword(password : string){
         return await bcrypt.hash(password, 10);
@@ -28,10 +28,10 @@ class Security {
     /**
      * Retourne true si l'utilisateur est Administrateur
      * @param userId Id de l'utilisateur
-     * @returns 
+     * @returns
      */
     static async isAdmin(userId : string) : Promise<boolean> {
-        
+
         var isAdmin = false;
         try {
             // Récupération des roles de l'utilisateur
@@ -48,13 +48,13 @@ class Security {
                 console.log('Nom du rôle:', roleUtilisateur.role?.nom);
                 return roleUtilisateur.role?.nom.toLowerCase() === 'administrateur';
             });
-            
+
 
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur :', error);
         } finally {
             await prisma.$disconnect();
-            
+
         }
 
         return isAdmin;
